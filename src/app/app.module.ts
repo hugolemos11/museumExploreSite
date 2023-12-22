@@ -8,6 +8,7 @@ import { environment } from '../environments/environment.development';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CommonSiteModule } from './common-site/common-site.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AppComponent } from './app.component';
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CommonSiteModule
   ],
   providers: [],
   bootstrap: [AppComponent]
