@@ -1,28 +1,17 @@
-# MuseumExplore
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.5.
+Visão Geral
+O MeuseuExplore é um projeto web destinado a oferecer uma experiência móvel para catalogar museus e facilitar a compra de bilhetes. O projeto está atualmente na fase de desenvolvimento inicial, com ênfase no design visual e nos mockups das páginas. A parte wueb deste prójeto é direcionada aos gestores dos museus e iformação sobre a aplicação.
 
-## Development server
+Conteúdo do Projeto
+home.html: Página inicial do projeto.
+assets/: Pasta contendo os recursos do projeto, como imagens, logotipos, etc.
+Como Visualizar o Projeto
+Protótipo (Figma)
+https://www.figma.com/proto/AVIlHeoqlQ3PJXkx1enUJg/Projeto-Museu?page-id=0%3A1&type=design&node-id=140-8587&viewport=-2225%2C807%2C0.3&t=5WnxC5jzK5mopwwh-1&scaling=min-zoom&starting-point-node-id=140%3A8587&mode=design
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
-"# museumExploreSite" 
+Tecnologias Utilizadas
+HTML
+CSS
+Bootstrap (se aplicável)
+Autor
+Bruno Castro (24603) David Costa (24609) Hugo Lemos (26591) Quezia Frelich (24383)
