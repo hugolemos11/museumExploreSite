@@ -14,6 +14,8 @@ import { CommonSiteModule } from './common-site/common-site.module';
   declarations: [
     AppComponent
   ],
+  providers: [],
+  bootstrap: [AppComponent],
   imports: [
     AngularFireAuthModule,
     AngularFireModule,
@@ -24,7 +26,6 @@ import { CommonSiteModule } from './common-site/common-site.module';
     AppRoutingModule,
     CommonSiteModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  
 })
 export class AppModule { }
