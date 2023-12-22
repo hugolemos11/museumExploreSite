@@ -24,6 +24,7 @@ https://www.figma.com/proto/AVIlHeoqlQ3PJXkx1enUJg/Projeto-Museu?page-id=0%3A1&t
 - HTML
 - CSS
 - Bootstrap (se aplicável)
+- Angular
 
 ## Autor
 
