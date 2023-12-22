@@ -1,4 +1,4 @@
-# MuseuExplore - Catálogo de Museus e Venda de Bilhetes
+# MuseumExplore - Catálogo de Museus e Venda de Bilhetes
 
 ## Visão Geral
 
