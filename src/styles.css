@@ -1,1 +1,139 @@
-/* You can add global styles to this file, and also import other style files */
+body, html {   
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    margin: 0;
+    background-color: #F2E6D0;
+    font-family: 'Inria Sans', sans-serif;
+}
+
+.img{
+    width: 100%;
+    height: auto; /* Mantém a proporção original da imagem */
+    display: block;
+}
+
+.headHome{
+    height: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+}
+
+.imgLogo{
+    margin-right: 500px;
+}
+
+.title{
+    text-align: start;
+    font-size: 32px;
+    padding-top: 100px;
+}
+
+.text{
+    color: #545247;
+    text-align: start;
+    font-size: 18px;
+    font-weight:300;
+}
+
+.image-container {
+    background-color: #023859;
+    width: 100%;
+    height: 400px;
+    align-items: center;
+    justify-content: center;
+    padding: 100px;
+}
+
+.image-container img {
+    border-radius: 10px; 
+    margin: 10px; 
+    max-width: 100%; 
+    height: 100px;
+    width: 200px;
+}
+
+.mlr-100 {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.subtitle {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.value {
+    font-size: 18px;
+    font-weight: lighter;
+}
+
+.header-background-auth {
+    background-color: #023859;
+}
+
+.nav-link {
+    color: #F2E6D0;
+}
+.home-page .nav-link {
+    color: #023859;
+}
+
+
+.name {
+    margin: -100px;
+    margin-right: 450px;
+    color: white;
+}
+
+.header {
+    color: white;
+}
+
+.headHomeBlack{
+    height: 141px;
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    background-color: #023859;
+}
+
+.button {
+    position: relative;
+    width: 224px;
+    height: 40px;
+    background-color: #023859;
+    border-radius: 8px;
+    color: white;
+}
+
+#card-left {
+    margin: 10px;
+    background-color: #A68263;
+    width: 18rem;
+}
+
+.teste {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 4%; /* Adicione uma margem entre os gráficos */
+    margin-left: 4%;
+
+}
+
+.scroll-container{
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.scroll-content{
+    display: inline-blocks;
+}
