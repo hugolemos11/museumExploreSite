@@ -1,23 +1,25 @@
-body, html {   
+body,
+html {
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
 }
 
-body{
+body {
     margin: 0;
     background-color: #F2E6D0;
     font-family: 'Inria Sans', sans-serif;
 }
 
-.img{
+.img {
     width: 100%;
-    height: auto; /* Mantém a proporção original da imagem */
+    height: auto;
+    /* Mantém a proporção original da imagem */
     display: block;
 }
 
-.headHome{
+/* .headHome{
     height: 90px;
     display: flex;
     justify-content: space-between;
@@ -124,7 +126,7 @@ body{
 .teste {
     display: flex;
     justify-content: space-between;
-    margin-right: 4%; /* Adicione uma margem entre os gráficos */
+    margin-right: 4%; /* Adicione uma margem entre os gráficos 
     margin-left: 4%;
 
 }
@@ -136,4 +138,4 @@ body{
 
 .scroll-content{
     display: inline-blocks;
-}
+} */

@@ -5,11 +5,12 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireStorageModule } from "@angular/fire/compat/storage";
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { environment } from '../environments/environment.development';
+import { AuthModule } from './auth/auth.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CommonSiteModule } from './common-site/common-site.module';
-import { HeaderComponent } from './common-site/header/header.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +25,8 @@ import { HeaderComponent } from './common-site/header/header.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     BrowserModule,
     AppRoutingModule,
-    CommonSiteModule
+    CommonSiteModule,
+    AuthModule
   ],
   
 })

@@ -1,0 +1,17 @@
+.title {
+    color: #023859;
+    font-size: 48px;
+}
+
+.description {
+    font-size: 18px;
+    color: #545247;
+}
+
+.images-container {
+    background-color: #023859;
+}
+
+.images-container .title {
+    color: #F2E6D0;
+}
