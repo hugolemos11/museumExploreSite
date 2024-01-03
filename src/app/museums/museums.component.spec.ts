@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SobreMuseusComponent } from './sobre-museus.component';
+import { MuseumsComponent } from './museums.component';
 
-describe('SobreMuseusComponent', () => {
-  let component: SobreMuseusComponent;
-  let fixture: ComponentFixture<SobreMuseusComponent>;
+describe('MuseumsComponent', () => {
+  let component: MuseumsComponent;
+  let fixture: ComponentFixture<MuseumsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SobreMuseusComponent]
+      declarations: [MuseumsComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(SobreMuseusComponent);
+    fixture = TestBed.createComponent(MuseumsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -9,12 +9,10 @@ import { environment } from '../environments/environment.development';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CommonSiteModule } from './common-site/common-site.module';
-import { SobreMuseusComponent } from './sobre-museus/sobre-museus.component';
-
+import { HeaderComponent } from './common-site/header/header.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SobreMuseusComponent
   ],
   providers: [],
   bootstrap: [AppComponent],
