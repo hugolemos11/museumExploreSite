@@ -1,0 +1,97 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /* Impede o scroll */
+}
+
+.overlay {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.overlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #023859;
+    mix-blend-mode: multiply;
+    z-index: 1;
+    /* Coloca a sobreposição acima da imagem */
+}
+
+.backGroundImage {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 0;
+    /* Garante que a imagem cubra completamente o contêiner */
+}
+
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    background: #A68263;
+    text-align: center;
+}
+
+.loginContainer img {
+    width: 200px;
+    height: auto;
+}
+
+h1 {
+    text-align: center;
+    color: #F2E6D0;
+}
+
+label {
+    text-align: start;
+    display: block;
+    margin-top: 10px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 15px;
+    background-color: #023859;
+    color: #F2E6D0;
+    border: none;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #555;
+}
+
+a {
+    color: #F2E6D0;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
