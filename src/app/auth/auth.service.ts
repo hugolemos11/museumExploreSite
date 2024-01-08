@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { User } from './user';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +8,7 @@ export class AuthService {
 
   constructor(private auth: AngularFireAuth) { }
 
-  register(email: string, password: string) {
+  /*register(email: string, password: string) {
     this.auth.createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         console.log('Registration Successful: ', userCredential)
@@ -17,7 +16,7 @@ export class AuthService {
       .catch((error) => {
         console.error('Registration Error: ', error)
       })
-  }
+  }*/
 
   login(email: string, password: string) {
     this.auth.signInWithEmailAndPassword(email, password)

@@ -48,50 +48,24 @@ html {
 }
 
 .loginContainer img {
-    width: 200px;
+    width: 150px;
     height: auto;
 }
 
 h1 {
-    text-align: center;
+    font-size: 48px;
     color: #F2E6D0;
 }
 
-label {
+form div {
     text-align: start;
-    display: block;
-    margin-top: 10px;
 }
 
-input[type="text"],
-input[type="password"] {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    outline: none;
-}
-
-button[type="submit"] {
-    width: 100%;
-    padding: 8px;
-    margin-top: 15px;
-    background-color: #023859;
+input {
     color: #F2E6D0;
-    border: none;
-    cursor: pointer;
 }
 
-button[type="submit"]:hover {
-    background-color: #555;
-}
+button [type="submit"] {
 
-a {
     color: #F2E6D0;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
 }

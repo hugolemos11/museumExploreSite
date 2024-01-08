@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CommonSiteModule } from './common-site/common-site.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -26,8 +27,9 @@ import { CommonSiteModule } from './common-site/common-site.module';
     BrowserModule,
     AppRoutingModule,
     CommonSiteModule,
-    AuthModule
+    AuthModule,
+    BrowserAnimationsModule
   ],
-  
+
 })
 export class AppModule { }
