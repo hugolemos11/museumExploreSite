@@ -29,8 +29,7 @@ export class LoginComponent {
       password: this.password
     });
     this.user = {
-      email: '',
-      password: ''
+      email: ''
     }
   }
 
@@ -44,24 +43,7 @@ export class LoginComponent {
 
   onFormSubmit() {
     if (this.loginForm.valid) {
-      console.log(this.user.email);
-
-      this.user = {
-        email: this.loginForm.get('email')?.value,
-        password: this.loginForm.get('password')?.value,
-      }
-
-      try {
-        this.service.login(this.user.email, this.user.password);
-        localStorage.setItem('userEmail', this.user.email);
-
-        this.eventService.myEvent.emit(true);
-
-        this.router.navigate(['/dashboard']);
-      }
-      catch (error) {
-        console.error(error);
-      }
+      this.service.SignIn(this.loginForm.get('email')?.value, this.loginForm.get('password')?.value)
     } else {
       this.loginForm.markAllAsTouched();
       console.error('Form is invalid!');
