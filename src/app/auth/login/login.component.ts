@@ -15,22 +15,16 @@ export class LoginComponent {
   showClearButton = false;
 
   loginForm: FormGroup;
-  user: User
 
   email = new FormControl('', [Validators.required]);
   password = new FormControl('', [Validators.required]);
 
   constructor(private service: AuthService,
-    private eventService: EventService,
-    private formBuilder: FormBuilder,
-    private router: Router) {
+    private formBuilder: FormBuilder) {
     this.loginForm = this.formBuilder.group({
       email: this.email,
       password: this.password
     });
-    this.user = {
-      email: ''
-    }
   }
 
   getErrorMessage() {

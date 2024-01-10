@@ -10,8 +10,8 @@ const routes: Routes = [
   { path: '', component: CollectionComponent },
   { path: 'create-artwork', component: CreateArtworkComponent },
   { path: 'delete-artwork', component: DeleteArtworkComponent },
-  { path: 'list-artwork', component: ListArtworkComponent},
-  { path: 'update-artwork', component: UpdateArtworkComponent},
+  { path: 'list-artwork', component: ListArtworkComponent },
+  { path: 'update-artwork', component: UpdateArtworkComponent },
 ];
 
 @NgModule({

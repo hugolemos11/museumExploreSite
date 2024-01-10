@@ -1,3 +1,11 @@
 .nav-link {
     color: #023859;
 }
+
+.header-background-auth {
+    background-color: #023859;
+}
+
+.header-background-auth .nav-link {
+    color: #F2E6D0;
+}

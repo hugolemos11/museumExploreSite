@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { User } from './user';
 
 @Injectable({
@@ -29,13 +29,28 @@ export class AuthService {
         JSON.parse(localStorage.getItem('user')!);
       }
     });
+
+    /*this.afAuth.onAuthStateChanged(async user => {
+      if (user) {
+        this.userData = await this.afs.doc<any>(`users/${user.uid}`).snapshotChanges().pipe(
+          map(actions => {
+            const id = actions.payload.id;
+            const data = actions.payload.data();
+            return { id, ...data }
+          })
+        );
+      } else {
+        this.userData = null;
+      }
+    })*/
   }
   // Sign in with email/password
   SignIn(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
-        this.SetUserData(result.user);
+        console.log(result);
+        //this.SetUserData(result.user);
         this.afAuth.authState.subscribe((user) => {
           if (user) {
             this.router.navigate(['dashboard']);
@@ -87,21 +102,20 @@ export class AuthService {
   /* Setting up user data when sign in with username/password, 
   sign up with username/password and sign in with social auth  
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  SetUserData(user: any) {
+
+  /*SetUserData(user: any) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
     );
     const userData: User = {
       uid: user.uid,
       email: user.email,
-      //username: user.username,
-      //photoURL: user.photoURL,
-      //emailVerified: user.emailVerified,
+      museumId: user.museumId
     };
     return userRef.set(userData, {
       merge: true,
     });
-  }
+  }*/
   // Sign out
   SignOut() {
     return this.afAuth.signOut().then(() => {
