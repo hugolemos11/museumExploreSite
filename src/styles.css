@@ -1,4 +1,17 @@
 body,
+:root {
+    /* FONTES */
+    --font-inria-sans: "Inria Sans";
+  
+    /* CORES */
+    --backgound: #f2e6d0;
+    --dark-blue: #023859;
+    --color-white: #fff;
+    --color-rosybrown-100: #a68263;
+    --color-rosybrown-200: rgba(166, 130, 99, 0.5);
+    --blue-light-primary: #0093ed;
+}
+
 html {
     width: 100%;
     height: 100%;
@@ -31,4 +44,4 @@ body {
     color: #F2E6D0;
 }
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: var(--font-inria-sans); }
