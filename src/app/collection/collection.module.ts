@@ -7,6 +7,7 @@ import { CreateArtworkComponent } from './create-artwork/create-artwork.componen
 import { DeleteArtworkComponent } from './delete-artwork/delete-artwork.component';
 import { UpdateArtworkComponent } from './update-artwork/update-artwork.component';
 import { ListArtworkComponent } from './list-artwork/list-artwork.component';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ListArtworkComponent } from './list-artwork/list-artwork.component';
   ],
   imports: [
     CommonModule,
-    CollectionRoutingModule
+    CollectionRoutingModule,
+    MatButtonModule
   ]
 })
 export class CollectionModule { }

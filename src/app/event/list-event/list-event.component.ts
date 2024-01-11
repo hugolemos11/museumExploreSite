@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { EventService } from '../../event.service';
 import { Event } from '../event';
 import { EventsService } from '../events.service';
+import { data } from 'jquery';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-list-event',
@@ -13,28 +15,35 @@ export class ListEventComponent {
   constructor(private service: EventsService) { }
 
   eventsList: Event[] = [];
-  imagemUri: string | null = null;
-
+  eventImages: string[] = [];
   ngOnInit(): void {
     try {
+
       this.service.getAllEvents().subscribe(data => {
+
         this.eventsList = data;
+        this.loadImages();
       });
+
     } catch (error) {
       console.log(error);
     }
-
-
   }
 
-  /*loadImage(imagePath: string): void {
-    this.service.getImageUrl(imagePath).subscribe(
-      uri => {
-        this.imagemUri = uri;
+  public loadImages() {
+    const imageObservables = this.eventsList.map(event => {
+      return this.service.downloadFile(event.pathToImage);
+    });
+
+    forkJoin(imageObservables).subscribe(
+      imageArray => {
+        this.eventImages = imageArray;
       },
       error => {
-        console.error('Erro ao carregar a imagem:', error);
+        console.error(error);
+        this.eventImages = Array(this.eventsList.length).fill('../../assets/imgs/museu1.jpg');
       }
     );
-  }*/
+  }
+
 }

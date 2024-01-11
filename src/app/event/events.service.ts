@@ -37,4 +37,9 @@ export class EventsService {
       })
     );
   }
+
+  downloadFile(fileName: string): Observable<string> {
+    const fileRef = this.storage.ref(`${fileName}`);
+    return fileRef.getDownloadURL();
+  }
 }

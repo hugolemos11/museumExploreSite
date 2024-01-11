@@ -1,0 +1,26 @@
+.cardInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    background: rgba(166, 130, 99, 0.6);
+    text-align: center;
+}
+
+.categoryDiv {
+    text-align: start;
+}
+
+.title {
+    font-size: xx-large;
+}
+
+.subTitle {
+    font-size: x-large;
+    color: #40311E;
+}
+
+.bg-category {
+    background-color: #A68263;
+}
