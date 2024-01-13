@@ -1,6 +1,6 @@
 export interface User {
-    uid?: string;
+    uid: string;
     email: string;
     username?: string;
-    museumId: string;
+    museumId?: string;
 }

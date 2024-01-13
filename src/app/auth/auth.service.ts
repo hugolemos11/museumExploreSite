@@ -4,13 +4,15 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { User } from './user';
+import { uid } from 'chart.js/dist/helpers/helpers.core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  userData: any; // Save logged in user data
+  userData: User // Save logged in user data
+    | undefined // Save logged in user data
   constructor(
     public afs: AngularFirestore, // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
@@ -21,10 +23,24 @@ export class AuthService {
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe((user) => {
       if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user')!);
+        // Create a reference to the Firestore document for the current user.
+        const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
+
+        // Retrieve a snapshot of the user document from Firestore.
+        userRef.get().subscribe((docSnapshot) => {
+          if (docSnapshot.exists) {
+            // Extract user data from the snapshot and assign it to userData.
+            this.userData = docSnapshot.data() as User;
+            console.log(this.userData)
+            // Update the user data in localStorage.
+            localStorage.setItem('user', JSON.stringify(this.userData));
+            JSON.parse(localStorage.getItem('user')!);
+          } else {
+            console.error('User document does not exist in Firestore')
+          }
+        });
       } else {
+        // If user is not authenticated, set user data in localStorage to 'null'.
         localStorage.setItem('user', 'null');
         JSON.parse(localStorage.getItem('user')!);
       }
@@ -48,9 +64,9 @@ export class AuthService {
   SignIn(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        console.log(result);
+      .then((_) => {
         //this.SetUserData(result.user);
+        console.log(this.userData)
         this.afAuth.authState.subscribe((user) => {
           if (user) {
             this.router.navigate(['dashboard']);
@@ -104,17 +120,28 @@ export class AuthService {
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
 
   /*SetUserData(user: any) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
-      `users/${user.uid}`
-    );
-    const userData: User = {
-      uid: user.uid,
-      email: user.email,
-      museumId: user.museumId
-    };
-    return userRef.set(userData, {
-      merge: true,
-    });
+    try {
+      const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
+
+      userRef.get().subscribe((docSnapshot) => {
+        if (docSnapshot.exists) {
+          this.userData = docSnapshot.data() as User;
+          console.log(this.userData)
+
+          return /*userRef.set(userData, { merge: true }).then(() => {
+            console.log('User data updated successfully');
+          }).catch((error) => {
+            console.error('Error updating user data:', error);
+          });
+        } else {
+          console.error('User document does not exist in Firestore');
+          return false
+        }
+      });
+    } catch (e) {
+      console.error(e);
+    }
+    return false;
   }*/
   // Sign out
   SignOut() {
@@ -123,44 +150,4 @@ export class AuthService {
       this.router.navigate(['home']);
     });
   }
-
-  /*authenticated!: boolean;
-
-  constructor(private auth: AngularFireAuth) { }
-
-  register(email: string, password: string) {
-    this.auth.createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        console.log('Registration Successful: ', userCredential)
-      })
-      .catch((error) => {
-        console.error('Registration Error: ', error)
-      })
-  }
-
-
-
-  login(email: string, password: string) {
-    this.auth.signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        this.authenticated = true;
-        console.log('Login Successful: ', userCredential);
-      })
-      .catch((error) => {
-        console.error('Login Error: ', error);
-        throw error;
-      })
-  }
-
-  logout() {
-    this.auth.signOut()
-      .then(() => {
-        console.log('Logged out');
-        this.authenticated = false;
-      })
-      .catch((error) => {
-        console.error('Logout Error: ', error);
-        throw error;
-      })
-  }*/
 }
