@@ -3,13 +3,14 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs';
 import { Museum } from './museum';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MuseumService {
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(private firestore: AngularFirestore, private storage: AngularFireStorage) { }
 
   getAllMuseums(): Observable<Museum[]> {
     return this.firestore.collection<Museum>('museums').valueChanges({ idField: 'id' }).pipe(
@@ -30,5 +31,29 @@ export class MuseumService {
         })
       })
     );
+  }
+
+  getMuseumById(id?: string): Observable<Museum> {
+    return this.firestore.collection<Museum>('museums').doc<Museum>(id).valueChanges().pipe(
+      map((data: any) => {
+
+        return {
+          id: data['id'],
+          name: data['name'],
+          description: data['description'],
+          rate: data['rate'],
+          ticketsNumber: data['ticketsNumber'],
+          visits: data['visits'],
+          latitude: data['latitude'],
+          longitude: data['longitude'],
+          pathToImage: data['pathToImage'],
+        };
+      })
+    );
+  }
+
+  downloadFile(fileName: string): Observable<string> {
+    const fileRef = this.storage.ref(`${fileName}`);
+    return fileRef.getDownloadURL();
   }
 }
