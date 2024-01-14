@@ -6,6 +6,7 @@ import { AuthService } from '../auth.service';
 import { Museum } from '../../museums/museum';
 import { TicketService } from '../../tickets/ticket.service';
 import { Ticket, TicketType } from '../../tickets/ticket';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,8 +18,8 @@ export class DashboardComponent implements OnInit {
   barChart: any = [];
   doughnutChart: any = [];
 
-  ticketsData: Array<Ticket> = [];
-  ticketTypesData: Array<TicketType> = [];
+  ticketsData$: Observable<Array<Ticket>> = new Observable<Array<Ticket>>;
+  ticketTypesData$: Observable<Array<TicketType>> = new Observable<Array<TicketType>>;
 
   constructor(private museumService: MuseumService, private authService: AuthService, private ticketService: TicketService) { }
 
@@ -29,35 +30,33 @@ export class DashboardComponent implements OnInit {
       const artWorkList = this.listArtWorkComponent.artWorkList;
     }*/
     if (this.authService.userData?.museumId != null) {
-      this.ticketService.getAllTicketsFromMuseum(this.authService.userData?.museumId).subscribe((data) => {
-        if (data != null) {
-          this.ticketsData = data;
-          console.log(this.ticketsData)
-          this.createBarChart();
-        } else {
-          console.log('Data ID is empty.');
-        }
-      }, (error) => {
-        console.error('Error fetching tickets data:', error);
-      });
 
-      this.ticketService.getAllTicketsTypes(this.authService.userData?.museumId).subscribe((data) => {
-        if (data != null) {
-          this.ticketTypesData = data;
-          console.log(this.ticketTypesData)
-          this.createDoughnutChart();
+      this.ticketsData$ = this.ticketService.getAllTicketsFromMuseum(this.authService.userData?.museumId);
+      this.ticketTypesData$ = this.ticketService.getAllTicketsTypes(this.authService.userData?.museumId);
+
+      // Subscribe to the observables to get the data
+      this.ticketsData$.subscribe(ticketsData => {
+        console.log(ticketsData);
+        if (ticketsData != null) {
+          this.createBarChart(ticketsData)
+          this.ticketTypesData$.subscribe(ticketTypesData => {
+            console.log(ticketTypesData);
+            if (ticketTypesData != null) {
+              this.createDoughnutChart(ticketTypesData, ticketsData);
+            } else {
+              console.log('Ticket types data is empty!');
+            }
+          });
         } else {
-          console.log('Data ID is empty.');
+          console.log('Tickets data is empty!');
         }
-      }, (error) => {
-        console.error('Error fetching ticket types data:', error);
       });
     } else {
       console.log('UserData museumId is null!');
     }
   }
 
-  createBarChart() {
+  createBarChart(ticketsData: Ticket[]) {
     // Destroy existing chart
     if (this.barChart && this.barChart.destroy) {
       this.barChart.destroy();
@@ -73,10 +72,11 @@ export class DashboardComponent implements OnInit {
     const ticketsNumberData = Array.from({ length: 7 }, (_, i) => {
       const day = new Date(currentDate);
       day.setDate(currentDate.getDate() - i);
-      const ticketsCount = this.ticketsData.filter(ticket => {
-        console.log(`${ticket.purchaseDate.toISOString().split('T')[0]} | ${day.toISOString().split('T')[0]}`)
+      const ticketsCount = ticketsData.filter(ticket => {
+        console.log(`${ticket.purchaseDate.toISOString().split('T')[0]} | ${day.toISOString().split('T')[0]}`);
         return ticket.purchaseDate.toISOString().split('T')[0] === day.toISOString().split('T')[0];
       }).length;
+
       return ticketsCount;
     }).reverse();
 
@@ -103,20 +103,20 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  createDoughnutChart() {
+  createDoughnutChart(ticketTypesData: TicketType[], ticketsData: Ticket[]) {
     // Destroy existing chart
     if (this.doughnutChart && this.doughnutChart.destroy) {
       this.doughnutChart.destroy();
     }
 
-    const ticketTypesLabels = Array.from({ length: this.ticketTypesData.length }, (_, i) => {
-      return this.ticketTypesData[i].type
+    const ticketTypesLabels = Array.from({ length: ticketTypesData.length }, (_, i) => {
+      return ticketTypesData[i].type;
     }).reverse();
 
-    const ticketsNumberData = Array.from({ length: this.ticketTypesData.length }, (_, i) => {
-      const ticketsCount = this.ticketsData.filter(ticket => {
-        console.log(`${ticket.ticketTypeId} | ${this.ticketTypesData[i].id}`)
-        return ticket.ticketTypeId === this.ticketTypesData[i].id;
+    const ticketsNumberData = Array.from({ length: ticketTypesData.length }, (_, i) => {
+      const ticketsCount = ticketsData.filter(ticket => {
+        console.log(`${ticket.ticketTypeId} | ${ticketTypesData[i].id}`)
+        return ticket.ticketTypeId === ticketTypesData[i].id;
       }).length;
       return ticketsCount;
     }).reverse();

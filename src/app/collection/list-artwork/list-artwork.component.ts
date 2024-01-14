@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ArtworkService } from '../artwork.service';
 import { Artwork } from '../artwork';
-import { forkJoin } from 'rxjs';
+import { Observable, forkJoin, map, mergeAll, mergeMap } from 'rxjs';
+import { Category } from '../../category/category';
+import { CategoryService } from '../../category/category.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-list-artwork',
@@ -10,35 +13,51 @@ import { forkJoin } from 'rxjs';
 })
 export class ListArtworkComponent implements OnInit {
 
-  constructor(private service: ArtworkService) { }
+  constructor(private artWorkService: ArtworkService, private categoryService: CategoryService, private authService: AuthService) { }
 
-  artWorkList: Artwork[] = [];
+  artWorksData$: Observable<Array<Artwork>> = new Observable<Array<Artwork>>;
   artworkImages: string[] = [];
+  categoriesData$: Observable<Array<Category>> = new Observable<Array<Category>>;
 
   ngOnInit(): void {
-    try {
-      this.service.getAllArtWorks().subscribe(data => {
-        this.artWorkList = data;
-        this.loadImages();
+    if (this.authService.userData?.museumId != null) {
+
+      this.artWorksData$ = this.artWorkService.getAllArtWorksFromMuseum(this.authService.userData?.museumId);
+      this.categoriesData$ = this.categoryService.getAllCategoriesFromMuseum(this.authService.userData?.museumId);
+
+      // Subscribe to the observables to get the data
+      this.artWorksData$.subscribe(artWorksData => {
+        if (artWorksData != null) {
+          console.log(artWorksData);
+          this.loadImages();
+        }
       });
-    } catch (error) {
-      console.log(error);
+      this.categoriesData$.subscribe(categoriesData => {
+        console.log(categoriesData);
+      });
+    } else {
+      console.log('UserData museumId is null!');
     }
   }
 
   public loadImages() {
-    const imageObservables = this.artWorkList.map(artwork => {
-      return this.service.downloadFile(artwork.pathToImage);
-    });
-
-    forkJoin(imageObservables).subscribe(
-      imageArray => {
-        this.artworkImages = imageArray;
-      },
-      error => {
-        console.error(error);
-        this.artworkImages = Array(this.artWorkList.length).fill('../../assets/imgs/museu1.jpg');
-      }
-    );
+    console.log("teste")
+    this.artWorksData$.pipe(
+      map((artworks: Artwork[]) => {
+        const artWorksDatalength = artworks.length
+        artworks.map((artwork: Artwork) => {
+          const imageObservable = this.artWorkService.downloadFile(artwork.pathToImage);
+          imageObservable.subscribe(
+            imageArray => {
+              this.artworkImages.push(imageArray);
+            },
+            error => {
+              console.error(error);
+              this.artworkImages = Array(artWorksDatalength).fill('../../assets/imgs/museu1.jpg');
+            }
+          )
+        })
+      }),
+    ).subscribe();
   }
 }

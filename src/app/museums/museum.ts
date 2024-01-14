@@ -1,5 +1,5 @@
 export interface Museum {
-    id?: string;
+    id: string;
     name: string;
     description: string;
     rate: Number;
@@ -7,5 +7,5 @@ export interface Museum {
     visits: Number;
     latitude: Number;
     longitude: Number;
-    pathToImage?: string;
+    pathToImage: string;
 }

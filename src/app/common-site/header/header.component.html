@@ -6,15 +6,33 @@
 
   <ul class="nav nav-pills">
     <li class="nav-item align-items-center d-flex"><a class="nav-link">{{authService.userData?.username}}</a></li>
-    <li class="nav-item align-items-center d-flex"><a routerLink="dashboard" class="nav-link"
+    <li class="nav-item align-items-center d-flex"><a routerLink="dashboard" class="nav-link navLinkAuthenticated"
         routerLinkActive="active">Estatísticas</a>
     </li>
-    <li class="nav-item align-items-center d-flex"><a routerLink="collection/list-artwork" class="nav-link"
-        routerLinkActive="active">Acervo</a></li>
-    <li class="nav-item align-items-center d-flex"><a routerLink="event/list-event" class="nav-link"
-        routerLinkActive="active">Eventos</a></li>
-    <li class="nav-item align-items-center d-flex me-5"><a (click)="authService.SignOut()" class="nav-link"><img
-          src="../../assets/imgs/personIcon.png" alt=""></a></li>
+    <li class="nav-item align-items-center d-flex"><a routerLink="collection/list-artwork"
+        class="nav-link navLinkAuthenticated" routerLinkActive="active">Acervo</a></li>
+    <li class="nav-item align-items-center d-flex"><a routerLink="event/list-event"
+        class="nav-link navLinkAuthenticated" routerLinkActive="active">Eventos</a></li>
+    <li class="nav-item align-items-center d-flex ms-2 me-5">
+      <a [matMenuTriggerFor]="menu">
+        <img src="../../assets/imgs/personIcon.png" alt="">
+      </a>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="museums/update-museum">
+          <span>Sobre o Museu</span>
+        </button>
+        <button mat-menu-item>
+          <span>Configuração de conta</span>
+        </button>
+        <button mat-menu-item (click)="authService.SignOut()">
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </li>
+    <!-- <a (click)="authService.SignOut()" class="nav-link"><img
+          src="../../assets/imgs/personIcon.png" alt=""></a> -->
+
+
   </ul>
 </header>
 
@@ -25,13 +43,13 @@
     </div>
 
     <ul class="nav nav-pills">
-      <li class="nav-item align-items-center d-flex"><a href="/home/#home" class="nav-link">Home</a></li>
-      <li class="nav-item align-items-center d-flex"><a href="/home/#sobreAplicacao" class="nav-link">Sobre Nós</a></li>
-      <li class="nav-item align-items-center d-flex"><a href="/home/#museuParceiros" class="nav-link">Museus
+      <li class="nav-item align-items-center d-flex pe-3"><a href="/home/#home" class="nav-link navLink">Home</a></li>
+      <li class="nav-item align-items-center d-flex pe-3"><a href="/home/#sobreAplicacao" class="nav-link navLink">Sobre
+          Nós</a></li>
+      <li class="nav-item align-items-center d-flex pe-4"><a href="/home/#museuParceiros"
+          class="nav-link navLink">Museus
           Parceiros</a>
       </li>
     </ul>
   </header>
 </ng-template>
-
-<!-- <img src="image/logo_clara.png" alt="logo"> -->

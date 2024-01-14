@@ -2,7 +2,7 @@
     <img class="backGroundImage" src="../assets/imgs/loginBackground.png" alt="">
     <div class="loginContainer p-5 card rounded-5">
         <img src="../assets/imgs/lightLogoWithTextOnBottom.png" alt="">
-        <h1 class="py-3">Login</h1>
+        <p class="py-3 titleBackgroundColor">Login</p>
 
         <form [formGroup]="loginForm" (ngSubmit)="onFormSubmit()" action="">
             <mat-form-field appearance="outline" class="mb-2">
@@ -26,7 +26,7 @@
             </mat-form-field>
             <br>
             <p class="mb-3"><a href="#">Forget password!</a></p>
-            <button mat-raised-button color="primary" type="submit">Login</button>
+            <button class="buttonPrimary" type="submit">Login</button>
         </form>
 
     </div>

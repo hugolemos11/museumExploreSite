@@ -5,11 +5,21 @@ body,
 
     /* CORES */
     --backgound: #f2e6d0;
+    --white: #ffffff;
+    --black: #000000;
     --dark-blue: #023859;
-    --color-white: #fff;
-    --color-rosybrown-100: #a68263;
-    --color-rosybrown-200: rgba(166, 130, 99, 0.5);
-    --blue-light-primary: #0093ed;
+    --light-blue: #156799;
+    --brown: #40311E;
+
+    --titleSize: 48px;
+    --subTitleSize: 32px;
+    --navLinkSize: 24px;
+    --descriptionTitleSize: 22px;
+    --descriptionSize: 18px;
+
+    /* Label is used on the display cards*/
+    --labelTitleSize: 18px;
+    --labelSize: 14px;
 }
 
 html {
@@ -25,16 +35,6 @@ body {
     font-family: 'Inria Sans', sans-serif;
 }
 
-.title {
-    color: #023859;
-    font-size: 48px;
-}
-
-.description {
-    font-size: 18px;
-    color: #545247;
-}
-
 .images-container {
     margin-top: 75px;
     background-color: #023859;
@@ -42,4 +42,108 @@ body {
 
 .images-container .title {
     color: #F2E6D0;
+}
+
+.titlePrimaryColor {
+    color: var(--dark-blue);
+    font-size: var(--titleSize);
+    font-weight: bold;
+}
+
+.titleSecundaryColor {
+    color: var(--brown);
+    font-size: var(--titleSize);
+    font-weight: bold;
+}
+
+.titleBackgroundColor {
+    color: var(--backgound);
+    font-size: var(--titleSize);
+    font-weight: bold;
+}
+
+.subTitle {
+    color: var(--brown);
+    font-size: var(--subTitleSize);
+    font-weight: bold;
+}
+
+.navLink {
+    color: var(--dark-blue);
+    font-size: var(--navLinkSize);
+    font-weight: bold;
+}
+
+.navLinkAuthenticated {
+    color: var(--black);
+    font-size: var(--navLinkSize);
+    font-weight: bold;
+}
+
+.descriptionTitleBlackColor {
+    font-size: var(--descriptionTitleSize);
+    color: var(--black);
+    font-weight: bold;
+}
+
+.descriptionTitleSecundaryColor {
+    font-size: var(--descriptionTitleSize);
+    color: var(--brown);
+}
+
+.description {
+    font-size: var(--descriptionSize);
+    color: var(--black);
+}
+
+.labelTilte {
+    font-size: var(--labelTitleSize);
+    color: var(--white);
+}
+
+.label {
+    font-size: var(--labelSize);
+    color: var(--white);
+}
+
+.buttonPrimary {
+    background-color: var(--dark-blue);
+    color: var(--backgound);
+    border-radius: 12px;
+    text-align: center;
+    border: none;
+    padding: 10px 60px;
+    font-size: var(--labelSize);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+}
+
+label.check {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+label.check input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+label.check span {
+    width: 100%;
+    padding: 7px 14px;
+    border: 2px solid var(--dark-blue);
+    display: inline-block;
+    color: var(--dark-blue);
+    border-radius: 3px;
+    text-transform: uppercase;
+}
+
+label.check input:checked+span {
+    border-color: var(--dark-blue);
+    background-color: var(--dark-blue);
+    color: var(--backgound);
 }
