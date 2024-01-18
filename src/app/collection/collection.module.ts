@@ -8,6 +8,9 @@ import { DeleteArtworkComponent } from './delete-artwork/delete-artwork.componen
 import { UpdateArtworkComponent } from './update-artwork/update-artwork.component';
 import { ListArtworkComponent } from './list-artwork/list-artwork.component';
 import { MatButtonModule } from '@angular/material/button';
+import { NgxMasonryModule } from 'ngx-masonry';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -18,10 +21,14 @@ import { MatButtonModule } from '@angular/material/button';
     UpdateArtworkComponent,
     ListArtworkComponent
   ],
+  
   imports: [
     CommonModule,
     CollectionRoutingModule,
-    MatButtonModule
+    MatButtonModule,
+    NgxMasonryModule,
+    MatIconModule,
+    MatInputModule
   ]
 })
 export class CollectionModule { }

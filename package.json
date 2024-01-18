@@ -30,6 +30,8 @@
     "datatables.net-dt": "^1.13.8",
     "firebase": "^10.7.1",
     "jquery": "^3.7.1",
+    "masonry-layout": "^4.2.2",
+    "ngx-masonry": "^14.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"

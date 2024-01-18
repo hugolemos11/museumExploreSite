@@ -31,7 +31,6 @@ export class AuthService {
           if (docSnapshot.exists) {
             // Extract user data from the snapshot and assign it to userData.
             this.userData = docSnapshot.data() as User;
-            console.log(this.userData)
             // Update the user data in localStorage.
             localStorage.setItem('user', JSON.stringify(this.userData));
             JSON.parse(localStorage.getItem('user')!);
@@ -45,28 +44,13 @@ export class AuthService {
         JSON.parse(localStorage.getItem('user')!);
       }
     });
-
-    /*this.afAuth.onAuthStateChanged(async user => {
-      if (user) {
-        this.userData = await this.afs.doc<any>(`users/${user.uid}`).snapshotChanges().pipe(
-          map(actions => {
-            const id = actions.payload.id;
-            const data = actions.payload.data();
-            return { id, ...data }
-          })
-        );
-      } else {
-        this.userData = null;
-      }
-    })*/
   }
+
   // Sign in with email/password
   SignIn(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((_) => {
-        //this.SetUserData(result.user);
-        console.log(this.userData)
         this.afAuth.authState.subscribe((user) => {
           if (user) {
             this.router.navigate(['dashboard']);
@@ -77,6 +61,7 @@ export class AuthService {
         window.alert(error.message);
       });
   }
+
   // Sign up with email/password
   /*SignUp(email: string, password: string) {
     return this.afAuth
@@ -99,6 +84,7 @@ export class AuthService {
         this.router.navigate(['verify-email-address']);
       });
   }*/
+
   // Reset Forggot password
   ForgotPassword(passwordResetEmail: string) {
     return this.afAuth
@@ -110,39 +96,13 @@ export class AuthService {
         window.alert(error);
       });
   }
+
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
     return user !== null;
   }
-  /* Setting up user data when sign in with username/password, 
-  sign up with username/password and sign in with social auth  
-  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
 
-  /*SetUserData(user: any) {
-    try {
-      const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
-
-      userRef.get().subscribe((docSnapshot) => {
-        if (docSnapshot.exists) {
-          this.userData = docSnapshot.data() as User;
-          console.log(this.userData)
-
-          return /*userRef.set(userData, { merge: true }).then(() => {
-            console.log('User data updated successfully');
-          }).catch((error) => {
-            console.error('Error updating user data:', error);
-          });
-        } else {
-          console.error('User document does not exist in Firestore');
-          return false
-        }
-      });
-    } catch (e) {
-      console.error(e);
-    }
-    return false;
-  }*/
   // Sign out
   SignOut() {
     return this.afAuth.signOut().then(() => {

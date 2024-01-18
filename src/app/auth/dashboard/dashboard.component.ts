@@ -1,9 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
-import { ListArtworkComponent } from '../../collection/list-artwork/list-artwork.component';
 import { MuseumService } from '../../museums/museum.service';
 import { AuthService } from '../auth.service';
-import { Museum } from '../../museums/museum';
 import { TicketService } from '../../tickets/ticket.service';
 import { Ticket, TicketType } from '../../tickets/ticket';
 import { Observable, map } from 'rxjs';
@@ -29,30 +27,36 @@ export class DashboardComponent implements OnInit {
     /*if (this.listArtWorkComponent) {
       const artWorkList = this.listArtWorkComponent.artWorkList;
     }*/
-    if (this.authService.userData?.museumId != null) {
+    this.fetchData();
+  }
 
-      this.ticketsData$ = this.ticketService.getAllTicketsFromMuseum(this.authService.userData?.museumId);
-      this.ticketTypesData$ = this.ticketService.getAllTicketsTypes(this.authService.userData?.museumId);
+  fetchData() {
+    const userDataJSON = localStorage.getItem('user');
+    if (userDataJSON != null) {
+      const userData = JSON.parse(userDataJSON)
+      if (userData.museumId != null) {
 
-      // Subscribe to the observables to get the data
-      this.ticketsData$.subscribe(ticketsData => {
-        console.log(ticketsData);
-        if (ticketsData != null) {
-          this.createBarChart(ticketsData)
-          this.ticketTypesData$.subscribe(ticketTypesData => {
-            console.log(ticketTypesData);
-            if (ticketTypesData != null) {
-              this.createDoughnutChart(ticketTypesData, ticketsData);
-            } else {
-              console.log('Ticket types data is empty!');
-            }
-          });
-        } else {
-          console.log('Tickets data is empty!');
-        }
-      });
-    } else {
-      console.log('UserData museumId is null!');
+        this.ticketsData$ = this.ticketService.getAllTicketsFromMuseum(userData.museumId);
+        this.ticketTypesData$ = this.ticketService.getAllTicketsTypes(userData.museumId);
+
+        // Subscribe to the observables to get the data
+        this.ticketsData$.subscribe(ticketsData => {
+          if (ticketsData != null) {
+            this.createBarChart(ticketsData)
+            this.ticketTypesData$.subscribe(ticketTypesData => {
+              if (ticketTypesData != null) {
+                this.createDoughnutChart(ticketTypesData, ticketsData);
+              } else {
+                console.log('Ticket types data is empty!');
+              }
+            });
+          } else {
+            console.log('Tickets data is empty!');
+          }
+        });
+      } else {
+        console.log('UserData museumId is null!');
+      }
     }
   }
 
@@ -73,7 +77,6 @@ export class DashboardComponent implements OnInit {
       const day = new Date(currentDate);
       day.setDate(currentDate.getDate() - i);
       const ticketsCount = ticketsData.filter(ticket => {
-        console.log(`${ticket.purchaseDate.toISOString().split('T')[0]} | ${day.toISOString().split('T')[0]}`);
         return ticket.purchaseDate.toISOString().split('T')[0] === day.toISOString().split('T')[0];
       }).length;
 
@@ -115,7 +118,6 @@ export class DashboardComponent implements OnInit {
 
     const ticketsNumberData = Array.from({ length: ticketTypesData.length }, (_, i) => {
       const ticketsCount = ticketsData.filter(ticket => {
-        console.log(`${ticket.ticketTypeId} | ${ticketTypesData[i].id}`)
         return ticket.ticketTypeId === ticketTypesData[i].id;
       }).length;
       return ticketsCount;

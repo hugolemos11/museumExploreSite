@@ -1,7 +1,7 @@
 <div class="container-fluid mt-5">
     <div class="row">
         <div class="col-sm-6 col-md-4 col-xl-3">
-            <div class="cardInfo card justify-content-between align-items-center">
+            <div class="cardInfo card justify-content-between align-items-center mb-3">
                 <div class="card-body">
                     <b class="card-title titlePrimaryColor">Obras do Museu</b>
                     <button class="my-3 buttonPrimary">Adicionar Obras</button>
@@ -20,10 +20,10 @@
         </div>
         <div class="col-sm-6 col-md-8 col-xl-9">
             <div class="row">
-                <div class="col-12 col-md-4 col-xl-3 mb-3"
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3"
                     *ngFor="let artwork of (artWorksData$ | async) as artworks; let i = index">
-                    <div class="card position-relative">
-                        <img [src]="artworkImages[i]" alt="" class="card-img">
+                    <div class="card position-relative" onclick="">
+                        <img [src]="artworkImages[i]" alt="" class="card-img" (click)="openModal()">
                         <div class="position-absolute bottom-0 start-0 end-0 text-white p-2">
                             <p class="m-0">{{artwork.name}}</p>
                             <div class="card rounded-5 px-2 d-inline-block text-white bg-category">
@@ -31,26 +31,22 @@
                             </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-3">
-                    <div class="card"><img src="../../assets/imgs/museu1.jpg" alt="" class="card-img"></div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-3">
-                    <div class="card"><img src="../../assets/imgs/museu1.jpg" alt="" class="card-img"></div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-3">
-                    <div class="card"><img src="../../assets/imgs/museu1.jpg" alt="" class="card-img"></div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-3">
-                    <div class="card"><img src="../../assets/imgs/museu1.jpg" alt="" class="card-img"></div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-3">
-                    <div class="card"><img src="../../assets/imgs/museu1.jpg" alt="" class="card-img"></div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-3">
-                    <div class="card"><img src="../../assets/imgs/museu1.jpg" alt="" class="card-img"></div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- <ngx-masonry [options]="{ gutter: 10, originLeft: true, resize: true, horizontalOrder: true }">
+    <div ngxMasonryItem class="masonry-item" *ngFor="let artwork of (artWorksData$ | async) as artworks; let i = index">
+        <div class="card position-relative">
+            <img [src]="artworkImages[i]" alt="" class="card-img img-fluid" style="width: 250px;">
+            <div class="position-absolute bottom-0 start-0 end-0 text-white p-2">
+                <p class="m-0">{{artwork.name}}</p>
+                <div class="card rounded-5 px-2 d-inline-block text-white bg-category">
+                    <p class="m-0">{{artwork.category}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ngx-masonry> -->
