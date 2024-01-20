@@ -1,20 +1,28 @@
-<div class="container-fluid">
-    <div class="row m-5">
+<div class="container-fluid mt-3">
+    <div class="row">
         <div class="col">
-            <b class="title">Eventos</b>
+            <b class="titlePrimaryColor">Eventos</b>
         </div>
-        <div class="col text-end">
-            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal" href="#myModal">
+        <div class="col-md-6 text-end" *ngIf="isMobileLayout; else addCard">
+            <button class="buttonLightBlue" data-toggle="modal" data-target="#myModal" href="#myModal">
                 Adicionar Eventos
             </button>
         </div>
     </div>
-    <div class="row m-5">
-        <div class="col-6" *ngFor="let event of eventsList; let i = index">
+
+    <div class="row">
+        <ng-template #addCard>
+            <div class="col-md-6 mb-3">
+                <div class="card wider-card">
+                    <img src="../../../assets/imgs/museu2.jpg" class="card-img" alt=" addEvent">
+                </div>
+            </div>
+        </ng-template>
+        <div [ngClass]="getGridClasses(eventsList.length)" *ngFor="let event of eventsList; let i = index">
             <div class="card wider-card">
                 <img [src]="eventImages[i]" class="card-img-top" alt="Eventos">
                 <div class="card-body">
-                    <p class="card-text transparent-text">{{ event.description }}</p>
+                    <p class="card-text transparent-text description">{{ event.description }}</p>
                 </div>
             </div>
         </div>

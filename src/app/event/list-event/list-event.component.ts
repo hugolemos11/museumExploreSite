@@ -16,6 +16,7 @@ export class ListEventComponent {
 
   eventsList: Event[] = [];
   eventImages: string[] = [];
+  isMobileLayout = true;
   ngOnInit(): void {
     try {
 
@@ -25,8 +26,20 @@ export class ListEventComponent {
         this.loadImages();
       });
 
+      window.onresize = () => this.isMobileLayout = window.innerWidth > 767;
+
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  getGridClasses(length: number): string {
+    if (length === 1) {
+      return 'col-12 mb-3';
+    } else if (length === 2) {
+      return 'col-md-6 mb-3';
+    } else {
+      return 'col-md-6 col-lg-4 mb-3';
     }
   }
 

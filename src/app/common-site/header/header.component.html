@@ -4,7 +4,7 @@
     <img src="../../assets/imgs/logo_clara.png" alt="logo">
   </div>
 
-  <ul class="nav nav-pills">
+  <ul class="nav nav-pills ">
     <li class="nav-item align-items-center d-flex"><a class="nav-link">{{authService.userData?.username}}</a></li>
     <li class="nav-item align-items-center d-flex"><a routerLink="dashboard" class="nav-link navLinkAuthenticated"
         routerLinkActive="active">Estatísticas</a>
@@ -17,16 +17,44 @@
       <a [matMenuTriggerFor]="menu">
         <img src="../../assets/imgs/personIcon.png" alt="">
       </a>
+
+      <!-- <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-
+          bs-toggle="dropdown" aria-expanded="false">
+          Dropdown button
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+      </div> -->
+
+      <!-- <div class="dropdown">
+        <a id="imageDropdown" data-toggle="dropdown">
+          <img src="../../assets/imgs/personIcon.png" alt="">
+        </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="imageDropdown">
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Menu item 1</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Menu item 2</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Menu item 3</a></li>
+          <li role="presentation" class="divider"></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Menu item 4</a></li>
+        </ul>
+      </div> -->
+
       <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="museums/update-museum">
-          <span>Sobre o Museu</span>
-        </button>
-        <button mat-menu-item>
-          <span>Configuração de conta</span>
-        </button>
-        <button mat-menu-item (click)="authService.SignOut()">
-          <span>Logout</span>
-        </button>
+        <div class="menuTeste">
+          <button mat-menu-item class="menuTeste" routerLink="museums/update-museum">
+            <span>Sobre o Museu</span>
+          </button>
+          <button mat-menu-item>
+            <span>Configuração de conta</span>
+          </button>
+          <button mat-menu-item (click)="authService.SignOut()">
+            <span>Logout</span>
+          </button>
+        </div>
       </mat-menu>
     </li>
     <!-- <a (click)="authService.SignOut()" class="nav-link"><img

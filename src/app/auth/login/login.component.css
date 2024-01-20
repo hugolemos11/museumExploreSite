@@ -47,6 +47,10 @@ html {
     text-align: center;
 }
 
+.teste {
+    color: red;
+}
+
 .loginContainer img {
     width: 150px;
     height: auto;

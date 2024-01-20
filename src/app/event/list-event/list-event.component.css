@@ -6,3 +6,12 @@
     border-radius: 8px;
     color: white;
 }
+
+.description {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
