@@ -23,35 +23,12 @@
 </div>
 <div id="museuParceiros" class="container-fluid images-container p-5">
   <b class="titleBackgroundColor">Museus Parceiros</b>
-  <div class="d-flex flex-row flex-nowrap overflow-auto">
-    <div class="col-12 col-sm-6 col-md-4 col-xl-3 mx-1">
-      <div class="card card-block">
-        <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-4 col-xl-3 mx-1">
-      <div class="card card-block">
-        <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-4 col-xl-3 mx-1">
-      <div class="card card-block">
-        <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-4 col-xl-3 mx-1">
-      <div class="card card-block">
-        <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-4 col-xl-3 mx-1">
-      <div class="card card-block">
-        <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-4 col-xl-3 mx-1">
-      <div class="card card-block">
-        <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
+  <div class="wrapper">
+    <div class="slider">
+      <div class="slide-track">
+        <div class="slide" *ngFor="let museum of (museumsData$ | async) as museums; let i = index">
+          <img [src]="museumImages[i]" alt="" class="card-img">
+        </div>
       </div>
     </div>
   </div>

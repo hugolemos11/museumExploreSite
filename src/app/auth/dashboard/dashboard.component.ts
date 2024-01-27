@@ -5,6 +5,8 @@ import { AuthService } from '../auth.service';
 import { TicketService } from '../../tickets/ticket.service';
 import { Ticket, TicketType } from '../../tickets/ticket';
 import { Observable, map } from 'rxjs';
+import { Artwork } from '../../collection/artwork';
+import { ArtworkService } from '../../collection/artwork.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,15 +20,12 @@ export class DashboardComponent implements OnInit {
 
   ticketsData$: Observable<Array<Ticket>> = new Observable<Array<Ticket>>;
   ticketTypesData$: Observable<Array<TicketType>> = new Observable<Array<TicketType>>;
+  artWorksData$: Observable<Array<Artwork>> = new Observable<Array<Artwork>>;
+  artworkImages: string[] = [];
 
-  constructor(private museumService: MuseumService, private authService: AuthService, private ticketService: TicketService) { }
-
-  /*@ViewChild(ListArtworkComponent) listArtWorkComponent!: ListArtworkComponent;*/
+  constructor(private ticketService: TicketService, private artWorkService: ArtworkService) { }
 
   ngOnInit(): void {
-    /*if (this.listArtWorkComponent) {
-      const artWorkList = this.listArtWorkComponent.artWorkList;
-    }*/
     this.fetchData();
   }
 
@@ -36,24 +35,35 @@ export class DashboardComponent implements OnInit {
       const userData = JSON.parse(userDataJSON)
       if (userData.museumId != null) {
 
+        this.artWorksData$ = this.artWorkService.getAllArtWorksFromMuseum(userData.museumId);
         this.ticketsData$ = this.ticketService.getAllTicketsFromMuseum(userData.museumId);
         this.ticketTypesData$ = this.ticketService.getAllTicketsTypes(userData.museumId);
 
         // Subscribe to the observables to get the data
-        this.ticketsData$.subscribe(ticketsData => {
-          if (ticketsData != null) {
-            this.createBarChart(ticketsData)
-            this.ticketTypesData$.subscribe(ticketTypesData => {
-              if (ticketTypesData != null) {
-                this.createDoughnutChart(ticketTypesData, ticketsData);
+        this.artWorksData$.subscribe(artWorksData => {
+          if (artWorksData != null) {
+            // Update the --num-artworks variable
+            document.documentElement.style.setProperty('--num-artworks', artWorksData.length.toString());
+            this.loadImages();
+            this.ticketsData$.subscribe(ticketsData => {
+              if (ticketsData != null) {
+                this.createBarChart(ticketsData)
+                this.ticketTypesData$.subscribe(ticketTypesData => {
+                  if (ticketTypesData != null) {
+                    this.createDoughnutChart(ticketTypesData, ticketsData);
+                  } else {
+                    console.log('Ticket types data is empty!');
+                  }
+                });
               } else {
-                console.log('Ticket types data is empty!');
+                console.log('Tickets data is empty!');
               }
             });
           } else {
-            console.log('Tickets data is empty!');
+            console.log('Art Works data is empty!');
           }
         });
+
       } else {
         console.log('UserData museumId is null!');
       }
@@ -163,5 +173,25 @@ export class DashboardComponent implements OnInit {
         }
       }
     })
+  }
+
+  public loadImages() {
+    this.artWorksData$.pipe(
+      map((artworks: Artwork[]) => {
+        const artWorksDatalength = artworks.length
+        artworks.map((artwork: Artwork) => {
+          const imageObservable = this.artWorkService.downloadFile(artwork.pathToImage);
+          imageObservable.subscribe(
+            imageArray => {
+              this.artworkImages.push(imageArray);
+            },
+            error => {
+              console.error(error);
+              this.artworkImages = Array(artWorksDatalength).fill('../../assets/imgs/museu1.jpg');
+            }
+          )
+        })
+      }),
+    ).subscribe();
   }
 }

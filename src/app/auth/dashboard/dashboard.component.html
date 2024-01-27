@@ -1,8 +1,8 @@
-<div class="container-fluid">
+<div class="container-fluid responsivePaddingX">
     <b class="titlePrimaryColor">Estatisticas Recentes</b>
     <div class="row mt-5">
-        <div class="col">
-            <canvas id="barCanvas" class="mx-auto" height="300" width="300">{{barChart}}</canvas>
+        <div class="col responsivePaddingX">
+            <canvas id="barCanvas" class="mx-auto" height="300px" width="auto">{{barChart}}</canvas>
 
             <div class="mt-2">
                 <b class="descriptionTitleBlackColor">Lorem ipsum</b>
@@ -12,9 +12,9 @@
             </div>
 
         </div>
-        <div class="col">
+        <div class="col responsivePaddingX">
 
-            <canvas id="doughnutCanvas" class="mx-auto" height="300" width="300">{{doughnutChart}}</canvas>
+            <canvas id="doughnutCanvas" class="mx-auto" height="300px" width="auto">{{doughnutChart}}</canvas>
 
             <div class="mt-2">
                 <b class="descriptionTitleBlackColor">Lorem ipsum</b>
@@ -23,66 +23,19 @@
                     exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
 
-        </div>
-    </div>
-</div>
-
-<div class="wrapper">
-    <div class="slider">
-        <div class="slide-track">
-            <div class="slide">
-                <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
-            </div>
-            <div class="slide">
-                <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
-            </div>
-            <div class="slide">
-                <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
-            </div>
-            <div class="slide">
-                <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
-            </div>
-            <div class="slide">
-                <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
-            </div>
         </div>
     </div>
 </div>
 
 <div id="obrasRegistadas" class="container-fluid images-container p-5">
     <b class="titleBackgroundColor">Obras Registadas</b>
-
-    <!-- <div class="d-flex flex-row flex-nowrap overflow-auto">
-        <!-- <div class="d-flex flex-row flex-nowrap overflow-auto" *ngFor="let artWork of listArtWorkComponent?.artWorkList">
-        <div class="col-12 col-sm-6 col-md-4 col-xl-3 mx-1">
-            <div class="card card-block">
-                <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
+    <div class="wrapper">
+        <div class="slider">
+            <div class="slide-track">
+                <div class="slide" *ngFor="let artwork of (artWorksData$ | async) as artworks; let i = index">
+                    <img [src]="artworkImages[i]" alt="" class="card-img">
+                </div>
             </div>
         </div>
-        <div class="col-12 col-sm-6 col-md-4 col-xl-3 mx-1">
-            <div class="card card-block">
-                <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-xl-3 mx-1">
-            <div class="card card-block">
-                <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-xl-3 mx-1">
-            <div class="card card-block">
-                <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-xl-3 mx-1">
-            <div class="card card-block">
-                <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-xl-3 mx-1">
-            <div class="card card-block">
-                <img src="../assets/imgs/museu1.jpg" alt="Imagem 1">
-            </div>
-        </div>
-    </div> -->
+    </div>
 </div>

@@ -1,67 +1,59 @@
-<header *ngIf="authService.isLoggedIn; else isLoggedOut"
-  class="d-flex flex-wrap justify-content-center py-3 mb-1 border-bottom header-background-auth">
-  <div class="d-flex align-items-center ms-5 mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-    <img src="../../assets/imgs/logo_clara.png" alt="logo">
+<header *ngIf="authService.isLoggedIn; else isLoggedOut" class="py-3 mb-1 border-bottom header-background-auth">
+  <div *ngIf="isMobileLayout; else drawer;" class="d-flex justify-content-between">
+    <div class="align-items-center ms-5 text-dark text-decoration-none">
+      <img src="../../assets/imgs/logo_clara.png" alt="logo" height="60px">
+    </div>
+    <ul class="nav nav-pills">
+      <li class="nav-item align-items-center d-flex"><a class="nav-link">{{authService.userData?.username}}</a></li>
+      <li class="nav-item align-items-center d-flex"><a routerLink="dashboard" class="nav-link navLinkAuthenticated"
+          routerLinkActive="active">Estatísticas</a>
+      </li>
+      <li class="nav-item align-items-center d-flex"><a routerLink="collection/list-artwork"
+          class="nav-link navLinkAuthenticated" routerLinkActive="active">Acervo</a></li>
+      <li class="nav-item align-items-center d-flex"><a routerLink="event/list-event"
+          class="nav-link navLinkAuthenticated" routerLinkActive="active">Eventos</a></li>
+      <li class="nav-item align-items-center d-flex ms-2 me-5">
+        <div class=" dropdown">
+          <a id="dropdownMenuLink" data-bs-toggle="dropdown" data-bs-offset="45,38">
+            <img src="../../assets/imgs/personIcon.png" alt="">
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li><a class="dropdown-item descriptionTitleSecundaryColor" href="museums/update-museum">Sobre o Museu</a>
+            </li>
+            <li><a class="dropdown-item descriptionTitleSecundaryColor" href="#">Configuração de conta</a></li>
+            <li><a class="dropdown-item descriptionTitleSecundaryColor" (click)="authService.SignOut()">Logout</a></li>
+          </ul>
+        </div>
+      </li>
+    </ul>
   </div>
 
-  <ul class="nav nav-pills ">
-    <li class="nav-item align-items-center d-flex"><a class="nav-link">{{authService.userData?.username}}</a></li>
-    <li class="nav-item align-items-center d-flex"><a routerLink="dashboard" class="nav-link navLinkAuthenticated"
-        routerLinkActive="active">Estatísticas</a>
-    </li>
-    <li class="nav-item align-items-center d-flex"><a routerLink="collection/list-artwork"
-        class="nav-link navLinkAuthenticated" routerLinkActive="active">Acervo</a></li>
-    <li class="nav-item align-items-center d-flex"><a routerLink="event/list-event"
-        class="nav-link navLinkAuthenticated" routerLinkActive="active">Eventos</a></li>
-    <li class="nav-item align-items-center d-flex ms-2 me-5">
-      <a [matMenuTriggerFor]="menu">
-        <img src="../../assets/imgs/personIcon.png" alt="">
-      </a>
-
-      <!-- <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-
-          bs-toggle="dropdown" aria-expanded="false">
-          Dropdown button
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
-          <li><a class="dropdown-item" href="#">Something else here</a></li>
-        </ul>
-      </div> -->
-
-      <!-- <div class="dropdown">
-        <a id="imageDropdown" data-toggle="dropdown">
+  <ng-template #drawer>
+    <div class="d-flex justify-content-between">
+      <div class="align-items-center ms-3 text-dark text-decoration-none">
+        <img src="../../assets/imgs/logo_clara.png" alt="logo" height="60px">
+      </div>
+      <li class="nav-item align-items-center d-flex ms-2 me-3">
+        <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
           <img src="../../assets/imgs/personIcon.png" alt="">
         </a>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="imageDropdown">
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Menu item 1</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Menu item 2</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Menu item 3</a></li>
-          <li role="presentation" class="divider"></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Menu item 4</a></li>
-        </ul>
-      </div> -->
+      </li>
 
-      <mat-menu #menu="matMenu">
-        <div class="menuTeste">
-          <button mat-menu-item class="menuTeste" routerLink="museums/update-museum">
-            <span>Sobre o Museu</span>
-          </button>
-          <button mat-menu-item>
-            <span>Configuração de conta</span>
-          </button>
-          <button mat-menu-item (click)="authService.SignOut()">
-            <span>Logout</span>
-          </button>
+      <div class="offcanvas offcanvas-end drawer" tabindex="-1" id="offcanvasRight"
+        aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+          <b id="offcanvasRightLabel" class="headerTitle">Museum Explore</b>
+          <button type="button" class="btn-close text-reset simpleButtonPrimary" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
         </div>
-      </mat-menu>
-    </li>
-    <!-- <a (click)="authService.SignOut()" class="nav-link"><img
-          src="../../assets/imgs/personIcon.png" alt=""></a> -->
-
-
-  </ul>
+        <div class="offcanvas-body">
+          <a class="dropdown-item headerDescription mb-3" href="#">Sobre o Museu</a>
+          <a class="dropdown-item headerDescription mb-3" href="#">Configuração de conta</a>
+          <a class="dropdown-item headerDescription" (click)="authService.SignOut()">Logout</a>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </header>
 
 <ng-template #isLoggedOut>

@@ -10,6 +10,9 @@
     color: #F2E6D0;
 }
 
-.menuTeste {
+.dropdown-menu {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding: 20px;
     background-color: #F2E6D0;
 }

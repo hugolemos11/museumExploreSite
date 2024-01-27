@@ -36,7 +36,7 @@ export class MuseumService {
   getMuseumById(id?: string): Observable<Museum> {
     return this.firestore.collection<Museum>('museums').doc<Museum>(id).valueChanges().pipe(
       map((data: any) => {
-
+        console.log(`teste ${data}`)
         return {
           id: data['id'],
           name: data['name'],

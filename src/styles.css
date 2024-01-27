@@ -11,15 +11,91 @@ body,
     --light-blue: #0D6EDF;
     --brown: #40311E;
 
-    --titleSize: 48px;
-    --subTitleSize: 32px;
-    --navLinkSize: 24px;
-    --descriptionTitleSize: 22px;
-    --descriptionSize: 18px;
+    --paddingX: 2vw;
+    --colPaddingX: 2vw;
 
-    /* Label is used on the display cards*/
-    --labelTitleSize: 18px;
-    --labelSize: 14px;
+    --titleSize: 3vw;
+    --subTitleSize: 1.8vw;
+    --navLinkSize: 1.5vw;
+    --descriptionTitleSize: 1.4vw;
+    --descriptionSize: 1.2vw;
+
+    /* Label is used on the display ca  rds*/
+    --labelTitleSize: 1.2vw;
+    --labelSize: 1vw;
+
+    --headerSize: 4vw;
+    --headerDescriptionSize: 2.5vw;
+
+    @media screen and (max-width: 1200px) {
+        --descriptionTitleSize: 1.6vw;
+        --descriptionSize: 1.4vw;
+
+        /* Label is used on the display ca  rds*/
+        --labelTitleSize: 1.6vw;
+        --labelSize: 1.4vw;
+    }
+
+    @media screen and (max-width: 900px) {
+        --titleSize: 5vw;
+        --subTitleSize: 2.4vw;
+        --navLinkSize: 2.1vw;
+        --descriptionTitleSize: 2.2vw;
+        --descriptionSize: 2vw;
+
+        /* Label is used on the display ca  rds*/
+        --labelTitleSize: 2vw;
+        --labelSize: 1.8vw;
+    }
+
+    @media screen and (max-width: 700px) {
+        --titleSize: 6vw;
+        --subTitleSize: 2.7vw;
+        --navLinkSize: 2.4vw;
+        --descriptionTitleSize: 2.5vw;
+        --descriptionSize: 2.3vw;
+
+        /* Label is used on the display ca  rds*/
+        --labelTitleSize: 2.3vw;
+        --labelSize: 2.1vw;
+
+        --headerSize: 4.5vw;
+        --headerDescriptionSize: 3vw;
+    }
+
+    @media screen and (max-width: 600px) {
+        --paddingX: 4vw;
+        --colPaddingX: 0vw;
+
+        --titleSize: 7vw;
+        --subTitleSize: 3vw;
+        --navLinkSize: 2.7vw;
+        --descriptionTitleSize: 2.8vw;
+        --descriptionSize: 2.6vw;
+
+        /* Label is used on the display ca  rds*/
+        --labelTitleSize: 2.6vw;
+        --labelSize: 2.4vw;
+
+        --headerSize: 4.5vw;
+        --headerDescriptionSize: 3vw;
+    }
+
+    @media screen and (max-width: 500px) {
+        --paddingX: 8vw;
+
+        --titleSize: 8vw;
+        --subTitleSize: 3.3vw;
+        --navLinkSize: 3vw;
+        --descriptionTitleSize: 3.1vw;
+        --descriptionSize: 2.9vw;
+
+        /* Label is used on the display ca  rds*/
+        --labelTitleSize: 2.9vw;
+        --labelSize: 2.7vw;
+        --headerSize: 4.5vw;
+        --headerDescriptionSize: 3vw;
+    }
 }
 
 html {
@@ -96,7 +172,7 @@ body {
     color: var(--black);
 }
 
-.labelTilte {
+.labelTitle {
     font-size: var(--labelTitleSize);
     color: var(--white);
 }
@@ -104,6 +180,16 @@ body {
 .label {
     font-size: var(--labelSize);
     color: var(--white);
+}
+
+.headerTitle {
+    font-size: var(--headerSize);
+    color: var(--dark-blue);
+}
+
+.headerDescription {
+    font-size: var(--headerDescriptionSize);
+    color: var(--black);
 }
 
 .buttonPrimary {
@@ -117,6 +203,10 @@ body {
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
 }
 
+.simpleButtonPrimary {
+    color: var(--dark-blue);
+}
+
 .buttonLightBlue {
     background-color: var(--light-blue);
     color: var(--backgound);
@@ -126,6 +216,22 @@ body {
     padding: 10px 60px;
     font-size: var(--labelSize);
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+}
+
+.responsivePaddingX {
+    padding-inline: var(--paddingX);
+}
+
+.row .responsivePaddingX {
+    padding-inline: var(--colPaddingX);
+}
+
+.responsiveMarginy {
+    margin-block: var(--marginY);
+}
+
+.drawer {
+    background-color: var(--backgound);
 }
 
 label.check {
@@ -159,54 +265,6 @@ label.check input:checked+span {
     color: var(--backgound);
 }
 
-.wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.slider {
-    margin: auto;
-    overflow: hidden;
-    position: relative;
-    width: 80%;
-}
-
-.slider .slide-track {
-    -webkit-animation: scroll 30s linear infinite;
-    animation: scroll 30s linear infinite;
-    display: flex;
-    width: calc(250px * 14);
-}
-
-.slider .slide {
-    height: 250px;
-    width: 400px;
-}
-
-.slider .slide img {
-    width: 90%;
-    height: 250px;
-    border-radius: 10px;
-    border: 2px solid #bbbbbb;
-}
-
-@-webkit-keyframes scroll {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(calc(-250px * 7));
-    }
-}
-
-@keyframes scroll {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(calc(-250px * 7));
-    }
+#map {
+    height: 50vw;
 }

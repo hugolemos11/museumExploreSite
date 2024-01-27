@@ -1,0 +1,4 @@
+.form-control-plaintext:focus {
+  border: 1px solid #ced4da;
+  /* You can customize the border color */
+}

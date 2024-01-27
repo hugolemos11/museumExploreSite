@@ -88,7 +88,6 @@ export class ListArtworkComponent implements OnInit {
   }
 
   public loadImages() {
-    console.log("teste")
     this.artWorksData$.pipe(
       map((artworks: Artwork[]) => {
         const artWorksDatalength = artworks.length

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EventService } from '../../event.service';
 import { Event } from '../event';
 import { EventsService } from '../events.service';
@@ -10,13 +10,14 @@ import { forkJoin } from 'rxjs';
   templateUrl: './list-event.component.html',
   styleUrl: './list-event.component.css'
 })
-export class ListEventComponent {
+export class ListEventComponent implements OnInit {
 
   constructor(private service: EventsService) { }
 
   eventsList: Event[] = [];
   eventImages: string[] = [];
   isMobileLayout = true;
+
   ngOnInit(): void {
     try {
 

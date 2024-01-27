@@ -6,7 +6,7 @@
 
         <form [formGroup]="loginForm" (ngSubmit)="onFormSubmit()" action="">
             <mat-form-field appearance="outline" class="mb-2">
-                <mat-label color="primary" class="teste">Email</mat-label>
+                <mat-label color="primary">Email</mat-label>
                 <mat-icon color="primary" matPrefix>email</mat-icon>
                 <input matInput placeholder="pat@example.com" [formControl]="email">
                 @if (email.invalid) {

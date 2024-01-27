@@ -1,49 +1,107 @@
-<h1 style="margin-left: 80px;">Museu: {{museumData.name}}</h1>
+<div class="container-fluid responsivePaddingX">
+  <b class="titlePrimaryColor">Museu: {{museumData?.name}}</b>
+  <form action="">
+    <div class="row">
+      <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
+        <div class="form-group">
+          <label for="image" class="col-sm-2 col-form-label descriptionTitleBlackColor">Imagem:</label>
+          <br>
+          <img [src]="museumImage" alt="museu" class="img-fluid mb-2 w-100 shadow-1-strong rounded mb-4">
+          <br>
+          <input type="file" class="form-control-file description" id="image">
+        </div>
 
-<div class="container-fluid">
-  <div class="row mb-5 mt-5">
-    <div class="col mlr-100"> <!-- "mlr-100" Classe criada para dar margin de 100px para a esquerda e direita -->
-      <p class="subtitle">Imagem: <img src="../../../assets/imgs/edit.png" alt="edit" width="40" height="40"
-          class="ml-4"></p>
-      <img [src]="museumImage" alt="museu" width="165" height="165">
+        <div class="form-group">
+          <label for="staticDescripton" class="col-form-label descriptionTitleBlackColor">Descrição:</label>
+          <div>
+            <textarea class="form-control-plaintext description" id="description" appAutoAdjustHeight
+              value="{{museumData?.description}}"></textarea>
+          </div>
+        </div>
+        <div class="mb-5 mt-5 d-none d-lg-block">
+          <button class="buttonLightBlue">Visualizar tipos de bilhetes</button>
+        </div>
+      </div>
+
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <div class="form-group">
+          <label for="staticPhoneNumber" class="col-form-label descriptionTitleBlackColor">Telefone:</label>
+          <div>
+            <input type="text" class="form-control-plaintext description" id="staticPhoneNumber"
+              placeholder="000000000">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="staticLocation" class="col-form-label descriptionTitleBlackColor">Localização</label>
+          <div>
+            <input type="text" class="form-control-plaintext description" id="location"
+              placeholder="Latitude, Longitude" name="location" [(ngModel)]="locationValue" (blur)="onLocationBlur()"
+              required>
+            <div id="map">
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-5 mt-5 d-lg-none">
+          <button class="buttonLightBlue">Visualizar tipos de bilhetes</button>
+        </div>
+      </div>
     </div>
-    <div class="col mlr-100">
-      <div>
-        <p class="subtitle">Telefone: <img src="../../../assets/imgs/edit.png" alt="edit" width="40" height="40"
-            class="ml-4"></p>
-        <p class="value">912525623</p>
+
+    <!-- <div class="row mt-3">
+      <div class="col-sm-12 col-md-6 mb-3">
+        <div class="form-group">
+          <label for="image" class="col-sm-2 col-form-label descriptionTitleBlackColor">Imagem:</label>
+          <br>
+          <img [src]="museumImage" alt="museu" class="img-fluid mb-2">
+          <br>
+          <input type="file" class="form-control-file description" id="image">
+        </div>
       </div>
-      <div>
-        <p class="mt-5 subtitle">Avaliação:</p>
-        <img src="image/stars.png" alt="avaliacao" width="147" height="30">
-      </div>
+      <div class="col-sm-12 col-md-6 mb-3">
+        <div class="form-group">
+          <label for="staticPhoneNumber" class="col-sm-2 col-form-label descriptionTitleBlackColor">Telefone:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control-plaintext description" id="staticPhoneNumber"
+              placeholder="000000000">
+          </div>
+        </div>
+        <!-- <p class="mt-5 subtitle">Avaliação:</p>
+        <img src="image/stars.png" alt="avaliacao" width="147" height="30"> -->
+    <!-- </div>
     </div>
-  </div>
-  <div class="row mb-5 mt-5">
-    <div class="col mlr-100">
-      <div>
-        <p class="subtitle">Descrição: <img src="../../../assets/imgs/edit.png" alt="edit" width="40" height="40"
-            class="ml-4"></p>
-        <p class="value">{{museumData.description}}</p>
-      </div>
-      <div class="mt-5">
-        <p class="subtitle">Bilheteira: <img src="../../../assets/imgs/edit.png" alt="edit" width="40" height="40"
-            class="ml-4"></p>
-        <p class="value">Limite de pessoas por hora: 25 pessoas</p>
+    <div class="row">
+      <div class="col-sm-12 col-md-6 mb-3">
+        <div class="form-group">
+          <label for="staticDescripton" class="col-sm-2 col-form-label descriptionTitleBlackColor">Descrição:</label>
+          <div class="col-sm-10">
+            <textarea class="form-control-plaintext description" id="staticDescripton" rows="10"
+              value="{{museumData?.description}}"></textarea>
+          </div>
+        </div>
+        <!-- <div class="mt-5">
+          <p class="subtitle">Bilheteira: <img src="../../../assets/imgs/edit.png" alt="edit" width="40" height="40"
+              class="ml-4"></p>
+          <p class="value">Limite de pessoas por hora: <input type="number" class="form-control-plaintext"
+              id="staticAmount" min="0" max="50" value="10"></p>
+        </div> -->
+    <!-- </div> 
+      <div class="col-sm-12 col-md-6">
+        <div class="form-group">
+          <label for="staticLocation" class="col-sm-2 col-form-label descriptionTitleBlackColor">Localização</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control-plaintext description" id="location"
+              placeholder="Latitude, Longitude" name="location" [(ngModel)]="locationValue" (blur)="onLocationBlur()"
+              required>
+            <div id="map">
+            </div>
+          </div>
+        </div>
       </div>
       <div class="mb-5 mt-5">
-        <!-- Usa a class mb-5 para quando a celula da localizaçao passar para baixo nao ficar enconstado ao botao-->
-        <button class="btn btn-primary">Visualizar tipos de bilhetes</button>
+        <button class="buttonLightBlue">Visualizar tipos de bilhetes</button>
       </div>
-    </div>
-    <div class="col mlr-100">
-      <p class="subtitle">Localização: <img src="../../../assets/imgs/edit.png" alt="edit" width="40" height="40"
-          class="ml-4"></p>
-      <p class="value">Museu de Alberto Sampaio, Rua Alfredo Guimarães, Guimarães</p>
-      <img src="image/localizacao.png" alt="localizacao" width="430" height="355">
-    </div>
-  </div>
-  <div class="row">
-
-  </div>
+    </div> -->
+  </form>
 </div>

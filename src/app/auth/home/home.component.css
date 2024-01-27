@@ -1,6 +1,62 @@
+:root {
+    --num-museums: 5;
+}
+
 .img {
     width: 100%;
     height: auto;
     /* Mantém a proporção original da imagem */
     display: block;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider {
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+    width: 80%;
+}
+
+.slider .slide-track {
+    -webkit-animation: scroll 30s linear infinite;
+    animation: scroll 30s linear infinite;
+    display: flex;
+    width: calc(250px * 14);
+}
+
+.slider .slide {
+    height: 250px;
+    width: 400px;
+}
+
+.slider .slide img {
+    width: 90%;
+    height: 250px;
+    border-radius: 10px;
+    border: 2px solid #bbbbbb;
+}
+
+@-webkit-keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-250px * var(--num-museums)));
+    }
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-250px * var(--num-museums)));
+    }
 }

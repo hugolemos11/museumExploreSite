@@ -6,6 +6,8 @@ import { MuseumsComponent } from './museums.component';
 import { CreateMuseumComponent } from './create-museum/create-museum.component';
 import { ListMuseumComponent } from './list-museum/list-museum.component';
 import { UpdateMuseumComponent } from './update-museum/update-museum.component';
+import { FormsModule } from '@angular/forms';
+import { AutoAdjustHeightDirective } from './auto-adjust-height.directive';
 
 
 @NgModule({
@@ -13,11 +15,13 @@ import { UpdateMuseumComponent } from './update-museum/update-museum.component';
     MuseumsComponent,
     CreateMuseumComponent,
     ListMuseumComponent,
-    UpdateMuseumComponent
+    UpdateMuseumComponent,
+    AutoAdjustHeightDirective
   ],
   imports: [
     CommonModule,
-    MuseumsRoutingModule
+    MuseumsRoutingModule,
+    FormsModule
   ],
   exports: [
     MuseumsComponent
