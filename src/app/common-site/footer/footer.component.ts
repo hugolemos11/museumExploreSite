@@ -8,8 +8,4 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class FooterComponent {
   constructor(public authService: AuthService) { }
-  ngOnInit(): void {
-    console.log(this.authService.isLoggedIn)
-
-  }
 }

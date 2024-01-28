@@ -14,18 +14,32 @@ body,
     --paddingX: 2vw;
     --colPaddingX: 2vw;
 
-    --titleSize: 3vw;
-    --subTitleSize: 1.8vw;
-    --navLinkSize: 1.5vw;
-    --descriptionTitleSize: 1.4vw;
-    --descriptionSize: 1.2vw;
+    --titleSize: 2.7vw;
+    --subTitleSize: 1.7vw;
+    --navLinkSize: 1.3vw;
+    --descriptionTitleSize: 1.2vw;
+    --descriptionSize: 1vw;
 
-    /* Label is used on the display ca  rds*/
-    --labelTitleSize: 1.2vw;
-    --labelSize: 1vw;
+    /* Label is used on the display cards*/
+    --labelTitleSize: 1vw;
+    --labelSize: 0.8vw;
 
     --headerSize: 4vw;
     --headerDescriptionSize: 2.5vw;
+
+    --mapHeight: 40vw;
+
+    @media screen and (max-width: 1600px) {
+        --titleSize: 3vw;
+        --subTitleSize: 1.8vw;
+        --navLinkSize: 1.5vw;
+        --descriptionTitleSize: 1.4vw;
+        --descriptionSize: 1.2vw;
+
+        /* Label is used on the display cards*/
+        --labelTitleSize: 1.2vw;
+        --labelSize: 1vw;
+    }
 
     @media screen and (max-width: 1200px) {
         --descriptionTitleSize: 1.6vw;
@@ -34,6 +48,8 @@ body,
         /* Label is used on the display ca  rds*/
         --labelTitleSize: 1.6vw;
         --labelSize: 1.4vw;
+
+        --mapHeight: 50vw;
     }
 
     @media screen and (max-width: 900px) {
@@ -46,6 +62,7 @@ body,
         /* Label is used on the display ca  rds*/
         --labelTitleSize: 2vw;
         --labelSize: 1.8vw;
+        --mapHeight: 70vw;
     }
 
     @media screen and (max-width: 700px) {
@@ -79,6 +96,8 @@ body,
 
         --headerSize: 4.5vw;
         --headerDescriptionSize: 3vw;
+
+        --mapHeight: 90vw;
     }
 
     @media screen and (max-width: 500px) {
@@ -87,12 +106,13 @@ body,
         --titleSize: 8vw;
         --subTitleSize: 3.3vw;
         --navLinkSize: 3vw;
-        --descriptionTitleSize: 3.1vw;
-        --descriptionSize: 2.9vw;
+        --descriptionTitleSize: 3.3vw;
+        --descriptionSize: 3.1vw;
 
         /* Label is used on the display ca  rds*/
         --labelTitleSize: 2.9vw;
         --labelSize: 2.7vw;
+
         --headerSize: 4.5vw;
         --headerDescriptionSize: 3vw;
     }
@@ -266,5 +286,40 @@ label.check input:checked+span {
 }
 
 #map {
-    height: 50vw;
+    height: var(--mapHeight);
+}
+
+@media (max-width: 767px) {
+    .carousel-inner .carousel-item>div {
+        display: none;
+    }
+
+    .carousel-inner .carousel-item>div:first-child {
+        display: block;
+    }
+}
+
+.carousel-inner .carousel-item.active,
+.carousel-inner .carousel-item-next,
+.carousel-inner .carousel-item-prev {
+    display: flex;
+}
+
+/* medium and up screens */
+@media (min-width: 768px) {
+
+    .carousel-inner .carousel-item-end.active,
+    .carousel-inner .carousel-item-next {
+        transform: translateX(25%);
+    }
+
+    .carousel-inner .carousel-item-start.active,
+    .carousel-inner .carousel-item-prev {
+        transform: translateX(-25%);
+    }
+}
+
+.carousel-inner .carousel-item-end,
+.carousel-inner .carousel-item-start {
+    transform: translateX(0);
 }

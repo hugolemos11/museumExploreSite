@@ -53,3 +53,7 @@
     transform: translateX(calc(-250px * var(--num-artworks)));
   }
 }
+
+p-carousel {
+  background-color: aqua;
+}

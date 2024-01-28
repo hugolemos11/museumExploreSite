@@ -4,11 +4,14 @@
     <div class="row">
       <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
         <div class="form-group">
-          <label for="image" class="col-sm-2 col-form-label descriptionTitleBlackColor">Imagem:</label>
+          <label for="image" class="col-form-label descriptionTitleBlackColor">Imagem:</label>
           <br>
-          <img [src]="museumImage" alt="museu" class="img-fluid mb-2 w-100 shadow-1-strong rounded mb-4">
+          <img [src]="museumImage" alt="museu" class="img-fluid mb-2 shadow-1-strong rounded mb-4"
+            style="max-height: 400px; width: auto;">
           <br>
-          <input type="file" class="form-control-file description" id="image">
+          <input type="file" class="form-control-file description" id="image" (change)="onFileSelected($event)"
+            accept=".jpg, .jpeg, .png">
+          <label for="image" class="description"> (.jpg, .jpeg, .png)</label>
         </div>
 
         <div class="form-group">

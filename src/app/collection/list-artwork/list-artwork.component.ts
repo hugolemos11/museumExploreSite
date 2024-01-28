@@ -15,8 +15,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class ListArtworkComponent implements OnInit {
 
-  constructor(private artWorkService: ArtworkService, private categoryService: CategoryService, private authService: AuthService, private formBuilder: FormBuilder) {
-  }
+  constructor(private artWorkService: ArtworkService, private categoryService: CategoryService, private authService: AuthService, private formBuilder: FormBuilder) { }
 
   artWorksData$: Observable<Array<Artwork>> = new Observable<Array<Artwork>>;
   artworkImages: string[] = [];

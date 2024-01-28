@@ -14,7 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   providers: [],
   bootstrap: [AppComponent],
@@ -29,7 +29,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CommonSiteModule,
     AuthModule,
     BrowserAnimationsModule
-  ],
-
+  ]
 })
 export class AppModule { }

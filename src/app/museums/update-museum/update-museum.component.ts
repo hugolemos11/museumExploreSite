@@ -18,7 +18,6 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
   museumImage: string = '';
 
   locationValue: string = '';
-  isMobileLayout?: boolean;
 
   map?: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/streets-v11';
@@ -26,14 +25,10 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
   currentPosition = { lngX: -118.274861, latY: 36.598999 }
   marker?: mapboxgl.Marker;
 
-  constructor(private authService: AuthService, private museumService: MuseumService) {
-    this.isMobileLayout = window.innerWidth > 770;
-  }
+  constructor(private authService: AuthService, private museumService: MuseumService) { }
 
   ngOnInit(): void {
     this.fetchData();
-    console.log(this.isMobileLayout)
-    window.onresize = () => this.isMobileLayout = window.innerWidth > 770;
   }
 
   ngAfterViewInit(): void {
@@ -72,6 +67,32 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
         this.museumImage = '../../assets/imgs/museu1.jpg';
       }
     );
+  }
+
+  // Method to handle file selection
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+
+    if (file) {
+      const maxSizeInBytes = 1024 * 1024; // 1 MB
+      if (file.size > maxSizeInBytes) {
+        alert('File size exceeds the limit (1 MB). Please choose a smaller file.');
+        // Optionally, you can reset the input value to clear the selected file
+        event.target.value = '';
+        return;
+      }
+
+      // Use FileReader to read the selected file and update the image source
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        this.museumImage = e.target?.result as string;
+      };
+
+      reader.readAsDataURL(file);
+    } else {
+      this.loadImage();
+    }
   }
 
   initializeMap() {

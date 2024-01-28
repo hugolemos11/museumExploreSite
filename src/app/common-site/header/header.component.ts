@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { AuthService } from '../../auth/auth.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
   isMobileLayout?: boolean;
 
@@ -14,7 +14,8 @@ export class HeaderComponent implements OnInit {
     this.isMobileLayout = window.innerWidth > 770;
   }
 
-  ngOnInit(): void {
-    window.onresize = () => this.isMobileLayout = window.innerWidth > 770;
+  @HostListener('window:resize', ['$event'])
+  onResize(): void {
+    this.isMobileLayout = window.innerWidth > 770;
   }
 }

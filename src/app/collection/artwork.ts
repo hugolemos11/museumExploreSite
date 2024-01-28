@@ -6,4 +6,5 @@ export interface Artwork {
     description: string;
     museumId: string;
     pathToImage: string;
+    imageArray?: string;
 }

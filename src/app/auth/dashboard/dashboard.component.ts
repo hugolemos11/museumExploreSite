@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren, AfterViewInit, AfterContentChecked } from '@angular/core';
 import { Chart } from 'chart.js/auto';
 import { MuseumService } from '../../museums/museum.service';
 import { AuthService } from '../auth.service';
 import { TicketService } from '../../tickets/ticket.service';
 import { Ticket, TicketType } from '../../tickets/ticket';
-import { Observable, map } from 'rxjs';
+import { Observable, forkJoin, map, switchMap } from 'rxjs';
 import { Artwork } from '../../collection/artwork';
 import { ArtworkService } from '../../collection/artwork.service';
 
@@ -17,53 +17,76 @@ export class DashboardComponent implements OnInit {
   title = 'MuseumExplore';
   barChart: any = [];
   doughnutChart: any = [];
+  responsiveOptions: any = [];
 
   ticketsData$: Observable<Array<Ticket>> = new Observable<Array<Ticket>>;
   ticketTypesData$: Observable<Array<TicketType>> = new Observable<Array<TicketType>>;
   artWorksData$: Observable<Array<Artwork>> = new Observable<Array<Artwork>>;
   artworkImages: string[] = [];
 
-  constructor(private ticketService: TicketService, private artWorkService: ArtworkService) { }
+  constructor(private ticketService: TicketService, private artWorkService: ArtworkService) {
+    this.responsiveOptions = [{
+      breakpoint: '1024px',
+      numVisible: 1,
+      numScroll: 3
+    }];
+  }
 
   ngOnInit(): void {
     this.fetchData();
   }
 
+  /*ngAfterContentChecked(): void {
+    // After the content has been checked, call the initializeCarousel method
+    this.initializeCarousel();
+  }*/
+
   fetchData() {
     const userDataJSON = localStorage.getItem('user');
     if (userDataJSON != null) {
-      const userData = JSON.parse(userDataJSON)
+      const userData = JSON.parse(userDataJSON);
       if (userData.museumId != null) {
 
-        this.artWorksData$ = this.artWorkService.getAllArtWorksFromMuseum(userData.museumId);
+        this.artWorksData$ = this.artWorkService.getAllArtWorksFromMuseum(userData.museumId).pipe(
+          switchMap((artWorksData: Artwork[]) => {
+            if (artWorksData != null) {
+              const imageObservables = artWorksData.map((artwork: Artwork) =>
+                this.artWorkService.downloadFile(artwork.pathToImage)
+              );
+
+              return forkJoin(imageObservables).pipe(
+                map((imageArrays: string[]) => {
+                  artWorksData.forEach((artwork, index) => {
+                    artwork.imageArray = imageArrays[index];
+                    console.log(artwork.imageArray)
+                  });
+                  return artWorksData;
+                })
+              );
+            } else {
+              console.log('Art Works data is empty!');
+              return [];
+            }
+          })
+        );
+
         this.ticketsData$ = this.ticketService.getAllTicketsFromMuseum(userData.museumId);
         this.ticketTypesData$ = this.ticketService.getAllTicketsTypes(userData.museumId);
 
-        // Subscribe to the observables to get the data
-        this.artWorksData$.subscribe(artWorksData => {
-          if (artWorksData != null) {
-            // Update the --num-artworks variable
-            document.documentElement.style.setProperty('--num-artworks', artWorksData.length.toString());
-            this.loadImages();
-            this.ticketsData$.subscribe(ticketsData => {
-              if (ticketsData != null) {
-                this.createBarChart(ticketsData)
-                this.ticketTypesData$.subscribe(ticketTypesData => {
-                  if (ticketTypesData != null) {
-                    this.createDoughnutChart(ticketTypesData, ticketsData);
-                  } else {
-                    console.log('Ticket types data is empty!');
-                  }
-                });
+        this.ticketsData$.subscribe(ticketsData => {
+          if (ticketsData != null) {
+            this.createBarChart(ticketsData);
+            this.ticketTypesData$.subscribe(ticketTypesData => {
+              if (ticketTypesData != null) {
+                this.createDoughnutChart(ticketTypesData, ticketsData);
               } else {
-                console.log('Tickets data is empty!');
+                console.log('Ticket types data is empty!');
               }
             });
           } else {
-            console.log('Art Works data is empty!');
+            console.log('Tickets data is empty!');
           }
         });
-
       } else {
         console.log('UserData museumId is null!');
       }
@@ -175,23 +198,37 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  public loadImages() {
-    this.artWorksData$.pipe(
-      map((artworks: Artwork[]) => {
-        const artWorksDatalength = artworks.length
-        artworks.map((artwork: Artwork) => {
-          const imageObservable = this.artWorkService.downloadFile(artwork.pathToImage);
-          imageObservable.subscribe(
-            imageArray => {
-              this.artworkImages.push(imageArray);
-            },
-            error => {
-              console.error(error);
-              this.artworkImages = Array(artWorksDatalength).fill('../../assets/imgs/museu1.jpg');
-            }
-          )
-        })
-      }),
-    ).subscribe();
+  loadImages() {
+    this.artWorksData$ = this.artWorkService.getAllArtWorksFromMuseum('yourMuseumId').pipe(
+
+    );
   }
+
+
+  /*private initializeCarousel() {
+    let items = document.querySelectorAll('.carousel .carousel-item')
+    console.log(items)
+    items.forEach((el) => {
+      const minPerSlide = 4;
+      let next = el.nextElementSibling;
+
+      for (let i = 1; i < minPerSlide; i++) {
+        if (!next) {
+          // Wrap carousel by using the first child
+          next = items[0]
+        }
+        if (next) {
+          const cloneChild = next.cloneNode(true);
+          if (el instanceof Element && cloneChild instanceof Element) {
+            const childNodes = cloneChild.children;
+
+            if (childNodes.length > 0) {
+              el.appendChild(childNodes[0]);
+            }
+          }
+          next = next.nextElementSibling;
+        }
+      }
+    });
+  }*/
 }

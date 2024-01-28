@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { EventService } from '../../event.service';
 import { Event } from '../event';
 import { EventsService } from '../events.service';
@@ -12,26 +12,28 @@ import { forkJoin } from 'rxjs';
 })
 export class ListEventComponent implements OnInit {
 
-  constructor(private service: EventsService) { }
-
   eventsList: Event[] = [];
   eventImages: string[] = [];
-  isMobileLayout = true;
+  isMobileLayout?: boolean;
+
+  constructor(private service: EventsService) {
+    this.isMobileLayout = window.innerWidth > 770;
+  }
 
   ngOnInit(): void {
     try {
-
       this.service.getAllEvents().subscribe(data => {
-
         this.eventsList = data;
         this.loadImages();
       });
-
-      window.onresize = () => this.isMobileLayout = window.innerWidth > 767;
-
     } catch (error) {
       console.log(error);
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(): void {
+    this.isMobileLayout = window.innerWidth > 770;
   }
 
   getGridClasses(length: number): string {
