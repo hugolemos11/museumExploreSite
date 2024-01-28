@@ -8,4 +8,5 @@ export interface Museum {
     latitude: Number;
     longitude: Number;
     pathToImage: string;
+    image?: string;
 }

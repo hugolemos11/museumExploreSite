@@ -9,4 +9,8 @@ export interface TicketType {
     id: string;
     museumId: string;
     type: string;
+    price: number;
+    description: string;
+    pathToImage: string;
+    image?: string;
 }

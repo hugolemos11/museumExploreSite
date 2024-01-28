@@ -21,15 +21,17 @@
     </div>
   </div>
 </div>
-<div id="museuParceiros" class="container-fluid images-container p-5">
-  <b class="titleBackgroundColor">Museus Parceiros</b>
-  <div class="wrapper">
-    <div class="slider">
-      <div class="slide-track">
-        <div class="slide" *ngFor="let museum of (museumsData$ | async) as museums; let i = index">
-          <img [src]="museumImages[i]" alt="" class="card-img">
+<div id="museuParceiros" class="container-fluid images-container py-3">
+  <b class="titleBackgroundColor mb-2">Museus Parceiros</b>
+  <p-carousel [value]="(museumsData$ | async) ?? []" styleClass="custom-carousel" [numVisible]="5" [numScroll]="1"
+    [circular]="false" [autoplayInterval]="0" [responsiveOptions]="responsiveOptions">
+    <ng-template let-museum pTemplate="item">
+      <div class="item card">
+        <img [src]="museum.image" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{ museum.name }}</h5>
         </div>
       </div>
-    </div>
-  </div>
+    </ng-template>
+  </p-carousel>
 </div>

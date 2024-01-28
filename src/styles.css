@@ -29,6 +29,12 @@ body,
 
     --mapHeight: 40vw;
 
+    --imgCarouselHeight: 400px;
+
+    @media screen and (max-width: 1700px) {
+        --imgCarouselHeight: 300px;
+    }
+
     @media screen and (max-width: 1600px) {
         --titleSize: 3vw;
         --subTitleSize: 1.8vw;
@@ -62,6 +68,7 @@ body,
         /* Label is used on the display ca  rds*/
         --labelTitleSize: 2vw;
         --labelSize: 1.8vw;
+
         --mapHeight: 70vw;
     }
 
@@ -78,11 +85,13 @@ body,
 
         --headerSize: 4.5vw;
         --headerDescriptionSize: 3vw;
+
+
     }
 
     @media screen and (max-width: 600px) {
         --paddingX: 4vw;
-        --colPaddingX: 0vw;
+        --colPaddingX: 4vw;
 
         --titleSize: 7vw;
         --subTitleSize: 3vw;
@@ -101,7 +110,6 @@ body,
     }
 
     @media screen and (max-width: 500px) {
-        --paddingX: 8vw;
 
         --titleSize: 8vw;
         --subTitleSize: 3.3vw;
@@ -289,37 +297,27 @@ label.check input:checked+span {
     height: var(--mapHeight);
 }
 
-@media (max-width: 767px) {
-    .carousel-inner .carousel-item>div {
-        display: none;
-    }
-
-    .carousel-inner .carousel-item>div:first-child {
-        display: block;
-    }
+/* Carousel style */
+p-carousel {
+    background-color: var(--dark-blue);
 }
 
-.carousel-inner .carousel-item.active,
-.carousel-inner .carousel-item-next,
-.carousel-inner .carousel-item-prev {
-    display: flex;
+/*p-carousel ul {
+    margin: 0px;
+    padding: 0px;
+    padding-top: 16px;
+}*/
+
+/*.p-carousel-next,
+.p-carousel-prev {
+    color: var(--backgound);
+}*/
+
+p-carousel .card {
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
-/* medium and up screens */
-@media (min-width: 768px) {
-
-    .carousel-inner .carousel-item-end.active,
-    .carousel-inner .carousel-item-next {
-        transform: translateX(25%);
-    }
-
-    .carousel-inner .carousel-item-start.active,
-    .carousel-inner .carousel-item-prev {
-        transform: translateX(-25%);
-    }
-}
-
-.carousel-inner .carousel-item-end,
-.carousel-inner .carousel-item-start {
-    transform: translateX(0);
+p-carousel img {
+    height: var(--imgCarouselHeight);
 }

@@ -22,14 +22,30 @@ export class DashboardComponent implements OnInit {
   ticketsData$: Observable<Array<Ticket>> = new Observable<Array<Ticket>>;
   ticketTypesData$: Observable<Array<TicketType>> = new Observable<Array<TicketType>>;
   artWorksData$: Observable<Array<Artwork>> = new Observable<Array<Artwork>>;
-  artworkImages: string[] = [];
 
   constructor(private ticketService: TicketService, private artWorkService: ArtworkService) {
-    this.responsiveOptions = [{
-      breakpoint: '1024px',
-      numVisible: 1,
-      numScroll: 3
-    }];
+    this.responsiveOptions = [
+      {
+        breakpoint: '1420px',
+        numVisible: 4,
+        numScroll: 2
+      },
+      {
+        breakpoint: '1080px',
+        numVisible: 3,
+        numScroll: 2
+      },
+      {
+        breakpoint: '750px',
+        numVisible: 2,
+        numScroll: 1
+      },
+      {
+        breakpoint: '525px',
+        numVisible: 1,
+        numScroll: 1
+      }
+    ];
   }
 
   ngOnInit(): void {
@@ -57,8 +73,8 @@ export class DashboardComponent implements OnInit {
               return forkJoin(imageObservables).pipe(
                 map((imageArrays: string[]) => {
                   artWorksData.forEach((artwork, index) => {
-                    artwork.imageArray = imageArrays[index];
-                    console.log(artwork.imageArray)
+                    artwork.image = imageArrays[index];
+                    console.log(artwork.image)
                   });
                   return artWorksData;
                 })
@@ -197,13 +213,6 @@ export class DashboardComponent implements OnInit {
       }
     })
   }
-
-  loadImages() {
-    this.artWorksData$ = this.artWorkService.getAllArtWorksFromMuseum('yourMuseumId').pipe(
-
-    );
-  }
-
 
   /*private initializeCarousel() {
     let items = document.querySelectorAll('.carousel .carousel-item')

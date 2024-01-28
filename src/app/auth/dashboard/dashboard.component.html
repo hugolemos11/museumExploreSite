@@ -27,30 +27,17 @@
     </div>
 </div>
 
-<div id="obrasRegistadas" class="container-fluid images-container p-5">
-    <b class="titleBackgroundColor">Obras Registadas</b>
-    <div class="content-section implementation carousel-demo">
-        <div class="card">
-            <p-carousel [value]="(artWorksData$ | async) ?? []" styleClass="custom-carousel" [numVisible]="5"
-                [numScroll]="1" [circular]="false" [autoplayInterval]="0" [responsiveOptions]="responsiveOptions">
-                <ng-template ngFor let-artwork pTemplate="item">
-                    <div class="item card">
-                        <img [src]="artwork.imageArray" class="card-img-top" style=" max-height: 200px;" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ artwork.name }}</h5>
-                        </div>
-                    </div>
-                </ng-template>
-            </p-carousel>
-        </div>
-    </div>
-    <!-- <div class="wrapper">
-        <div class="slider">
-            <div class="slide-track">
-                <div class="slide" *ngFor="let artwork of (artWorksData$ | async) as artworks; let i = index">
-                    <img [src]="artworkImages[i]" alt="" class="card-img">
+<div id="obrasRegistadas" class="container-fluid images-container py-3">
+    <b class="titleBackgroundColor mb-2">Obras Registadas</b>
+    <p-carousel [value]="(artWorksData$ | async) ?? []" styleClass="custom-carousel" [numVisible]="1" [numScroll]="1"
+        [circular]="false" [autoplayInterval]="0" [responsiveOptions]="responsiveOptions">
+        <ng-template let-artwork pTemplate="item">
+            <div class="item card">
+                <img [src]="artwork.image" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ artwork.name }}</h5>
                 </div>
             </div>
-        </div>
-    </div> -->
+        </ng-template>
+    </p-carousel>
 </div>

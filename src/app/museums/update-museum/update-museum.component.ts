@@ -2,9 +2,11 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { MuseumService } from '../museum.service';
 import { Museum } from '../museum';
 import { AuthService } from '../../auth/auth.service';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin, map, switchMap } from 'rxjs';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../../environments/environment.development';
+import { TicketType } from '../../tickets/ticket';
+import { TicketService } from '../../tickets/ticket.service';
 
 @Component({
   selector: 'app-update-museum',
@@ -13,9 +15,13 @@ import { environment } from '../../../environments/environment.development';
 })
 export class UpdateMuseumComponent implements OnInit, AfterViewInit {
 
+  responsiveOptions: any = [];
+
   museumData$: Observable<Museum> = new Observable<Museum>();
   museumData?: Museum;
   museumImage: string = '';
+
+  ticketTypesData$: Observable<Array<TicketType>> = new Observable<Array<TicketType>>();
 
   locationValue: string = '';
 
@@ -25,7 +31,35 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
   currentPosition = { lngX: -118.274861, latY: 36.598999 }
   marker?: mapboxgl.Marker;
 
-  constructor(private authService: AuthService, private museumService: MuseumService) { }
+  constructor(private authService: AuthService, private museumService: MuseumService, private ticketService: TicketService) {
+    this.responsiveOptions = [
+      {
+        breakpoint: '1420px',
+        numVisible: 2,
+        numScroll: 1
+      },
+      {
+        breakpoint: '1250px',
+        numVisible: 1,
+        numScroll: 1
+      },
+      {
+        breakpoint: '990px',
+        numVisible: 3,
+        numScroll: 1
+      },
+      {
+        breakpoint: '700px',
+        numVisible: 2,
+        numScroll: 1
+      },
+      {
+        breakpoint: '540px',
+        numVisible: 1,
+        numScroll: 1
+      }
+    ];
+  }
 
   ngOnInit(): void {
     this.fetchData();
@@ -50,6 +84,28 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
             console.log('Museum data is empty!');
           }
         });
+        this.ticketTypesData$ = this.ticketService.getAllTicketsTypes(userData.museumId).pipe(
+          switchMap((ticketTypesData: TicketType[]) => {
+            if (ticketTypesData != null) {
+              const imageObservables = ticketTypesData.map((ticketType: TicketType) =>
+                this.ticketService.downloadFile(ticketType.pathToImage)
+              );
+
+              return forkJoin(imageObservables).pipe(
+                map((imageArrays: string[]) => {
+                  ticketTypesData.forEach((ticketType, index) => {
+                    ticketType.image = imageArrays[index];
+                    console.log(ticketType.image)
+                  });
+                  return ticketTypesData;
+                })
+              );
+            } else {
+              console.log('Art Works data is empty!');
+              return [];
+            }
+          })
+        );
       } else {
         console.log('UserData museumId is null!');
       }
