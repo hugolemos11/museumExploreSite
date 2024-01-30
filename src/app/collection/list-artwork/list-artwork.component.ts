@@ -62,6 +62,15 @@ export class ListArtworkComponent implements OnInit {
     }
   }
 
+  closeModal() {
+    // Access the modal and trigger its show method
+    const modal = document.getElementById('myModal');
+    console.log("teste")
+    if (modal != null) {
+      modal.style.display = 'block'
+    }
+  }
+
   fetchData() {
     const userDataJSON = localStorage.getItem('user');
     if (userDataJSON != null) {
