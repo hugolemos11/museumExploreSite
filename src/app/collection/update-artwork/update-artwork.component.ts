@@ -6,4 +6,7 @@ import { Component } from '@angular/core';
   styleUrl: './update-artwork.component.css'
 })
 export class UpdateArtworkComponent {
+
+  
+
 }
