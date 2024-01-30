@@ -1,7 +1,7 @@
 <header *ngIf="authService.isLoggedIn; else isLoggedOut" class="py-3 mb-1 border-bottom header-background-auth">
   <div *ngIf="isMobileLayout; else drawer;" class="d-flex justify-content-between">
     <div class="align-items-center ms-5 text-dark text-decoration-none">
-      <img src="../../assets/imgs/logo_clara.png" alt="logo" height="60px">
+      <img src="../../assets/imgs/Logo_clara.png" alt="logo" height="60px">
     </div>
     <ul class="nav nav-pills">
       <li class="nav-item align-items-center d-flex"><a class="nav-link">{{authService.userData?.username}}</a></li>
@@ -31,7 +31,7 @@
   <ng-template #drawer>
     <div class="d-flex justify-content-between">
       <div class="align-items-center ms-3 text-dark text-decoration-none">
-        <img src="../../assets/imgs/logo_clara.png" alt="logo" height="60px">
+        <img src="../../assets/imgs/Logo_clara.png" alt="logo" height="60px">
       </div>
       <li class="nav-item align-items-center d-flex ms-2 me-3">
         <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">

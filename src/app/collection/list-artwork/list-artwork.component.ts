@@ -33,8 +33,9 @@ export class ListArtworkComponent implements OnInit {
       category: new FormControl('', [Validators.required]),
       description: new FormControl(''), // You can set validators for description if needed
     });
-  }
 
+    
+}
   /*getErrorMessage() {
     if (this.email.hasError('required')) {
       return 'You must enter a email';
@@ -54,10 +55,19 @@ export class ListArtworkComponent implements OnInit {
 
   openModal() {
     // Access the modal and trigger its show method
-    const modal = document.getElementById('exampleModal');
+    const modal = document.getElementById('myModal');
     console.log("teste")
     if (modal != null) {
       modal.style.display = 'block'
+    }
+  }
+
+  closeModal() {
+    // Access the modal and trigger its show method
+    const modal = document.getElementById('myModal');
+    console.log("teste")
+    if (modal != null) {
+      modal.style.display = 'none'
     }
   }
 
