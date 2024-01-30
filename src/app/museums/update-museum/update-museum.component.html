@@ -21,22 +21,6 @@
               value="{{museumData?.description}}"></textarea>
           </div>
         </div>
-        <div class="mb-5 mt-5 d-none d-lg-block">
-          <p-carousel [value]="(ticketTypesData$ | async) ?? []" styleClass="custom-carousel" [numVisible]="3"
-            [numScroll]="1" [circular]="false" [autoplayInterval]="0" [responsiveOptions]="responsiveOptions">
-            <ng-template let-ticketType pTemplate="item">
-              <div class="item card position-relative">
-                <img [src]="ticketType.image" class="card-img-top" alt="...">
-                <div class="position-absolute bottom-0 start-0 end-0 text-white p-2">
-                  <p class="m-0 labelTitle">{{ticketType.type}}</p>
-                  <div class="card rounded-5 px-2 d-inline-block text-white bg-category">
-                    <p class="m-0 label">{{ticketType.price}}</p>
-                  </div>
-                </div>
-              </div>
-            </ng-template>
-          </p-carousel>
-        </div>
       </div>
 
       <div class="col-lg-6 mb-4 mb-lg-0">
@@ -59,19 +43,19 @@
           </div>
         </div>
 
-        <div class="mb-5 mt-5 d-lg-none">
-          <p-carousel [value]="(ticketTypesData$ | async) ?? []" styleClass="custom-carousel" [numVisible]="5"
-            [numScroll]="1" [circular]="false" [autoplayInterval]="0" [responsiveOptions]="responsiveOptions">
-            <ng-template let-ticketType pTemplate="item">
-              <div class="item card">
-                <img [src]="ticketType.image" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">{{ ticketType.type }}</h5>
-                </div>
+      </div>
+      <div class="mb-5 mt-5">
+        <p-carousel [value]="(ticketTypesData$ | async) ?? []" styleClass="custom-carousel" [numVisible]="5"
+          [numScroll]="1" [circular]="false" [autoplayInterval]="0" [responsiveOptions]="responsiveOptions">
+          <ng-template let-ticketType pTemplate="item">
+            <div class="item card">
+              <img [src]="ticketType.image" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{ ticketType.type }}</h5>
               </div>
-            </ng-template>
-          </p-carousel>
-        </div>
+            </div>
+          </ng-template>
+        </p-carousel>
       </div>
     </div>
 

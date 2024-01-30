@@ -53,7 +53,10 @@ export class AuthService {
       .then((_) => {
         this.afAuth.authState.subscribe((user) => {
           if (user) {
-            this.router.navigate(['dashboard']);
+            if (this.userData?.museumId != null) {
+              this.router.navigate(['dashboard']);
+            }
+            window.alert("Nao é um administrador");
           }
         });
       })
