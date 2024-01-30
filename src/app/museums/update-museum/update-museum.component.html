@@ -1,6 +1,6 @@
 <div class="container-fluid responsivePaddingX">
   <b class="titlePrimaryColor">Museu: {{museumData?.name}}</b>
-  <form action="">
+  <form [formGroup]="museumForm" (ngSubmit)="updateMuseum()">
     <div class="row">
       <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
         <div class="form-group">
@@ -16,9 +16,11 @@
 
         <div class="form-group mt-2">
           <label for="staticDescripton" class="col-form-label descriptionTitleBlackColor">Descrição:</label>
-          <div>
-            <textarea class="form-control-plaintext description" id="description" appAutoAdjustHeight
-              value="{{museumData?.description}}"></textarea>
+          <textarea class="form-control-plaintext description" formControlName="description"
+            [(ngModel)]="museumData === undefined? '': museumData.description" id="description"
+            value="{{museumData?.description}}"></textarea>
+          <div class="text-danger mt-3" *ngIf="isFieldInvalid('description') && isFieldTouched('description')">
+            Invalid Description.
           </div>
         </div>
       </div>
@@ -36,26 +38,39 @@
           <label for="staticLocation" class="col-form-label descriptionTitleBlackColor">Localização</label>
           <div>
             <input type="text" class="form-control-plaintext description" id="location"
-              placeholder="Longitude, Latitude" name="location" [(ngModel)]="locationValue" (blur)="onLocationBlur()"
-              required>
+              placeholder="Longitude, Latitude" name="location" formControlName="location" [(ngModel)]="locationValue"
+              (blur)="onLocationBlur()" required>
+            <div class="text-danger mt-3" *ngIf="isFieldInvalid('location') && isFieldTouched('location')">
+              Invalid Location.
+            </div>
             <div id="map">
             </div>
           </div>
         </div>
 
       </div>
-      <div class="mb-5 mt-5">
+      <div class="mb-2 mt-5">
+        <div class="d-flex align-items-center mb-2">
+          <span class="descriptionTitleBlackColor me-2">Bilhetes</span>
+          <img src="../../../assets/imgs/expand-plus-icon.svg" height="25px" width="25px" alt="">
+        </div>
         <p-carousel [value]="(ticketTypesData$ | async) ?? []" styleClass="custom-carousel" [numVisible]="5"
           [numScroll]="1" [circular]="false" [autoplayInterval]="0" [responsiveOptions]="responsiveOptions">
           <ng-template let-ticketType pTemplate="item">
-            <div class="item card">
-              <img [src]="ticketType.image" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">{{ ticketType.type }}</h5>
+            <div class="item card position-relative">
+              <img [src]="ticketType.image" class="card-img-top overlay-image" alt="...">
+              <div
+                class="position-absolute top-0 start-0 end-0 text-white p-2 text-center h-100 d-flex flex-column justify-content-between overlay-container">
+                <p class="m-0 ticketType">{{ticketType.type}}</p>
+                <p class="m-0 ticketPrice">{{ticketType.price}}</p>
+                <p class="m-0 ticketDescription">{{ticketType.description}}</p>
               </div>
             </div>
           </ng-template>
         </p-carousel>
+      </div>
+      <div class="mb-3 text-center">
+        <button class="buttonLightBlue" type="submit" [disabled]="museumForm.invalid">Guardar</button>
       </div>
     </div>
 

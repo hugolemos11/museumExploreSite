@@ -7,6 +7,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../../environments/environment.development';
 import { TicketType } from '../../tickets/ticket';
 import { TicketService } from '../../tickets/ticket.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-update-museum',
@@ -21,6 +22,9 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
   museumData?: Museum;
   museumImage: string = '';
 
+  file: File = new File([], '', { type: 'text/plain' });
+  museumForm: FormGroup;
+
   ticketTypesData$: Observable<Array<TicketType>> = new Observable<Array<TicketType>>();
 
   locationValue: string = '';
@@ -31,30 +35,30 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
   currentPosition = { lngX: -118.274861, latY: 36.598999 }
   marker?: mapboxgl.Marker;
 
-  constructor(private authService: AuthService, private museumService: MuseumService, private ticketService: TicketService) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private museumService: MuseumService, private ticketService: TicketService) {
+    this.museumForm = this.formBuilder.group({
+      description: ['', [Validators.required]],
+      //phoneNumber: ['', [Validators.required]],
+      location: ['', [Validators.required]],
+    })
     this.responsiveOptions = [
       {
         breakpoint: '1420px',
-        numVisible: 2,
+        numVisible: 4,
         numScroll: 1
       },
       {
-        breakpoint: '1250px',
-        numVisible: 1,
-        numScroll: 1
-      },
-      {
-        breakpoint: '990px',
+        breakpoint: '1080px',
         numVisible: 3,
-        numScroll: 1
+        numScroll: 2
       },
       {
-        breakpoint: '700px',
+        breakpoint: '750px',
         numVisible: 2,
         numScroll: 1
       },
       {
-        breakpoint: '540px',
+        breakpoint: '525px',
         numVisible: 1,
         numScroll: 1
       }
@@ -70,6 +74,58 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
     this.initializeMap();
   }
 
+  updateMuseum() {
+    console.log(this.museumForm.valid)
+    if (this.museumForm.valid) {
+      try {
+        // Update museumData.location based on locationValue
+        console.log(this.locationValue)
+        const coordinates = this.locationValue.split(',').map(Number);
+
+        console.log(coordinates)
+        if (coordinates.length === 2 && !isNaN(coordinates[0]) && !isNaN(coordinates[1])) {
+          this.museumData!.location = {
+            latitude: coordinates[1],
+            longitude: coordinates[0],
+          };
+        }
+
+        //call service
+        console.log(this.museumData);
+        this.museumService.updateMuseum(this.museumData!).then(() => {
+          this.museumService.uploadFile(this.museumData!.pathToImage, this.file);
+        });
+
+      } catch (error) {
+        console.error(error);
+      }
+
+    } else {
+      // Handle invalid form
+      this.museumForm.markAllAsTouched();
+      console.error('Form is invalid');
+    }
+
+  }
+
+  //verify if input was touched
+  isFieldTouched(fieldName: string) {
+    let isTouched: boolean = true
+    const control = this.museumForm.get(fieldName);
+    if (control != null)
+      isTouched = control.touched;
+    return isTouched;
+  }
+
+  //verify if input value is valid 
+  isFieldInvalid(fieldName: string) {
+    let isInvalid: boolean = true;
+    const control = this.museumForm.get(fieldName);
+    if (control != null)
+      isInvalid = control.invalid && (control.touched || control.dirty);
+    return isInvalid;
+  }
+
   fetchData() {
     const userDataJSON = localStorage.getItem('user');
     if (userDataJSON != null) {
@@ -78,6 +134,7 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
         this.museumData$ = this.museumService.getMuseumById(userData.museumId);
         this.museumData$.subscribe(museumData => {
           if (museumData != null) {
+            console.log(museumData)
             this.museumData = museumData;
             this.loadImage();
           } else {
@@ -100,7 +157,7 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
                 })
               );
             } else {
-              console.log('Art Works data is empty!');
+              console.log('Ticket Types data is empty!');
               return [];
             }
           })
@@ -126,11 +183,11 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
 
   // Method to handle file selection
   onFileSelected(event: any): void {
-    const file = event.target.files[0];
+    this.file = event.target.files[0];
 
-    if (file) {
+    if (this.file) {
       const maxSizeInBytes = 1024 * 1024; // 1 MB
-      if (file.size > maxSizeInBytes) {
+      if (this.file.size > maxSizeInBytes) {
         alert('File size exceeds the limit (1 MB). Please choose a smaller file.');
         // Optionally, you can reset the input value to clear the selected file
         event.target.value = '';
@@ -144,21 +201,35 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
         this.museumImage = e.target?.result as string;
       };
 
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(this.file);
     } else {
       this.loadImage();
     }
   }
 
-  initializeMap() {
+  async initializeMap() {
     if (this.map === undefined) {
+      // Use a while loop to wait until this.userData is not null
+      while (!this.museumData) {
+        // Wait for a short duration before checking again
+        await new Promise(resolve => setTimeout(resolve, 100)); // Adjust the delay as needed
+      }
+      console.log(`Location: ${this.museumData?.location.longitude}, ${this.museumData?.location.latitude}`)
+
+      // give a value to locationValue to present on the input
+      this.locationValue = `${this.museumData.location.longitude}, ${this.museumData.location.latitude}`;
+
       this.map = new mapboxgl.Map({
         accessToken: environment.mapbox.accessToken,
         container: this.mapContainer!,
         style: this.style,
         zoom: 13,
-        center: [this.currentPosition.lngX, this.currentPosition.latY],
+        center: [this.museumData?.location.longitude, this.museumData?.location.latitude],
       });
+
+      // Add a new marker
+      this.marker = new mapboxgl.Marker();
+      this.marker.setLngLat([this.museumData?.location.longitude, this.museumData?.location.latitude]).addTo(this.map);
 
       this.map.on('load', () => {
         this.map?.resize();
@@ -178,7 +249,10 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
 
           const locationInput = document.getElementById("location") as HTMLInputElement;
           if (locationInput) {
-            locationInput.value = `${e.lngLat.lng}, ${e.lngLat.lat}`;
+            //need to update the locationValue here, because to update the value with [(NgModel)] the user needs to insert a value in the input
+            this.locationValue = `${e.lngLat.lng}, ${e.lngLat.lat}`;
+            locationInput.value = this.locationValue;
+
           }
         }
       });

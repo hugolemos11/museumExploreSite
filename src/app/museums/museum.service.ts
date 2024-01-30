@@ -16,6 +16,11 @@ export class MuseumService {
     return this.firestore.collection<Museum>('museums').valueChanges({ idField: 'id' }).pipe(
       map((data: any[]) => {
         return data.map(element => {
+          // Extract latitude and longitude from GeoPoint
+          const geoPoint = element['location']; // Assuming 'location' is the field name in Firestore
+          const latitude = geoPoint.latitude;
+          const longitude = geoPoint.longitude;
+
           return {
             id: element.id,
             name: element['name'],
@@ -24,28 +29,33 @@ export class MuseumService {
             rate: element['rate'],
             ticketsNumber: element['ticketsNumber'],
             visits: element['visits'],
-            latitude: element['latitude'],
-            longitude: element['longitude'],
+            location: { latitude: latitude, longitude: longitude },
             pathToImage: element['pathToImage'],
-          }
-        })
+          };
+        });
       })
     );
   }
 
   getMuseumById(id?: string): Observable<Museum> {
-    return this.firestore.collection<Museum>('museums').doc<Museum>(id).valueChanges().pipe(
-      map((data: any) => {
-        console.log(`teste ${data}`)
+    return this.firestore.collection<Museum>('museums').doc<Museum>(id).snapshotChanges().pipe(
+      map(snapshot => {
+        const data = snapshot.payload.data() as Museum;
+        const id = snapshot.payload.id;
+
+        // Extract latitude and longitude from GeoPoint
+        const geoPoint = data['location'];
+        const latitude = geoPoint.latitude;
+        const longitude = geoPoint.longitude;
+
         return {
-          id: data['id'],
+          id: id,
           name: data['name'],
           description: data['description'],
           rate: data['rate'],
           ticketsNumber: data['ticketsNumber'],
           visits: data['visits'],
-          latitude: data['latitude'],
-          longitude: data['longitude'],
+          location: { latitude: latitude, longitude: longitude },
           pathToImage: data['pathToImage'],
         };
       })
@@ -55,5 +65,28 @@ export class MuseumService {
   downloadFile(fileName: string): Observable<string> {
     const fileRef = this.storage.ref(`${fileName}`);
     return fileRef.getDownloadURL();
+  }
+
+  updateMuseum(museum: Museum): Promise<void> {
+
+    var firestoreMuseum: any = {
+      'id': museum.id,
+      'name': museum.name,
+      'description': museum.description,
+      'rate': museum.rate,
+      'ticketsNumber': museum.ticketsNumber,
+      'visits': museum.visits,
+      'location': {
+        'latitude': museum.location.latitude,
+        'longitude': museum.location.longitude,
+      },
+      'pathToImage': museum.pathToImage,
+    };
+    return this.firestore.collection<Museum>('museums').doc(museum.id).update(firestoreMuseum);
+  }
+
+  uploadFile(fileName: string, file: File): void {
+    const filePath = `${fileName}`;
+    this.storage.upload(filePath, file);
   }
 }

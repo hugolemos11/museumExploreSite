@@ -51,12 +51,19 @@ export class AuthService {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((_) => {
-        this.afAuth.authState.subscribe((user) => {
+        this.afAuth.authState.subscribe(async (user) => {
           if (user) {
+            // Use a while loop to wait until this.userData is not null
+            while (!this.userData) {
+              // Wait for a short duration before checking again
+              await new Promise(resolve => setTimeout(resolve, 100)); // Adjust the delay as needed
+            }
+
             if (this.userData?.museumId != null) {
               this.router.navigate(['dashboard']);
+            } else {
+              window.alert("Não é um administrador!");
             }
-            window.alert("Nao é um administrador");
           }
         });
       })

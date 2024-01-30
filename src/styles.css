@@ -28,6 +28,7 @@ body,
     --headerDescriptionSize: 2.5vw;
 
     --mapHeight: 40vw;
+    --textAreaHeight: 15vw;
 
     --imgCarouselHeight: 400px;
 
@@ -45,6 +46,16 @@ body,
         /* Label is used on the display cards*/
         --labelTitleSize: 1.2vw;
         --labelSize: 1vw;
+
+        --textAreaHeight: 15vw;
+    }
+
+    @media screen and (max-width: 1500px) {
+        --textAreaHeight: 10vw;
+    }
+
+    @media screen and (max-width: 1500px) {
+        --textAreaHeight: 8vw;
     }
 
     @media screen and (max-width: 1200px) {
@@ -56,6 +67,7 @@ body,
         --labelSize: 1.4vw;
 
         --mapHeight: 50vw;
+        --textAreaHeight: 15vw;
     }
 
     @media screen and (max-width: 900px) {
@@ -70,6 +82,7 @@ body,
         --labelSize: 1.8vw;
 
         --mapHeight: 70vw;
+        --textAreaHeight: 20vw;
     }
 
     @media screen and (max-width: 700px) {
@@ -107,6 +120,7 @@ body,
         --headerDescriptionSize: 3vw;
 
         --mapHeight: 90vw;
+        --textAreaHeight: 30vw;
     }
 
     @media screen and (max-width: 500px) {
@@ -246,6 +260,33 @@ body {
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
 }
 
+/* Ticket styles */
+
+.overlay-container {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.ticketPrice {
+    font-size: var(--titleSize);
+    color: var(--backgound);
+}
+
+.ticketType {
+    font-size: var(--subTitleSize);
+    color: var(--white);
+}
+
+.ticketDescription {
+    font-size: var(--labelSize);
+    color: var(--white);
+}
+
 .responsivePaddingX {
     padding-inline: var(--paddingX);
 }
@@ -320,4 +361,8 @@ p-carousel .card {
 
 p-carousel img {
     height: var(--imgCarouselHeight);
+}
+
+textarea {
+    height: var(--textAreaHeight);
 }
