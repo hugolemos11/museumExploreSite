@@ -67,7 +67,7 @@ export class ListArtworkComponent implements OnInit {
     const modal = document.getElementById('myModal');
     console.log("teste")
     if (modal != null) {
-      modal.style.display = 'block'
+      modal.style.display = 'none'
     }
   }
 
