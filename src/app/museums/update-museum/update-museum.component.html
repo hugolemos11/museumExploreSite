@@ -25,10 +25,13 @@
           <p-carousel [value]="(ticketTypesData$ | async) ?? []" styleClass="custom-carousel" [numVisible]="3"
             [numScroll]="1" [circular]="false" [autoplayInterval]="0" [responsiveOptions]="responsiveOptions">
             <ng-template let-ticketType pTemplate="item">
-              <div class="item card">
+              <div class="item card position-relative">
                 <img [src]="ticketType.image" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">{{ ticketType.type }}</h5>
+                <div class="position-absolute bottom-0 start-0 end-0 text-white p-2">
+                  <p class="m-0 labelTitle">{{ticketType.type}}</p>
+                  <div class="card rounded-5 px-2 d-inline-block text-white bg-category">
+                    <p class="m-0 label">{{ticketType.price}}</p>
+                  </div>
                 </div>
               </div>
             </ng-template>
@@ -49,7 +52,7 @@
           <label for="staticLocation" class="col-form-label descriptionTitleBlackColor">Localização</label>
           <div>
             <input type="text" class="form-control-plaintext description" id="location"
-              placeholder="Latitude, Longitude" name="location" [(ngModel)]="locationValue" (blur)="onLocationBlur()"
+              placeholder="Longitude, Latitude" name="location" [(ngModel)]="locationValue" (blur)="onLocationBlur()"
               required>
             <div id="map">
             </div>

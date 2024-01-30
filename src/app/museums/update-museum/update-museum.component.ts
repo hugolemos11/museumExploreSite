@@ -95,7 +95,6 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
                 map((imageArrays: string[]) => {
                   ticketTypesData.forEach((ticketType, index) => {
                     ticketType.image = imageArrays[index];
-                    console.log(ticketType.image)
                   });
                   return ticketTypesData;
                 })
@@ -175,12 +174,11 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
 
           // Add a new marker
           this.marker = new mapboxgl.Marker();
-          this.marker.setLngLat(e.lngLat).addTo(this.map);
+          this.marker.setLngLat([e.lngLat.lng, e.lngLat.lat]).addTo(this.map);
 
           const locationInput = document.getElementById("location") as HTMLInputElement;
           if (locationInput) {
-            console.log(e.lngLat)
-            locationInput.value = `${e.lngLat.lat}, ${e.lngLat.lng}`;
+            locationInput.value = `${e.lngLat.lng}, ${e.lngLat.lat}`;
           }
         }
       });
@@ -201,15 +199,16 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
           this.marker.remove();
         }
 
-        // Add a new marker
-        this.marker = new mapboxgl.Marker();
-        this.marker.setLngLat(<mapboxgl.LngLatLike>[...coordinates]).addTo(this.map);
+        const lngLat = new mapboxgl.LngLat(coordinates[0], coordinates[1])
 
         // Set map center to the coordinates
-        this.map.setCenter(<mapboxgl.LngLatLike>[...coordinates]);
-        new mapboxgl.Marker()
-          .setLngLat(<mapboxgl.LngLatLike>[...coordinates])
-          .addTo(this.map);
+        this.map.setCenter(lngLat);
+        // Add a new marker
+        this.marker = new mapboxgl.Marker();
+        //this.marker.setLngLat(e.lngLat).addTo(this.map);
+        this.marker.setLngLat(lngLat).addTo(this.map);
+
+
       } else {
         console.error('Invalid coordinates format');
       }
