@@ -1,11 +1,4 @@
-.button {
-    position: relative;
-    width: 224px;
-    height: 40px;
-    background-color: #023859;
-    border-radius: 8px;
-    color: white;
-}
+
 
 .description {
     overflow: hidden;

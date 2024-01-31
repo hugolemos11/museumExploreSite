@@ -1,0 +1,8 @@
+.button {
+    position: relative;
+    width: 224px;
+    height: 40px;
+    background-color: yellow;
+    border-radius: 8px;
+    color: black;
+}
