@@ -32,6 +32,10 @@ body,
 
     --imgCarouselHeight: 400px;
 
+    --gridImageHeight: 300px;
+
+    --artWorkPopUpImageHeight: 320px;
+
     @media screen and (max-width: 1700px) {
         --imgCarouselHeight: 300px;
     }
@@ -153,6 +157,10 @@ body {
     font-family: 'Inria Sans', sans-serif;
 }
 
+img {
+    object-fit: cover;
+}
+
 .images-container {
     margin-top: 75px;
     background-color: #023859;
@@ -240,8 +248,30 @@ body {
     border-radius: 12px;
     text-align: center;
     border: none;
-    padding: 10px 60px;
-    font-size: var(--labelSize);
+    padding: 10px 45px;
+    font-size: var(--descriptionSize);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+}
+
+.buttonDelete {
+    background-color: red;
+    color: var(--backgound);
+    border-radius: 12px;
+    text-align: center;
+    border: none;
+    padding: 10px 30px;
+    font-size: var(--descriptionSize);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+}
+
+.buttonClose {
+    background-color: gray;
+    color: var(--backgound);
+    border-radius: 12px;
+    text-align: center;
+    border: none;
+    padding: 10px 30px;
+    font-size: var(--descriptionSize);
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
 }
 
@@ -255,7 +285,7 @@ body {
     border-radius: 12px;
     text-align: center;
     border: none;
-    padding: 10px 60px;
+    padding: 10px 45px;
     font-size: var(--labelSize);
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
 }
@@ -343,17 +373,6 @@ p-carousel {
     background-color: var(--dark-blue);
 }
 
-/*p-carousel ul {
-    margin: 0px;
-    padding: 0px;
-    padding-top: 16px;
-}*/
-
-/*.p-carousel-next,
-.p-carousel-prev {
-    color: var(--backgound);
-}*/
-
 p-carousel .card {
     margin-left: 5px;
     margin-right: 5px;
@@ -365,4 +384,59 @@ p-carousel img {
 
 textarea {
     height: var(--textAreaHeight);
+}
+
+.gridImages {
+    height: var(--gridImageHeight);
+    object-fit: cover;
+}
+
+.artWorkPopUpImage {
+    height: var(--artWorkPopUpImageHeight);
+}
+
+.pagination {
+    float: right;
+    margin: 0 0 5px;
+}
+
+.pagination li a {
+    border: none;
+    font-size: 13px;
+    min-width: 30px;
+    min-height: 30px;
+    color: #999;
+    margin: 0 2px;
+    line-height: 30px;
+    border-radius: 2px !important;
+    text-align: center;
+    padding: 0 6px;
+}
+
+.pagination li a:hover {
+    color: #666;
+}
+
+.pagination li.active a,
+.pagination li.active a.page-link {
+    background: #03A9F4;
+}
+
+.pagination li.active a:hover {
+    background: #0397d6;
+}
+
+.pagination li.disabled i {
+    color: #ccc;
+}
+
+.pagination li i {
+    font-size: 16px;
+    padding-top: 6px
+}
+
+.hint-text {
+    float: left;
+    margin-top: 10px;
+    font-size: 13px;
 }

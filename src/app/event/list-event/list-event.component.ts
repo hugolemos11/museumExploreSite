@@ -1,8 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { EventService } from '../../event.service';
 import { Event } from '../event';
 import { EventsService } from '../events.service';
-import { data } from 'jquery';
 import { forkJoin } from 'rxjs';
 
 @Component({

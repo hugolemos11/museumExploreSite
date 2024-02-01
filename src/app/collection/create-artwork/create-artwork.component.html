@@ -1,1 +1,69 @@
-<p>create-artwork works!</p>
+<div class="modal" tabindex="-1" id="createArtWorkModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-body m-2">
+        <form [formGroup]="createArtWorkForm" (ngSubmit)="createArtWork()" action="closePopup.emit()">
+          <div class="row">
+            <div class="col-12 col-lg-6 col-xl-7 mb-3">
+              <img [src]="artWorkImage || './assets/imgs/defaultImage.png'" alt=""
+                class="img-fluid artWorkPopUpImage mb-2">
+              <input type="file" class="form-control description" id="image" (change)="onFileSelected($event)"
+                accept=".jpg, .jpeg, .png">
+            </div>
+            <div class="col-12 col-lg-6 col-xl-5">
+              <div class="form-outline mb-3">
+                <label class="form-label" for="nameCreateInput">Nome da Obra</label>
+                <input type="text" id="nameCreateInput" class="form-control form-control-lg" formControlName="name"
+                  [(ngModel)]="artWork.name" />
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('name') && isFieldTouched('name')">
+                  Nome da Obra inválido.
+                </div>
+              </div>
+              <div class="form-outline mb-3">
+                <label class="form-label" for="artistCreateInput">Artista</label>
+                <input type="text" id="artistCreateInput" class="form-control form-control-lg" formControlName="artist"
+                  [(ngModel)]="artWork.artist" />
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('artist') && isFieldTouched('artist')">
+                  Artista inválido.
+                </div>
+              </div>
+              <div class="form-outline mb-3">
+                <label class="form-label" for="yearCreateInput">Ano</label>
+                <input type="number" id="yearCreateInput" class="form-control form-control-lg" formControlName="year"
+                  [(ngModel)]="artWork.year" />
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('year') && isFieldTouched('year')">
+                  Ano inválido.
+                </div>
+              </div>
+              <div class="form-outline">
+                <label class="form-label" for="categoryUpdateInput">Categoria</label>
+                <select class="form-select" id="categoryUpdateInput" aria-label="Default select example"
+                  formControlName="categoryId" [(ngModel)]="artWork.categoryId">
+                  <option *ngFor="let category of (categoriesData$ | async) as categories;" [value]="category.id">
+                    {{category.description}}
+                  </option>
+                </select>
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('category') && isFieldTouched('category')">
+                  Categoria inválida.
+                </div>
+              </div>
+            </div>
+            <div class="form-outline">
+              <label class="form-label" for="descriptionCreateInput">Descrição</label>
+              <textarea id="descriptionCreateInput" class="form-control form-control-lg" formControlName="description"
+                [(ngModel)]="artWork.description" style="height: 100px"></textarea>
+              <div class="text-danger mt-3" *ngIf="isFieldInvalid('description') && isFieldTouched('descritpion')">
+                Descrição inválida.
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <!-- Using this <a> just to close the modal after the submit-->
+            <a #closeCreateModal data-bs-dismiss="modal"></a>
+            <button type="submit" class="buttonPrimary" [disabled]="createArtWorkForm.invalid">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

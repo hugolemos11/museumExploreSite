@@ -5,10 +5,17 @@
                 <div class="card-body">
                     <b class="card-title titlePrimaryColor">Obras do Museu</b>
                     <br>
-                    <button class="my-3 buttonPrimary" (click)="openModal()">Adicionar Obras</button>
+                    <button class="my-3 buttonPrimary" data-bs-toggle="modal" data-bs-target="#createArtWorkModal"
+                        (click)="setMuseumId($event)">Adicionar Obras</button>
+
                     <p>------------------------------------</p>
                     <div class="categoryDiv">
-                        <h5 class="card-title subTitle">Categorias</h5>
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="subTitle me-3">Categorias</span>
+                            <img src="./assets/imgs/expand-plus-icon.svg" height="25px" width="25px" alt=""
+                                data-bs-toggle="modal" data-bs-target="#listCategoryModal"
+                                (click)="setMuseumIdCategory($event)">
+                        </div>
                         <div *ngFor="let category of (categoriesData$ | async) as categories;">
                             <label class="check my-1">
                                 <input type="checkbox">
@@ -23,85 +30,80 @@
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3"
                     *ngFor="let artwork of (artWorksData$ | async) as artworks; let i = index">
-                    <div class="card position-relative" onclick="">
-                        <img [src]="artworkImages[i]" alt="" class="card-img" (click)="openModal()">
+                    <div class="card position-relative" data-bs-toggle="modal" data-bs-target="#updateArtWorkModal"
+                        (click)="setArtWork($event, artwork)">
+                        <img [src]="artwork.image" alt="" class="card-img gridImages">
                         <div class="position-absolute bottom-0 start-0 end-0 text-white p-2">
                             <p class="m-0 labelTitle">{{artwork.name}}</p>
                             <div class="card rounded-5 px-2 d-inline-block text-white bg-category">
-                                <p class="m-0 label">{{artwork.category}}</p>
+                                <p class="m-0 label">{{getCategoryDescription(artwork.categoryId)}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <app-list-category [museumId]="museumId"></app-list-category>
+            <app-create-artwork [museumId]="museumId"></app-create-artwork>
+            <app-update-artwork [artWork]="artWork"></app-update-artwork>
         </div>
     </div>
 </div>
-  
-  
-  <div class="modal" id="myModal">
-    <div class="modal-dialog" style="background-color:#f2e6d0;" >
-      <div class="modal-content" style="background-color:#f2e6d0;">
-        <div class="modal-header" >
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
-        </div>
-        <!-- Formulário -->
-        <div class="modal-body" style="background-color:#f2e6d0;">
-            <form>
-                <div class="form-row">
-                    <div class="mb-3">
-                        <input class="form-control" type="file" id="formFile">
-                    </div>
-                    <div class=" mb-2 input-group flex-nowrap" style="align-items: center;">
-                        <span style="margin: 1ch;"><i class="bi bi-pencil-square"></i></span>
-                        <input class="form-control" type="text" placeholder="Nome da obra" aria-label="Nome da obra">
-                    </div>
-                    <div class=" mb-2 input-group flex-nowrap" style="align-items: center;">
-                        <span style="margin: 1ch;"><i class="bi bi-person"></i></span>
-                        <input class="form-control" type="text" placeholder="Nome do artista" aria-label="Nome do artista">
-                    </div>
-                    <div class=" mb-2 input-group flex-nowrap" style="align-items: center;">
-                        <span style="margin: 1ch;"><i class="bi bi-calendar"></i></span>
-                        <input class="form-control" type="number" placeholder="Ano de realização" aria-label="Ano de realização">
-                    </div>
-                    <div class=" mb-2 input-group flex-nowrap" style="align-items: center;">
-                        <span style="margin: 1ch;"><i class="bi bi-tags"></i></span>
-                        <select class="form-select form-select-sm" aria-label="Small select example">
-                            <option selected>Escolha as tags</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-                    <div class="mb-3 form-floating">
-                      <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-                      <label for="floatingTextarea">Comments</label>
-                    </div>
-                </div>
-              </form>
-        </div>
-          <!-- Fim Formulário -->
-        <div class="modal-footer">
-        <button type="button" class="btn btn-danger">Excluir</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salvar</button>
-          <button type="button" class="btn btn-primary" style="background-color: #023859;">Publicar</button>
-          
-        </div>
-      </div>
-    </div>
-  </div>
 
-<!-- <ngx-masonry [options]="{ gutter: 10, originLeft: true, resize: true, horizontalOrder: true }">
-    <div ngxMasonryItem class="masonry-item" *ngFor="let artwork of (artWorksData$ | async) as artworks; let i = index">
-        <div class="card position-relative">
-            <img [src]="artworkImages[i]" alt="" class="card-img img-fluid" style="width: 250px;">
-            <div class="position-absolute bottom-0 start-0 end-0 text-white p-2">
-                <p class="m-0">{{artwork.name}}</p>
-                <div class="card rounded-5 px-2 d-inline-block text-white bg-category">
-                    <p class="m-0">{{artwork.category}}</p>
-                </div>
+
+<!-- <div class="modal" id="myModal">
+    <div class="modal-dialog" style="background-color:#f2e6d0;">
+        <div class="modal-content" style="background-color:#f2e6d0;">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closeModal()"></button>
+            </div>
+            <!-- Formulário 
+            <div class="modal-body" style="background-color:#f2e6d0;">
+                <form>
+                    <div class="form-row">
+                        <div class="mb-3">
+                            <input class="form-control" type="file" id="formFile">
+                        </div>
+                        <div class=" mb-2 input-group flex-nowrap" style="align-items: center;">
+                            <span style="margin: 1ch;"><i class="bi bi-pencil-square"></i></span>
+                            <input class="form-control" type="text" placeholder="Nome da obra"
+                                aria-label="Nome da obra">
+                        </div>
+                        <div class=" mb-2 input-group flex-nowrap" style="align-items: center;">
+                            <span style="margin: 1ch;"><i class="bi bi-person"></i></span>
+                            <input class="form-control" type="text" placeholder="Nome do artista"
+                                aria-label="Nome do artista">
+                        </div>
+                        <div class=" mb-2 input-group flex-nowrap" style="align-items: center;">
+                            <span style="margin: 1ch;"><i class="bi bi-calendar"></i></span>
+                            <input class="form-control" type="number" placeholder="Ano de realização"
+                                aria-label="Ano de realização">
+                        </div>
+                        <div class=" mb-2 input-group flex-nowrap" style="align-items: center;">
+                            <span style="margin: 1ch;"><i class="bi bi-tags"></i></span>
+                            <select class="form-select form-select-sm" aria-label="Small select example">
+                                <option selected>Escolha as tags</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 form-floating">
+                            <textarea class="form-control" placeholder="Leave a comment here"
+                                id="floatingTextarea"></textarea>
+                            <label for="floatingTextarea">Comments</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+             Fim Formulário 
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger">Excluir</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salvar</button>
+                <button type="button" class="btn btn-primary" style="background-color: #023859;">Publicar</button>
+
             </div>
         </div>
     </div>
-</ngx-masonry> -->
+</div> -->

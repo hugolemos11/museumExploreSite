@@ -1,7 +1,5 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChildren, AfterViewInit, AfterContentChecked } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
-import { MuseumService } from '../../museums/museum.service';
-import { AuthService } from '../auth.service';
 import { TicketService } from '../../tickets/ticket.service';
 import { Ticket, TicketType } from '../../tickets/ticket';
 import { Observable, forkJoin, map, switchMap } from 'rxjs';
@@ -51,11 +49,6 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.fetchData();
   }
-
-  /*ngAfterContentChecked(): void {
-    // After the content has been checked, call the initializeCarousel method
-    this.initializeCarousel();
-  }*/
 
   fetchData() {
     const userDataJSON = localStorage.getItem('user');
@@ -213,31 +206,4 @@ export class DashboardComponent implements OnInit {
       }
     })
   }
-
-  /*private initializeCarousel() {
-    let items = document.querySelectorAll('.carousel .carousel-item')
-    console.log(items)
-    items.forEach((el) => {
-      const minPerSlide = 4;
-      let next = el.nextElementSibling;
-
-      for (let i = 1; i < minPerSlide; i++) {
-        if (!next) {
-          // Wrap carousel by using the first child
-          next = items[0]
-        }
-        if (next) {
-          const cloneChild = next.cloneNode(true);
-          if (el instanceof Element && cloneChild instanceof Element) {
-            const childNodes = cloneChild.children;
-
-            if (childNodes.length > 0) {
-              el.appendChild(childNodes[0]);
-            }
-          }
-          next = next.nextElementSibling;
-        }
-      }
-    });
-  }*/
 }
