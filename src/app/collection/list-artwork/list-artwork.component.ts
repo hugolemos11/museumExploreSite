@@ -17,10 +17,14 @@ export class ListArtworkComponent implements OnInit {
 
   constructor(private artWorkService: ArtworkService, private categoryService: CategoryService, private authService: AuthService, private formBuilder: FormBuilder) { }
 
+ 
   artWorksData$: Observable<Array<Artwork>> = new Observable<Array<Artwork>>;
   artworkImages: string[] = [];
   categoriesData$: Observable<Array<Category>> = new Observable<Array<Category>>;
   loginForm: FormGroup | undefined;
+
+  isValid: any;
+  other_content: any;
 
   ngOnInit(): void {
     this.fetchData();
@@ -62,6 +66,14 @@ export class ListArtworkComponent implements OnInit {
     }
   }
 
+  openModalArte(){
+    const modal = document.getElementById('modalArte');
+    console.log("teste")
+    if (modal != null) {
+      modal.style.display = 'block'
+    }
+  }
+
   closeModal() {
     // Access the modal and trigger its show method
     const modal = document.getElementById('myModal');
@@ -69,6 +81,10 @@ export class ListArtworkComponent implements OnInit {
     if (modal != null) {
       modal.style.display = 'none'
     }
+  }
+
+  changeDiv(){
+    this.isValid =! this.other_content;
   }
 
   fetchData() {

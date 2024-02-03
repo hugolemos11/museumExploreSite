@@ -20,11 +20,15 @@
             </div>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-8 col-xl-9">
+            <div>
+                <button class="button" (click)="changeDiv()">View</button>
+            </div>
             <div class="row">
-                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3"
-                    *ngFor="let artwork of (artWorksData$ | async) as artworks; let i = index">
-                    <div class="card position-relative" onclick="">
-                        <img [src]="artworkImages[i]" alt="" class="card-img" (click)="openModal()">
+                <div *ngIf="isValid;else other_content">
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3" 
+                    *ngFor="let artwork of (artWorksData$ | async) as artworks; let i = index" >
+                    <div class="card position-relative" >
+                        <img [src]="artworkImages[i]" alt="" class="card-img" style="height: 300px;" onclick="openModalArte()">
                         <div class="position-absolute bottom-0 start-0 end-0 text-white p-2">
                             <p class="m-0 labelTitle">{{artwork.name}}</p>
                             <div class="card rounded-5 px-2 d-inline-block text-white bg-category">
@@ -33,13 +37,32 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+                </div>
+                <ng-template #other_content><table class="table" >
+                    <thead>
+                      <tr>
+                        <th scope="col">Obra</th>
+                        <th scope="col">Categorias</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let artwork of (artWorksData$ | async) as artworks; let i = index">
+                        <td scope="row">{{artwork.name}}</td>
+                        <td>{{artwork.category}}</td>
+                      </tr>
+                      <tr>
+                        <tr *ngFor="let artwork of (artWorksData$ | async) as artworks; let i = index">
+                            <td scope="row">{{artwork.name}}</td>
+                            <td>{{artwork.category}}</td>
+                      </tr>
+                    </tbody>
+                  </table></ng-template>
+            
     </div>
 </div>
   
   
-  <div class="modal" id="myModal">
+  <div class="modal" id="myModal" >
     <div class="modal-dialog" style="background-color:#f2e6d0;" >
       <div class="modal-content" style="background-color:#f2e6d0;">
         <div class="modal-header" >
@@ -92,6 +115,25 @@
     </div>
   </div>
 
+  <div class="modal" id="modalArte" >
+    <div class="modal-dialog" style="background-color:#f2e6d0;" >
+      <div class="modal-content" style="background-color:#f2e6d0;">
+        <div class="modal-header" >
+          <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+        </div>
+        <!-- Formulário -->
+        
+        <!-- Fim Formulário -->
+        <div class="modal-footer">
+        <button type="button" class="btn btn-danger">Excluir</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salvar</button>
+          <button type="button" class="btn btn-primary" style="background-color: #023859;">Publicar</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
 <!-- <ngx-masonry [options]="{ gutter: 10, originLeft: true, resize: true, horizontalOrder: true }">
     <div ngxMasonryItem class="masonry-item" *ngFor="let artwork of (artWorksData$ | async) as artworks; let i = index">
         <div class="card position-relative">

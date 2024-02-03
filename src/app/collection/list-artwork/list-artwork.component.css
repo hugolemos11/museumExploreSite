@@ -15,3 +15,8 @@
 .bg-category {
     background-color: #A68263;
 }
+
+.card-img {
+    height: 200;
+    width: 80;
+}
