@@ -1,15 +1,15 @@
 <div class="modal" tabindex="-1" id="listCategoryModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
+    <div class="modal-content" style="background-color: #f2e6d0;">
       <div class="modal-header ">
         <div class="d-flex align-items-center mb-2">
           <span class="titleSecundaryColor me-3">Categorias</span>
           <img src="./assets/imgs/expand-plus-icon.svg" height="25px" width="25px" alt="" data-bs-toggle="modal"
-            data-bs-target="#createCategoryModal" (click)="setMuseumId($event)">
+            data-bs-target="#createCategoryModal" (click)="setMuseumId($event)" >
         </div>
       </div>
       <div class="modal-body m-2">
-        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="background-color: #f2e6d0;  border: 2px solid var(--dark-blue);">
 
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
@@ -35,7 +35,7 @@
           <mat-header-row *matHeaderRowDef="['id', 'description', 'actions']"></mat-header-row>
           <mat-row *matRowDef="let row; columns: ['id', 'description', 'actions'];"></mat-row>
         </mat-table>
-        <mat-paginator [pageSize]="5" aria-label="Select page">
+        <mat-paginator [pageSize]="5" aria-label="Select page" style="background-color: #f2e6d0;  border: 2px solid var(--dark-blue);">
         </mat-paginator>
       </div>
     </div>
