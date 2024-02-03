@@ -86,7 +86,20 @@ export class ArtworkService {
     return this.firestore.collection<Artwork>('artWorks').doc(artWorkId).delete();
   }
 
+  getOtherImages(artWorkId: string): Observable<string[]> {
+    console.log(artWorkId)
+    return this.firestore.collection<string[]>('imagesCollectionArtWork', ref => ref.where('artWorkId', '==', artWorkId))
+      .valueChanges()
+      .pipe(
+        map((data: any[]) => {
+          console.log(data)
+          return data.map(element => element['pathToImage']);
+        })
+      );
+  }
+
   downloadFile(fileName: string): Observable<string> {
+    console.log(fileName)
     const fileRef = this.storage.ref(`${fileName}`);
     return fileRef.getDownloadURL();
   }

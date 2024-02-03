@@ -44,21 +44,39 @@ export class CategoryService {
   }
 
   createCategory(category: Category): Promise<any> {
-    var firestoreCategory: any = {
-      'id': category.id,
-      'museumId': category.museumId,
-      'description': category.description
-    };
+    return new Promise((resolve, reject) => {
+      const categories$ = this.firestore.collection<Category>('categories', ref =>
+        ref.where('museumId', '==', category.museumId).where('description', '==', category.description.toLowerCase())
+      ).snapshotChanges();
 
-    return this.firestore.collection<Category>('categories').add(firestoreCategory);
+      categories$.subscribe(
+        (categories) => {
+          console.log(categories);
+          if (categories.length > 0) {
+            reject(new Error('Não é possível excluir categorias com obras associadas!'));
+          } else {
+            const firestoreCategory: any = {
+              'museumId': category.museumId,
+              'description': category.description.toLowerCase()
+            };
+
+            resolve(this.firestore.collection<Category>('categories').add(firestoreCategory));
+          }
+        },
+        error => {
+          console.error(`Error querying artworks: ${error.message}`);
+          reject(error);
+        }
+      );
+    });
   }
 
   updateCategory(category: Category): Promise<void> {
     var firestoreCategory: any = {
-      'id': category.id,
       'museumId': category.museumId,
-      'description': category.description,
+      'description': category.description.toLowerCase(),
     };
+    console.log(category.id)
     return this.firestore.collection<Category>('categories').doc(category.id).update(firestoreCategory);
   }
 
@@ -73,8 +91,7 @@ export class CategoryService {
           if (artworks.length > 0) {
             reject(new Error('Não é possibel excluir categorias com obras associadas!'));
           } else {
-            console.log(artworks)
-            this.firestore.collection<Category>('categories').doc(categoryId).delete();
+            resolve(this.firestore.collection<Category>('categories').doc(categoryId).delete());
           }
         },
         error => {

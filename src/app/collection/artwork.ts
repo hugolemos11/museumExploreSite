@@ -8,4 +8,5 @@ export interface Artwork {
     museumId: string;
     pathToImage: string;
     image?: string;
+    additionalImages?: string[];
 }

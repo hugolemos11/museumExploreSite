@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, forkJoin, map, switchMap } from 'rxjs';
+import { EMPTY, Observable, catchError, concatMap, forkJoin, map, mergeMap, of, switchMap } from 'rxjs';
 import { ArtworkService } from '../artwork.service';
 import { Artwork } from '../artwork';
 import { Category } from '../../category/category';
@@ -10,6 +10,7 @@ import { CreateArtworkComponent } from '../create-artwork/create-artwork.compone
 import { CreateCategoryComponent } from '../../category/create-category/create-category.component';
 import { DeleteCategoryComponent } from '../../category/delete-category/delete-category.component';
 import { ListCategoryComponent } from '../../category/list-category/list-category.component';
+import { AddimagesArtworkComponent } from '../addimages-artwork/addimages-artwork.component';
 
 @Component({
   selector: 'app-list-artwork',
@@ -24,6 +25,10 @@ export class ListArtworkComponent implements OnInit {
 
   artWork: Artwork;
   museumId: string = '';
+
+  additionalImages$: Observable<string[]> = new Observable<string[]>;
+
+  @ViewChild(AddimagesArtworkComponent) addImagesArtWorkComponent!: AddimagesArtworkComponent;
 
   @ViewChild(ListCategoryComponent) listCategoryComponent!: ListCategoryComponent;
 
@@ -40,7 +45,8 @@ export class ListArtworkComponent implements OnInit {
       name: '',
       pathToImage: '',
       year: 0,
-      image: ''
+      image: '',
+      additionalImages: []
     };
   }
 
@@ -69,6 +75,35 @@ export class ListArtworkComponent implements OnInit {
                   return artWorksData;
                 })
               );
+              /*const observables: Observable<Artwork>[] = artWorksData.map((artwork: Artwork) => {
+                const mainImage$ = this.artWorkService.downloadFile(artwork.pathToImage).pipe(
+                  catchError((error) => {
+                    console.log(error);
+                    return of(null); // Return null in case of an error
+                  })
+                );
+                const additionalImages$ = this.artWorkService.getOtherImages(artwork.id).pipe(
+                  switchMap((imagePaths: string[]) => forkJoin(imagePaths.map((imagePath) => this.artWorkService.downloadFile(imagePath)))),
+                  catchError((error) => {
+                    console.log(error);
+                    return of([]); // Return an empty array in case of an error
+                  })
+                );
+
+                return forkJoin([mainImage$, additionalImages$]).pipe(
+                  map(([mainImage, additionalImages]) => {
+                    if (mainImage !== null) {
+                      artwork.image = mainImage;
+                    }
+                    if (additionalImages.length > 0) {
+                      artwork.additionalImages = additionalImages;
+                    }
+                    console.log('teste');
+                    return artwork;
+                  })
+                );
+              });
+              return forkJoin(observables);*/
             } else {
               console.log('Art Works data is empty!');
               return [];
@@ -117,6 +152,14 @@ export class ListArtworkComponent implements OnInit {
   setArtWork(event: any, artWork: Artwork) {
     if (artWork && artWork.id !== undefined) {
       this.updateComponent.loadArtWork(artWork.id);
+    } else {
+      console.log("erro");
+    }
+  }
+
+  setArtWorkId(event: any, artWorkId: string) {
+    if (artWorkId !== undefined) {
+      this.addImagesArtWorkComponent.loadArtWorkId(artWorkId)
     } else {
       console.log("erro");
     }

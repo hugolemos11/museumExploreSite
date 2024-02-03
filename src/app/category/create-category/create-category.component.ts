@@ -31,13 +31,18 @@ export class CreateCategoryComponent {
   createCategory() {
     if (this.createCategoryForm.valid) {
       try {
+        console.log('entrou')
         //call service
-        this.categoryService.createCategory(this.category).then((result) => {
-          this.category.id = result.id;
-          this.category.museumId = this.museumId;
-          this.categoryService.updateCategory(this.category);
-          this.closeCreateModal.nativeElement.click();
-        });
+        this.category.museumId = this.museumId;
+        this.categoryService.createCategory(this.category)
+          .then(() => {
+            //this.categoryService.updateCategory(this.category);
+            this.closeCreateModal.nativeElement.click();
+          })
+          .catch(error => {
+            console.log(error)
+            //this.errorMessage = error.message;
+          });
       } catch (error) {
         console.error(error);
       }
