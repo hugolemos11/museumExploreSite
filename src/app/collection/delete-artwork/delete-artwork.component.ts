@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { ArtworkService } from '../artwork.service';
 
 @Component({
   selector: 'app-delete-artwork',
@@ -7,4 +8,29 @@ import { Component } from '@angular/core';
 })
 export class DeleteArtworkComponent {
 
+  @Input() artWorkId: string
+
+  @ViewChild('closeDeleteModal') closeDeleteModal!: ElementRef;
+
+  constructor(private artWorkService: ArtworkService) {
+    this.artWorkId = ''
+  }
+
+  loadArtWorkId(artWorkId: string) {
+    if (artWorkId !== undefined) {
+      this.artWorkId = this.artWorkId;
+    } else {
+      console.log('Art Work ID is undefined. Error.');
+    }
+  }
+
+  deleteArtWork() {
+    try {
+      //call service
+      this.artWorkService.deleteArtWork(this.artWorkId);
+      this.closeDeleteModal.nativeElement.click();
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }

@@ -1,8 +1,9 @@
 export interface Artwork {
+    id: string;
     name: string;
     artist: string;
     year: number;
-    category: string;
+    categoryId: string;
     description: string;
     museumId: string;
     pathToImage: string;

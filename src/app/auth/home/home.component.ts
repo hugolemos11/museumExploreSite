@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from '../../event.service';
-import { AuthService } from '../auth.service';
 import { Observable, forkJoin, map, switchMap } from 'rxjs';
 import { Museum } from '../../museums/museum';
 import { MuseumService } from '../../museums/museum.service';

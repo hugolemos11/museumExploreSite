@@ -23,8 +23,8 @@ import { CarouselModule } from 'primeng/carousel';
     CommonModule,
     MuseumsRoutingModule,
     FormsModule,
-    CarouselModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CarouselModule
   ],
   exports: [
     MuseumsComponent

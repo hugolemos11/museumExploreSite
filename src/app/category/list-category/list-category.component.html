@@ -1,0 +1,46 @@
+<div class="modal" tabindex="-1" id="listCategoryModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header ">
+        <div class="d-flex align-items-center mb-2">
+          <span class="titleSecundaryColor me-3">Categorias</span>
+          <img src="./assets/imgs/expand-plus-icon.svg" height="25px" width="25px" alt="" data-bs-toggle="modal"
+            data-bs-target="#createCategoryModal" (click)="setMuseumId($event)">
+        </div>
+      </div>
+      <div class="modal-body m-2">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+            <mat-cell *matCellDef="let category"> {{category.id}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+            <mat-cell *matCellDef="let category"> {{category.description}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let category">
+              <a data-bs-toggle="modal" data-bs-target="#updateCategoryModal" class="edit" title="Edit"
+                data-toggle="tooltip" (click)="setCategory($event, category)"><i class="material-icons">&#xe3c9;</i></a>
+              <a data-bs-toggle="modal" data-bs-target="#deleteCategoryModal" class="delete" title="Delete"
+                data-toggle="tooltip" (click)="setCategoryId($event, category.id)"><i
+                  class="material-icons">&#xe872;</i></a>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="['id', 'description', 'actions']"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: ['id', 'description', 'actions'];"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSize]="5" aria-label="Select page">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+<app-create-category [museumId]="museumId"></app-create-category>
+<app-update-category [category]="category"></app-update-category>
+<app-delete-category [categoryId]="category.id"></app-delete-category>

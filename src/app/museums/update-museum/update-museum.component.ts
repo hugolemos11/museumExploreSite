@@ -90,10 +90,10 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
           };
         }
 
-        //call service
-        console.log(this.museumData);
         this.museumService.updateMuseum(this.museumData!).then(() => {
-          this.museumService.uploadFile(this.museumData!.pathToImage, this.file);
+          if (this.file.name !== '') {
+            this.museumService.uploadFile(this.museumData!.pathToImage, this.file);
+          }
         });
 
       } catch (error) {
@@ -134,7 +134,6 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
         this.museumData$ = this.museumService.getMuseumById(userData.museumId);
         this.museumData$.subscribe(museumData => {
           if (museumData != null) {
-            console.log(museumData)
             this.museumData = museumData;
             this.loadImage();
           } else {

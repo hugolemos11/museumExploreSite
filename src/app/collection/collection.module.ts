@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CollectionRoutingModule } from './collection-routing.module';
 import { CollectionComponent } from './collection.component';
@@ -7,11 +8,8 @@ import { CreateArtworkComponent } from './create-artwork/create-artwork.componen
 import { DeleteArtworkComponent } from './delete-artwork/delete-artwork.component';
 import { UpdateArtworkComponent } from './update-artwork/update-artwork.component';
 import { ListArtworkComponent } from './list-artwork/list-artwork.component';
-import { MatButtonModule } from '@angular/material/button';
-import { NgxMasonryModule } from 'ngx-masonry';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-
+import { CreateCategoryComponent } from '../category/create-category/create-category.component';
+import { CategoryModule } from '../category/category.module';
 
 @NgModule({
   declarations: [
@@ -19,16 +17,14 @@ import { MatInputModule } from '@angular/material/input';
     CreateArtworkComponent,
     DeleteArtworkComponent,
     UpdateArtworkComponent,
-    ListArtworkComponent
+    ListArtworkComponent,
   ],
-  
   imports: [
     CommonModule,
     CollectionRoutingModule,
-    MatButtonModule,
-    NgxMasonryModule,
-    MatIconModule,
-    MatInputModule
-  ]
+    FormsModule,
+    ReactiveFormsModule,
+    CategoryModule
+  ],
 })
 export class CollectionModule { }

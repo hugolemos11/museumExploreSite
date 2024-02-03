@@ -1,0 +1,19 @@
+<div class="modal" tabindex="-1" id="deleteCategoryModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="subTitle">Eliminar</span>
+      </div>
+      <div class="modal-body m-2">
+        <span class="description">Tem a certeza que deseja eliminar a obra com o id {{categoryId}}</span>
+        <div class="text-danger mt-3" *ngIf="errorMessage">
+          {{errorMessage}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="buttonClose" #closeDeleteModal data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="buttonDelete" (click)="deleteCategory()">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

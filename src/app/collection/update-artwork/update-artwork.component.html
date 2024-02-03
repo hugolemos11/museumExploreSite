@@ -1,54 +1,73 @@
-<div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal" tabindex="-1" id="updateArtWorkModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-body m-2">
-        <form formGroup="loginForm" ngSubmit="onFormSubmit()" action="">
+        <form [formGroup]="updateArtWorkForm" (ngSubmit)="updateArtWork()" action="closePopup.emit()">
           <div class="row">
-            <div class="col-12 col-lg-7 col-xl-8 mb-3">
-              <img src="../../../assets/imgs/museu2.jpg" alt="" class="img-fluid">
+            <div class="col-12 col-lg-6 col-xl-7 mb-3">
+              <img [src]="artWorkImage || './assets/imgs/defaultImage.png'" alt=""
+                class="img-fluid artWorkPopUpImage mb-2">
+              <input type="file" class="form-control description" id="image" (change)="onFileSelected($event)"
+                accept=".jpg, .jpeg, .png">
             </div>
-            <div class="col-12 col-lg-5 col-xl-4">
-              <mat-form-field appearance="outline">
-                <mat-label class="">Name</mat-label>
-                <mat-icon color="primary" matPrefix>border_color</mat-icon>
-                <input matInput formControlName="email">
-                <!-- @if (email.invalid) {
-                                <mat-error>{{getErrorMessage()}}</mat-error>
-                                } -->
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>Author</mat-label>
-                <mat-icon color="primary" matPrefix>perm_identity</mat-icon>
-                <input matInput formControlName="email">
-                <!-- @if (email.invalid) {
-                                <mat-error>{{getErrorMessage()}}</mat-error>
-                                } -->
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>Year</mat-label>
-                <mat-icon color="primary" matPrefix>calendar_today</mat-icon>
-                <input matInput formControlName="email">
-                <!-- @if (email.invalid) {
-                                <mat-error>{{getErrorMessage()}}</mat-error>
-                                } -->
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>Category</mat-label>
-                <mat-icon color="primary" matPrefix>filter_list</mat-icon>
-                <input matInput formControlName="email">
-                <!-- @if (email.invalid) {
-                                <mat-error>{{getErrorMessage()}}</mat-error>
-                                } -->
-              </mat-form-field>
+            <div class="col-12 col-lg-6 col-xl-5">
+              <div class="form-outline mb-3">
+                <label class="form-label" for="nameUpdateInput">Nome da Obra</label>
+                <input type="text" id="nameUpdateInput" class="form-control form-control-lg" formControlName="name"
+                  [(ngModel)]="artWork === undefined? '': artWork.name" />
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('name') && isFieldTouched('name')">
+                  Nome da Obra inválido.
+                </div>
+              </div>
+              <div class="form-outline mb-3">
+                <label class="form-label" for="artistUpdateInput">Artista</label>
+                <input type="text" id="artistUpdateInput" class="form-control form-control-lg" formControlName="artist"
+                  [(ngModel)]="artWork === undefined? '': artWork.artist" />
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('artist') && isFieldTouched('artist')">
+                  Artista inválido.
+                </div>
+              </div>
+              <div class="form-outline mb-3">
+                <label class="form-label" for="yearUpdateInput">Ano</label>
+                <input type="text" id="yearUpdateInput" class="form-control form-control-lg" formControlName="year"
+                  [(ngModel)]="artWork === undefined? '': artWork.year" />
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('year') && isFieldTouched('year')">
+                  Ano inválido.
+                </div>
+              </div>
+              <div class="form-outline">
+                <label class="form-label" for="categoryUpdateInput">Categoria</label>
+                <select class="form-select" id="categoryUpdateInput" aria-label="Default select example"
+                  formControlName="categoryId" [(ngModel)]="artWork.categoryId">
+                  <option *ngFor="let category of (categoriesData$ | async) as categories;" [value]="category.id">
+                    {{category.description}}
+                  </option>
+                </select>
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('category') && isFieldTouched('category')">
+                  Categoria inválida.
+                </div>
+              </div>
+            </div>
+            <div class="form-outline">
+              <label class="form-label" for="descriptionUpdateInput">Descrição</label>
+              <textarea id="descriptionUpdateInput" class="form-control form-control-lg" formControlName="description"
+                [(ngModel)]=" artWork===undefined? '' : artWork.description" id="floatingTextarea2"
+                style="height: 100px"></textarea>
+              <div class="text-danger mt-3" *ngIf="isFieldInvalid('description') && isFieldTouched('descritpion')">
+                Descrição inválida.
+              </div>
             </div>
           </div>
+          <div class="modal-footer">
+            <!-- Using this <a> just to close the modal after the submit-->
+            <a #closeUpdateModal data-bs-dismiss="modal"></a>
+            <button type="button" class="buttonDelete" data-bs-toggle="modal" data-bs-target="#deleteArtWorkModal"
+              (click)="setArtWorkId($event, artWork.id)">Excluir</button>
+            <button type="submit" class="buttonPrimary" [disabled]="updateArtWorkForm.invalid">Salvar</button>
+          </div>
         </form>
-        <div>
-          <input type="text" name="" id="" placeholder="Description">
-        </div>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
 </div>
+<app-delete-artwork [artWorkId]="artWork.id"></app-delete-artwork>
