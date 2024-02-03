@@ -1,8 +1,8 @@
 <div class="container-fluid responsivePaddingX">
   <b class="titlePrimaryColor">Museu: {{museumData?.name}}</b>
   <form [formGroup]="museumForm" (ngSubmit)="updateMuseum()">
-    <div class="row">
-      <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
+    <div class="row" style="margin: 5%;">
+      <div class="col-lg-6 col-md-12 mb-4 mb-lg-0" >
         <div class="form-group">
           <label for="image" class="col-form-label descriptionTitleBlackColor">Imagem:</label>
           <br>
@@ -18,7 +18,7 @@
           <label for="staticDescripton" class="col-form-label descriptionTitleBlackColor">Descrição:</label>
           <textarea class="form-control-plaintext description" formControlName="description"
             [(ngModel)]="museumData === undefined? '': museumData.description" id="description"
-            value="{{museumData?.description}}"></textarea>
+            value="{{museumData?.description}}" style="height: 15ch;"></textarea>
           <div class="text-danger mt-3" *ngIf="isFieldInvalid('description') && isFieldTouched('description')">
             Invalid Description.
           </div>
@@ -43,7 +43,7 @@
             <div class="text-danger mt-3" *ngIf="isFieldInvalid('location') && isFieldTouched('location')">
               Invalid Location.
             </div>
-            <div id="map">
+            <div id="map" style="height:40cap;">
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@
         </p-carousel>
       </div>
       <div class="mb-3 text-center">
-        <button class="button" type="submit" [disabled]="museumForm.invalid">Guardar</button>
+        <button class="buttonPrimary" type="submit" [disabled]="museumForm.invalid">Guardar</button>
       </div>
     </div>
 
