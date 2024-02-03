@@ -1,20 +1,20 @@
 <div class="modal" tabindex="-1" id="createArtWorkModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
+    <div class="modal-content" style="background-color: #f2e6d0;">
       <div class="modal-body m-2">
         <form [formGroup]="createArtWorkForm" (ngSubmit)="createArtWork()" action="closePopup.emit()">
           <div class="row">
             <div class="col-12 col-lg-6 col-xl-7 mb-3">
-              <img [src]="artWorkImage || './assets/imgs/defaultImage.png'" alt=""
+              <img [src]="artWorkImage || './assets/imgs/defaultImage.png'" alt="Escolha uma imagem"
                 class="img-fluid artWorkPopUpImage mb-2">
-              <input type="file" class="form-control description" id="image" (change)="onFileSelected($event)"
+              <input type="file" class="form-control description" id="image" (change)="onFileSelected($event)" style="background-color: #f2e6d0;  border: 2px solid var(--dark-blue);"
                 accept=".jpg, .jpeg, .png">
             </div>
             <div class="col-12 col-lg-6 col-xl-5">
               <div class="form-outline mb-3">
                 <label class="form-label" for="nameCreateInput">Nome da Obra</label>
                 <input type="text" id="nameCreateInput" class="form-control form-control-lg" formControlName="name"
-                  [(ngModel)]="artWork.name" />
+                  [(ngModel)]="artWork.name" style="background-color: #f2e6d0;  border: 2px solid var(--dark-blue);"/>
                 <div class="text-danger mt-3" *ngIf="isFieldInvalid('name') && isFieldTouched('name')">
                   Nome da Obra inválido.
                 </div>
@@ -22,7 +22,7 @@
               <div class="form-outline mb-3">
                 <label class="form-label" for="artistCreateInput">Artista</label>
                 <input type="text" id="artistCreateInput" class="form-control form-control-lg" formControlName="artist"
-                  [(ngModel)]="artWork.artist" />
+                  [(ngModel)]="artWork.artist" style="background-color: #f2e6d0;  border: 2px solid var(--dark-blue);"/>
                 <div class="text-danger mt-3" *ngIf="isFieldInvalid('artist') && isFieldTouched('artist')">
                   Artista inválido.
                 </div>
@@ -30,7 +30,7 @@
               <div class="form-outline mb-3">
                 <label class="form-label" for="yearCreateInput">Ano</label>
                 <input type="number" id="yearCreateInput" class="form-control form-control-lg" formControlName="year"
-                  [(ngModel)]="artWork.year" />
+                  [(ngModel)]="artWork.year" style="background-color: #f2e6d0;  border: 2px solid var(--dark-blue);"/>
                 <div class="text-danger mt-3" *ngIf="isFieldInvalid('year') && isFieldTouched('year')">
                   Ano inválido.
                 </div>
@@ -38,7 +38,7 @@
               <div class="form-outline">
                 <label class="form-label" for="categoryUpdateInput">Categoria</label>
                 <select class="form-select" id="categoryUpdateInput" aria-label="Default select example"
-                  formControlName="categoryId" [(ngModel)]="artWork.categoryId">
+                  formControlName="categoryId" [(ngModel)]="artWork.categoryId" style="background-color: #f2e6d0;  border: 2px solid var(--dark-blue);">
                   <option *ngFor="let category of (categoriesData$ | async) as categories;" [value]="category.id">
                     {{category.description}}
                   </option>
@@ -51,7 +51,7 @@
             <div class="form-outline">
               <label class="form-label" for="descriptionCreateInput">Descrição</label>
               <textarea id="descriptionCreateInput" class="form-control form-control-lg" formControlName="description"
-                [(ngModel)]="artWork.description" style="height: 100px"></textarea>
+                [(ngModel)]="artWork.description" style="height: 100px; background-color: #f2e6d0;  border: 2px solid var(--dark-blue);"></textarea>
               <div class="text-danger mt-3" *ngIf="isFieldInvalid('description') && isFieldTouched('descritpion')">
                 Descrição inválida.
               </div>
