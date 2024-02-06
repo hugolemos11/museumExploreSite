@@ -1,0 +1,16 @@
+img {
+  height: 500px;
+}
+
+.carousel-item {
+  position: relative;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 10px;
+  /* Adjust the top position as needed */
+  right: 70px;
+  /* Adjust the right position as needed */
+  cursor: pointer;
+}

@@ -3,27 +3,20 @@
     <div class="modal-content">
       <div class="modal-body m-2">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel"
-          *ngIf="artWorkImages.length > 0">
-          <!-- <div class="carousel-indicators">
-                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                                            class="active" aria-current="true" aria-label="Slide 1"></button>
-                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                                            aria-label="Slide 2"></button>
-                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                                            aria-label="Slide 3"></button>
-                                    </div> -->
+          *ngIf="artWorkImagesData$ | async as artWorkImagesData">
           <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img [src]="tempArtWorkImages[0]" class="d-block w-100" alt="Image 0">
+            <div class="carousel-item" *ngFor="let image of artWorkImagesData; let i = index"
+              [class.active]="i === currentImageIndex">
+              <img [src]="image.image" class="d-block w-100" alt="Image {{i}}">
+              <a (click)="deleteArtWorkImage(image.id)" class="delete-icon">{{i}}
+                <i class="material-icons">&#xe872;</i>
+              </a>
             </div>
-            <div class="carousel-item" *ngFor="let additionalImage of tempArtWorkImages.slice(1); let i = index">
-              <img [src]="additionalImage" class="d-block w-100" alt="Image {{ i + 1 }}">
-            </div>
-            <!-- <ng-template *ngIf="tempArtWorkImagePreviews.length > 0">
+            <ng-container *ngIf="tempArtWorkImagePreviews.length > 0">
               <div class="carousel-item" *ngFor="let preview of tempArtWorkImagePreviews">
                 <img [src]="preview" class="d-block w-100" alt="Image Preview">
               </div>
-            </ng-template> -->
+            </ng-container>
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
             data-bs-slide="prev">
@@ -41,8 +34,8 @@
           <input class="form-control" type="file" id="formFileMultiple" (change)="onFileChange($event)" multiple>
         </div>
         <div class="modal-footer">
-          <button type="button" class="buttonClose" #closeDeleteModal data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="buttonDelete">Salvar</button>
+          <button type="button" class="buttonClose" #closeImagesModal data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="buttonPrimary" (click)="saveArtWorkImages()">Salvar</button>
           <!-- (click)="saveArtWorkImages()" -->
         </div>
       </div>

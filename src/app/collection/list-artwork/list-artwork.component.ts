@@ -75,35 +75,6 @@ export class ListArtworkComponent implements OnInit {
                   return artWorksData;
                 })
               );
-              /*const observables: Observable<Artwork>[] = artWorksData.map((artwork: Artwork) => {
-                const mainImage$ = this.artWorkService.downloadFile(artwork.pathToImage).pipe(
-                  catchError((error) => {
-                    console.log(error);
-                    return of(null); // Return null in case of an error
-                  })
-                );
-                const additionalImages$ = this.artWorkService.getOtherImages(artwork.id).pipe(
-                  switchMap((imagePaths: string[]) => forkJoin(imagePaths.map((imagePath) => this.artWorkService.downloadFile(imagePath)))),
-                  catchError((error) => {
-                    console.log(error);
-                    return of([]); // Return an empty array in case of an error
-                  })
-                );
-
-                return forkJoin([mainImage$, additionalImages$]).pipe(
-                  map(([mainImage, additionalImages]) => {
-                    if (mainImage !== null) {
-                      artwork.image = mainImage;
-                    }
-                    if (additionalImages.length > 0) {
-                      artwork.additionalImages = additionalImages;
-                    }
-                    console.log('teste');
-                    return artwork;
-                  })
-                );
-              });
-              return forkJoin(observables);*/
             } else {
               console.log('Art Works data is empty!');
               return [];

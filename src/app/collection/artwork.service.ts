@@ -3,6 +3,7 @@ import { Observable, map } from 'rxjs';
 import { Artwork } from './artwork';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { ArtWorkImage } from './artworkimage';
 
 @Injectable({
   providedIn: 'root'
@@ -86,16 +87,41 @@ export class ArtworkService {
     return this.firestore.collection<Artwork>('artWorks').doc(artWorkId).delete();
   }
 
-  getOtherImages(artWorkId: string): Observable<string[]> {
-    console.log(artWorkId)
-    return this.firestore.collection<string[]>('imagesCollectionArtWork', ref => ref.where('artWorkId', '==', artWorkId))
-      .valueChanges()
+  getOtherImages(artWorkId: string): Observable<ArtWorkImage[]> {
+    return this.firestore.collection<ArtWorkImage[]>('imagesCollectionArtWork', ref => ref.where('artWorkId', '==', artWorkId))
+      .valueChanges({ idField: 'id' })
       .pipe(
         map((data: any[]) => {
-          console.log(data)
-          return data.map(element => element['pathToImage']);
+          return data.map(element => {
+            return {
+              id: element.id,
+              artWorkId: element['artWorkId'],
+              pathToImage: element['pathToImage'],
+            }
+          })
         })
       );
+  }
+
+  createArtWorkImage(artWorkImage: ArtWorkImage): Promise<any> {
+    var firestoreArtWorkImage: any = {
+      'artWorkId': artWorkImage.artWorkId,
+      'pathToImage': artWorkImage.pathToImage,
+    };
+
+    return this.firestore.collection<ArtWorkImage>('imagesCollectionArtWork').add(firestoreArtWorkImage);
+  }
+
+  updateArtWorkImage(artWorkImage: ArtWorkImage): Promise<void> {
+    var firestoreArtWorkImage: any = {
+      'artWorkId': artWorkImage.artWorkId,
+      'pathToImage': artWorkImage.pathToImage,
+    };
+    return this.firestore.collection<ArtWorkImage>('imagesCollectionArtWork').doc(artWorkImage.id).update(firestoreArtWorkImage);
+  }
+
+  deleteArtWorkImage(artWorkImageId: string): Promise<void> {
+    return this.firestore.collection<ArtWorkImage>('imagesCollectionArtWork').doc(artWorkImageId).delete();
   }
 
   downloadFile(fileName: string): Observable<string> {
