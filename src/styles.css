@@ -34,7 +34,7 @@ body,
 
     --gridImageHeight: 300px;
 
-    --artWorkPopUpImageHeight: 320px;
+    --popUpImageHeight: 320px;
 
     @media screen and (max-width: 1700px) {
         --imgCarouselHeight: 300px;
@@ -333,14 +333,14 @@ img {
     background-color: var(--backgound);
 }
 
-label.check {
+label.radio {
     cursor: pointer;
     display: block;
     width: 100%;
     box-sizing: border-box;
 }
 
-label.check input {
+label.radio input {
     position: absolute;
     top: 0;
     left: 0;
@@ -348,7 +348,7 @@ label.check input {
     pointer-events: none;
 }
 
-label.check span {
+label.radio span {
     width: 100%;
     padding: 7px 14px;
     border: 2px solid var(--dark-blue);
@@ -358,14 +358,29 @@ label.check span {
     text-transform: uppercase;
 }
 
-label.check input:checked+span {
+label.radio input:checked+span {
     border-color: var(--dark-blue);
     background-color: var(--dark-blue);
     color: var(--backgound);
 }
 
+.buttonAll {
+    width: 100%;
+    padding: 7px 14px;
+    border: 2px solid var(--dark-blue);
+    background-color: var(--dark-blue);
+    color: var(--backgound);
+    border-radius: 3px;
+    text-transform: uppercase;
+}
+
 #map {
     height: var(--mapHeight);
+}
+
+.icon-expand {
+    width: 100%;
+    height: 420px;
 }
 
 /* Carousel style */
@@ -391,8 +406,8 @@ textarea {
     object-fit: cover;
 }
 
-.artWorkPopUpImage {
-    height: var(--artWorkPopUpImageHeight);
+.popUpImage {
+    height: var(--popUpImageHeight);
 }
 
 .pagination {
@@ -439,4 +454,13 @@ textarea {
     float: left;
     margin-top: 10px;
     font-size: 13px;
+}
+
+.dialogInputs {
+    background-color: var(--backgound);
+    border: 2px solid var(--dark-blue)
+}
+
+.modal-content {
+    background-color: var(--backgound);
 }

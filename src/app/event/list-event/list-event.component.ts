@@ -1,7 +1,9 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Event } from '../event';
 import { EventsService } from '../events.service';
-import { forkJoin } from 'rxjs';
+import { Observable, forkJoin, map, switchMap } from 'rxjs';
+import { UpdateEventComponent } from '../update-event/update-event.component';
+import { CreateEventComponent } from '../create-event/create-event.component';
 
 @Component({
   selector: 'app-list-event',
@@ -10,31 +12,68 @@ import { forkJoin } from 'rxjs';
 })
 export class ListEventComponent implements OnInit {
 
-  eventsList: Event[] = [];
+  eventsData$: Observable<Array<Event>> = new Observable<Array<Event>>;
   eventImages: string[] = [];
-  isMobileLayout?: boolean;
 
-  constructor(private service: EventsService) {
-    this.isMobileLayout = window.innerWidth > 770;
+  event: Event;
+  museumId: string = '';
+
+  @ViewChild(CreateEventComponent) createComponent!: CreateEventComponent;
+  @ViewChild(UpdateEventComponent) updateComponent!: UpdateEventComponent;
+
+  constructor(private eventService: EventsService) {
+    this.event = {
+      id: '',
+      title: '',
+      description: '',
+      museumId: '',
+      startDate: new Date(),
+      finishDate: new Date(),
+      pathToImage: '',
+    };
   }
 
   ngOnInit(): void {
-    try {
-      this.service.getAllEvents().subscribe(data => {
-        this.eventsList = data;
-        this.loadImages();
-      });
-    } catch (error) {
-      console.log(error);
+    this.fetchData()
+  }
+
+  fetchData() {
+    const userDataJSON = localStorage.getItem('user');
+    if (userDataJSON != null) {
+      const userData = JSON.parse(userDataJSON)
+      if (userData.museumId != null) {
+        this.museumId = userData.museumId;
+        this.eventsData$ = this.eventService.getAllEventsFromMuseum(userData.museumId).pipe(
+          switchMap((eventsData: Event[]) => {
+            if (eventsData != null) {
+              const imageObservables = eventsData.map((event: Event) =>
+                this.eventService.downloadFile(event.pathToImage)
+              );
+
+              return forkJoin(imageObservables).pipe(
+                map((imageArrays: string[]) => {
+                  eventsData.forEach((event, index) => {
+                    event.image = imageArrays[index];
+                  });
+
+                  return eventsData;
+                })
+              );
+            } else {
+              console.log('Events data is empty!');
+              return [];
+            }
+          })
+        );
+      } else {
+        console.log('UserData museumId is null!');
+      }
     }
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(): void {
-    this.isMobileLayout = window.innerWidth > 770;
-  }
+  getGridClasses(eventsList: Event[] | null): string {
+    const length = eventsList?.length || 0;
 
-  getGridClasses(length: number): string {
     if (length === 1) {
       return 'col-12 mb-3';
     } else if (length === 2) {
@@ -44,20 +83,19 @@ export class ListEventComponent implements OnInit {
     }
   }
 
-  public loadImages() {
-    const imageObservables = this.eventsList.map(event => {
-      return this.service.downloadFile(event.pathToImage);
-    });
-
-    forkJoin(imageObservables).subscribe(
-      imageArray => {
-        this.eventImages = imageArray;
-      },
-      error => {
-        console.error(error);
-        this.eventImages = Array(this.eventsList.length).fill('../../assets/imgs/museu1.jpg');
-      }
-    );
+  setMuseumId(event: any) {
+    if (this.museumId !== undefined) {
+      this.createComponent.loadMuseumId(this.museumId);
+    } else {
+      console.log("erro");
+    }
   }
 
+  setEvent(event: any, eventData: Event) {
+    if (eventData && eventData.id !== undefined) {
+      this.updateComponent.loadEvent(eventData.id);
+    } else {
+      console.log("erro");
+    }
+  }
 }

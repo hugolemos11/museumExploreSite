@@ -8,7 +8,6 @@ import { CreateArtworkComponent } from './create-artwork/create-artwork.componen
 import { DeleteArtworkComponent } from './delete-artwork/delete-artwork.component';
 import { UpdateArtworkComponent } from './update-artwork/update-artwork.component';
 import { ListArtworkComponent } from './list-artwork/list-artwork.component';
-import { CreateCategoryComponent } from '../category/create-category/create-category.component';
 import { CategoryModule } from '../category/category.module';
 import { AddimagesArtworkComponent } from './addimages-artwork/addimages-artwork.component';
 

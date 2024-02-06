@@ -1,27 +1,28 @@
 <div class="container-fluid mt-3">
-    <div class="row mb-2">
-        <div class="col">
-            <b class="titlePrimaryColor">Eventos</b>
-        </div>
-        <div class="col-md-6 text-end" *ngIf="isMobileLayout; else addCard">
-            <button class="buttonLightBlue" data-toggle="modal" data-target="#myModal" href="#myModal">
+    <div class="mb-2">
+        <div class="d-flex align-items-center mb-2">
+            <span class="titlePrimaryColor me-3">Eventos</span>
+            <button class="buttonLightBlue ms-auto" data-bs-toggle="modal" data-bs-target="#createEventModal"
+                (click)="setMuseumId($event)">
                 Adicionar Eventos
             </button>
         </div>
     </div>
 
     <div class="row">
-        <ng-template #addCard>
-            <div class="col-md-6 mb-3">
-                <div class="card wider-card">
-                    <img src="./assets/imgs/plusImage.png" class="card-img" class="card-img img-fluid mx-auto"
-                        alt=" addEvent">
+        <div class="col-sm-12 col-md-6 col-lg-4 mb-3" *ngFor="let event of (eventsData$ | async) as eventsList;">
+            <div class="card" data-bs-toggle="modal" data-bs-target="#updateEventModal"
+                (click)="setEvent($event, event)">
+                <div class="card-img  position-relative">
+                    <img [src]=" event.image" alt="" class="card-img gridImages">
+                    <div class="position-absolute bottom-0 start-0 end-0 text-white p-2">
+                        <div class="card rounded-5 px-2 d-inline-block text-white bg-time">
+                            <p class="m-0 labelTitle">{{event.startDate | date:'dd/MM/yyyy'}} | {{event.finishDate |
+                                date:'dd/MM/yyyy'}}</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </ng-template>
-        <div [ngClass]="getGridClasses(eventsList.length)" *ngFor="let event of eventsList; let i = index">
-            <div class="card wider-card">
-                <img [src]="eventImages[i]" class="card-img-top" alt="Eventos">
+
                 <div class="card-body">
                     <p class="card-text transparent-text description">{{ event.description }}</p>
                 </div>
@@ -29,3 +30,5 @@
         </div>
     </div>
 </div>
+<app-create-event [museumId]="museumId"></app-create-event>
+<app-update-event [event]="event"></app-update-event>

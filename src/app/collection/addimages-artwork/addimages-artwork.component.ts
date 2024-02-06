@@ -14,18 +14,21 @@ export class AddimagesArtworkComponent {
   tempArtWorkImagesFiles: File[] = [];
   tempArtWorkImagePreviews: string[] = [];
   currentImageIndex: number = 0;
+  numberOfImages: number = 0;
 
   @ViewChild('closeImagesModal') closeImagesModal!: ElementRef;
 
   constructor(private artWorkService: ArtworkService) {
     this.artWorkId = '';
-    this.tempArtWorkImagePreviews = [];
-    this.tempArtWorkImagesFiles = [];
   }
 
   loadArtWorkId(artWorkId: string) {
     if (artWorkId !== undefined) {
       this.artWorkId = artWorkId;
+      this.tempArtWorkImagesFiles = [];
+      this.tempArtWorkImagePreviews = [];
+      this.currentImageIndex = 0;
+      this.numberOfImages = 0;
       this.loadImages();
     } else {
       console.log('Art Work ID is undefined. Error.');
@@ -57,6 +60,7 @@ export class AddimagesArtworkComponent {
     this.artWorkImagesData$.subscribe((artWorkImagesData) => {
       // Set the current image index to the last index
       this.currentImageIndex = artWorkImagesData.length > 0 ? artWorkImagesData.length - 1 : 0;
+      this.numberOfImages = artWorkImagesData.length > 0 ? artWorkImagesData.length : 0
     })
 
   }
@@ -110,14 +114,22 @@ export class AddimagesArtworkComponent {
     }
   }
 
-  deleteArtWorkImage(artWorkImageId: string) {
+  deleteArtWorkImage(artWorkImageId: string, pathToImage: string) {
     try {
-      console.log(artWorkImageId)
       //call service
-      this.artWorkService.deleteArtWorkImage(artWorkImageId).then(() => {
+      this.artWorkService.deleteArtWorkImage(artWorkImageId, pathToImage).then(() => {
         console.log('ArtWorkImage deleted successfully.');
         // Update the current image index
         this.currentImageIndex = Math.max(0, this.currentImageIndex - 1);
+
+        // Decrement the count of images to be deleted
+        this.numberOfImages--;
+
+        // Check if all images are deleted
+        if (this.numberOfImages === 0) {
+          // Dismiss the modal when all images are deleted
+          this.closeImagesModal.nativeElement.click();
+        }
       });
     } catch (error) {
       console.error(error);

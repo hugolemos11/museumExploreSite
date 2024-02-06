@@ -56,7 +56,6 @@ export class ArtworkService {
 
   createArtWork(artWork: Artwork): Promise<any> {
     var firestoreArtWork: any = {
-      'id': artWork.id,
       'name': artWork.name,
       'artist': artWork.artist,
       'year': artWork.year,
@@ -71,7 +70,6 @@ export class ArtworkService {
 
   updateArtWork(artWork: Artwork): Promise<void> {
     var firestoreArtWork: any = {
-      'id': artWork.id,
       'name': artWork.name,
       'artist': artWork.artist,
       'year': artWork.year,
@@ -120,18 +118,30 @@ export class ArtworkService {
     return this.firestore.collection<ArtWorkImage>('imagesCollectionArtWork').doc(artWorkImage.id).update(firestoreArtWorkImage);
   }
 
-  deleteArtWorkImage(artWorkImageId: string): Promise<void> {
+  deleteArtWorkImage(artWorkImageId: string, pathToImage: string): Promise<void> {
+    this.storage.ref(pathToImage).delete();
     return this.firestore.collection<ArtWorkImage>('imagesCollectionArtWork').doc(artWorkImageId).delete();
   }
 
   downloadFile(fileName: string): Observable<string> {
-    console.log(fileName)
     const fileRef = this.storage.ref(`${fileName}`);
     return fileRef.getDownloadURL();
   }
 
-  uploadFile(fileName: string, file: File): void {
+  uploadFile(fileName: string, file: File): Promise<void> {
     const filePath = `${fileName}`;
-    this.storage.upload(filePath, file);
+    const uploadTask = this.storage.upload(filePath, file);
+
+    // Create a Promise to handle the completion of the upload task
+    return new Promise<void>((resolve, reject) => {
+      uploadTask.then(_ => {
+        // The upload is complete
+        resolve();
+      }).catch(error => {
+        // An error occurred during the upload
+        console.error(error);
+        reject(error);
+      });
+    });
   }
 }
