@@ -32,7 +32,8 @@
                     *ngFor="let artwork of (artWorksData$ | async) as artworks; let i = index">
                     <div class="card position-relative" data-bs-toggle="modal" data-bs-target="#updateArtWorkModal"
                         (click)="setArtWork($event, artwork)">
-                        <img [src]="artwork.image" alt="" class="card-img gridImages">
+                        <img [src]="artwork.image || './assets/imgs/defaultImage.png'" alt=""
+                            class="card-img gridImages">
                         <div class="position-absolute top-0 start-0 end-0 text-white p-2">
                             <a data-bs-toggle="modal" data-bs-target="#addImagesArtWorkModal"
                                 (click)="setArtWorkId($event, artwork.id)"><i class="material-icons">&#xe413;</i></a>

@@ -48,7 +48,6 @@ export class UpdateArtworkComponent {
   updateArtWork() {
     if (this.updateArtWorkForm.valid) {
       try {
-
         //call service
         this.artWorkService.updateArtWork(this.artWork).then(() => {
           console.log('Update ArtWork completed');

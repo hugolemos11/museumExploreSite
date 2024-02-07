@@ -25,8 +25,10 @@
                 </button>
             </mat-form-field>
             <br>
-            <p class="mb-3"><a href="#">Forget password!</a></p>
-            <button class="buttonPrimary" type="submit">Login</button>
+            <div class="text-danger mt-3" *ngIf="errorMessage != ''">
+                {{errorMessage}}
+            </div>
+            <button class="buttonPrimary mt-3" type="submit">Login</button>
         </form>
 
     </div>

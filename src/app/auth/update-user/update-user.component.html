@@ -1,0 +1,47 @@
+<div class="modal" tabindex="-1" id="updateUserModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class="modal-body m-2">
+        <form [formGroup]="updateUserForm" (ngSubmit)="updateUser()" action="closePopup.emit()">
+          <div class="form-outline mb-3">
+            <label class="form-label" for="museumNameUpdateInput">Nome do Museu</label>
+            <input type="text" id="museumNameUpdateInput" class="form-control form-control-lg dialogInputs"
+              formControlName="museumName" [(ngModel)]="user.username" />
+            <div class="text-danger mt-3" *ngIf="isFieldInvalid('museumName') && isFieldTouched('museumName')">
+              Nome do museu inválido.
+            </div>
+          </div>
+          <div class="form-outline mb-3">
+            <label class="form-label" for="oldPasswordUpdateInput">Palavra-Passe Atual</label>
+            <input type="text" id="oldPasswordUpdateInput" class="form-control form-control-lg dialogInputs"
+              formControlName="oldPassword" />
+            <div class="text-danger mt-3" *ngIf="isPasswordHaveValue()">
+              Insira a sua palavra-passe atual.
+            </div>
+          </div>
+          <div class="form-outline mb-3">
+            <label class="form-label" for="newPasswordUpdateInput">Palavra-Passe</label>
+            <input type="text" id="newPasswordUpdateInput" class="form-control form-control-lg dialogInputs"
+              formControlName="newPassword" />
+            <div class="text-danger mt-3" *ngIf="isNewPasswordHaveSameValueAsOld()">
+              Nova palavra-passe igual a palavra-passe atual.
+            </div>
+          </div>
+          <div class="form-outline mb-3">
+            <label class="form-label" for="repeatPasswordUpdateInput">Repetir Palavra-Passe</label>
+            <input type="text" id="repeatPasswordUpdateInput" class="form-control form-control-lg dialogInputs"
+              formControlName="repeatPassword" />
+            <div class="text-danger mt-3" *ngIf="isNewPasswordHaveSameValueAsRePassword()">
+              Palavras-passes diferentes.
+            </div>
+          </div>
+          <div class="modal-footer">
+            <!-- Using this <a> just to close the modal after the submit-->
+            <a #closeUpdateModal data-bs-dismiss="modal"></a>
+            <button type="submit" class="buttonPrimary" [disabled]="updateUserForm.invalid">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

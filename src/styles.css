@@ -27,7 +27,6 @@ body,
     --headerSize: 4vw;
     --headerDescriptionSize: 2.5vw;
 
-    --mapHeight: 40vw;
     --textAreaHeight: 15vw;
 
     --imgCarouselHeight: 400px;
@@ -70,7 +69,6 @@ body,
         --labelTitleSize: 1.6vw;
         --labelSize: 1.4vw;
 
-        --mapHeight: 50vw;
         --textAreaHeight: 15vw;
     }
 
@@ -85,7 +83,6 @@ body,
         --labelTitleSize: 2vw;
         --labelSize: 1.8vw;
 
-        --mapHeight: 70vw;
         --textAreaHeight: 20vw;
     }
 
@@ -102,8 +99,6 @@ body,
 
         --headerSize: 4.5vw;
         --headerDescriptionSize: 3vw;
-
-
     }
 
     @media screen and (max-width: 600px) {
@@ -123,7 +118,6 @@ body,
         --headerSize: 4.5vw;
         --headerDescriptionSize: 3vw;
 
-        --mapHeight: 90vw;
         --textAreaHeight: 30vw;
     }
 
@@ -372,10 +366,6 @@ label.radio input:checked+span {
     color: var(--backgound);
     border-radius: 3px;
     text-transform: uppercase;
-}
-
-#map {
-    height: var(--mapHeight);
 }
 
 .icon-expand {

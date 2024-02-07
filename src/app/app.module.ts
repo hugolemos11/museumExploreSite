@@ -12,10 +12,16 @@ import { AppComponent } from './app.component';
 import { CommonSiteModule } from './common-site/common-site.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UpdateTicketComponent } from './tickets/update-ticket/update-ticket.component';
+import { DeleteTicketComponent } from './tickets/delete-ticket/delete-ticket.component';
+import { CreateTicketComponent } from './tickets/create-ticket/create-ticket.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UpdateTicketComponent,
+    DeleteTicketComponent,
+    CreateTicketComponent
   ],
   providers: [],
   bootstrap: [AppComponent],

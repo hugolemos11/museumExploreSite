@@ -1,7 +1,8 @@
 export interface Ticket {
     id: string;
     museumId: string;
-    ticketTypeId: string;
+    typeId: string;
+    amount: number;
     purchaseDate: Date;
 }
 

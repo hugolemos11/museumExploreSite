@@ -24,7 +24,6 @@ export class UpdateEventComponent {
   @ViewChild(DeleteEventComponent) deleteComponent!: DeleteEventComponent;
 
   constructor(private formBuilder: FormBuilder, private eventService: EventsService, private datePipe: DatePipe) {
-
     this.updateEventForm = this.formBuilder.group({
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],

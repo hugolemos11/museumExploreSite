@@ -25,7 +25,8 @@ export class TicketService {
             return {
               id: element.id,
               museumId: element['museumId'],
-              ticketTypeId: element['ticketTypeId'],
+              typeId: element['typeId'],
+              amount: element['amount'],
               purchaseDate: element['purchaseDate'].toDate(),
             }
           })
@@ -39,7 +40,6 @@ export class TicketService {
     ).valueChanges({ idField: 'id' })
       .pipe(
         map((data: any[]) => {
-          console.log(data)
           return data.map(element => {
             return {
               id: element.id,

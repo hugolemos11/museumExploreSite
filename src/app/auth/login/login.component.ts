@@ -16,6 +16,8 @@ export class LoginComponent {
   email = new FormControl('', [Validators.required]);
   password = new FormControl('', [Validators.required]);
 
+  errorMessage = '';
+
   constructor(private service: AuthService,
     private formBuilder: FormBuilder) {
     this.loginForm = this.formBuilder.group({
@@ -34,7 +36,12 @@ export class LoginComponent {
 
   onFormSubmit() {
     if (this.loginForm.valid) {
+      // makes the error dissapear
+      this.errorMessage = '';
       this.service.SignIn(this.loginForm.get('email')?.value, this.loginForm.get('password')?.value)
+        .catch((error) => {
+          this.errorMessage = error;
+        });
     } else {
       this.loginForm.markAllAsTouched();
       console.error('Form is invalid!');

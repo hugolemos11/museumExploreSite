@@ -11,13 +11,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CarouselModule } from 'primeng/carousel';
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 @NgModule({
   declarations: [
     AuthComponent,
     LoginComponent,
     HomeComponent,
-    DashboardComponent
+    DashboardComponent,
+    UpdateUserComponent
   ],
   imports: [
     CommonModule,
@@ -29,6 +31,9 @@ import { CarouselModule } from 'primeng/carousel';
     MatInputModule,
     MatButtonModule,
     CarouselModule
+  ],
+  exports: [
+    UpdateUserComponent
   ]
 })
 export class AuthModule { }

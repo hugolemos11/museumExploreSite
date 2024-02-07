@@ -7,14 +7,14 @@
           <div class="carousel-inner">
             <div class="carousel-item" *ngFor="let image of artWorkImagesData; let i = index"
               [class.active]="i === currentImageIndex">
-              <img [src]="image.image" class="d-block w-100" alt="Image {{i}}">
+              <img [src]="image.image || './assets/imgs/defaultImage.png'" class="d-block w-100" alt="Image {{i}}">
               <a (click)="deleteArtWorkImage(image.id, image.pathToImage)" class="delete-icon">
                 <i class="material-icons">&#xe872;</i>
               </a>
             </div>
             <ng-container *ngIf="tempArtWorkImagePreviews.length > 0">
               <div class="carousel-item" *ngFor="let preview of tempArtWorkImagePreviews">
-                <img [src]="preview" class="d-block w-100" alt="Image Preview">
+                <img [src]="preview || './assets/imgs/defaultImage.png'" class="d-block w-100" alt="Image Preview">
               </div>
             </ng-container>
           </div>

@@ -1,17 +1,22 @@
 <div class="container-fluid responsivePaddingX">
   <b class="titlePrimaryColor">Museu: {{museumData?.name}}</b>
   <form [formGroup]="museumForm" (ngSubmit)="updateMuseum()">
-    <div class="row" style="margin: 5%;">
-      <div class="col-lg-6 col-md-12 mb-4 mb-lg-0" >
+    <div class="row" style="margin-left: 5%; margin-right: 5%; margin-top: 2%;">
+      <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
         <div class="form-group">
           <label for="image" class="col-form-label descriptionTitleBlackColor">Imagem:</label>
           <br>
-          <img [src]="museumImage" alt="museu" class="img-fluid mb-2 shadow-1-strong rounded mb-4"
-            style="max-height: 400px; width: auto;">
+          <div class="position-relative">
+            <img [src]="museumImage || './assets/imgs/defaultImage.png'" alt="museu"
+              class="img-fluid mb-2 shadow-1-strong rounded mb-4" style="max-height: 200px; width: auto;">
+            <div class="position-absolute top-0 start-0 end-0 text-white p-2">
+              <a data-bs-toggle="modal" data-bs-target="#addImagesArtWorkModal"><i
+                  class="material-icons">&#xe413;</i></a>
+            </div>
+          </div>
           <br>
-          <input type="file" class="form-control-file description" id="image" (change)="onFileSelected($event)"
-            accept=".jpg, .jpeg, .png">
-          <label for="image" class="description"> (.jpg, .jpeg, .png)</label>
+          <input type="file" class="form-control description dialogInputs w-75" id="image"
+            (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png">
         </div>
 
         <div class="form-group mt-2">
@@ -26,14 +31,6 @@
       </div>
 
       <div class="col-lg-6 mb-4 mb-lg-0">
-        <div class="form-group">
-          <label for="staticPhoneNumber" class="col-form-label descriptionTitleBlackColor">Telefone:</label>
-          <div>
-            <input type="text" class="form-control-plaintext description" id="staticPhoneNumber"
-              placeholder="000000000">
-          </div>
-        </div>
-
         <div class="form-group mt-2">
           <label for="staticLocation" class="col-form-label descriptionTitleBlackColor">Localização</label>
           <div>
@@ -43,7 +40,7 @@
             <div class="text-danger mt-3" *ngIf="isFieldInvalid('location') && isFieldTouched('location')">
               Invalid Location.
             </div>
-            <div id="map" style="height:40cap;">
+            <div id="map" style="height:50cap;">
             </div>
           </div>
         </div>
@@ -52,13 +49,14 @@
       <div class="mb-2 mt-5">
         <div class="d-flex align-items-center mb-2">
           <span class="descriptionTitleBlackColor me-2">Bilhetes</span>
-          <img src="../../../assets/imgs/expand-plus-icon.svg" height="25px" width="25px" alt="">
+          <img src="./assets/imgs/expand-plus-icon.svg" height="25px" width="25px" alt="">
         </div>
         <p-carousel [value]="(ticketTypesData$ | async) ?? []" styleClass="custom-carousel" [numVisible]="5"
           [numScroll]="1" [circular]="false" [autoplayInterval]="0" [responsiveOptions]="responsiveOptions">
           <ng-template let-ticketType pTemplate="item">
             <div class="item card position-relative">
-              <img [src]="ticketType.image" class="card-img-top overlay-image" alt="...">
+              <img [src]="ticketType.image || './assets/imgs/defaultImage.png'" class="card-img-top overlay-image"
+                alt="...">
               <div
                 class="position-absolute top-0 start-0 end-0 text-white p-2 text-center h-100 d-flex flex-column justify-content-between overlay-container">
                 <p class="m-0 ticketType">{{ticketType.type}}</p>
@@ -73,60 +71,5 @@
         <button class="buttonPrimary" type="submit" [disabled]="museumForm.invalid">Guardar</button>
       </div>
     </div>
-
-    <!-- <div class="row mt-3">
-      <div class="col-sm-12 col-md-6 mb-3">
-        <div class="form-group">
-          <label for="image" class="col-sm-2 col-form-label descriptionTitleBlackColor">Imagem:</label>
-          <br>
-          <img [src]="museumImage" alt="museu" class="img-fluid mb-2">
-          <br>
-          <input type="file" class="form-control-file description" id="image">
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-6 mb-3">
-        <div class="form-group">
-          <label for="staticPhoneNumber" class="col-sm-2 col-form-label descriptionTitleBlackColor">Telefone:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control-plaintext description" id="staticPhoneNumber"
-              placeholder="000000000">
-          </div>
-        </div>
-        <!-- <p class="mt-5 subtitle">Avaliação:</p>
-        <img src="image/stars.png" alt="avaliacao" width="147" height="30"> -->
-    <!-- </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12 col-md-6 mb-3">
-        <div class="form-group">
-          <label for="staticDescripton" class="col-sm-2 col-form-label descriptionTitleBlackColor">Descrição:</label>
-          <div class="col-sm-10">
-            <textarea class="form-control-plaintext description" id="staticDescripton" rows="10"
-              value="{{museumData?.description}}"></textarea>
-          </div>
-        </div>
-        <!-- <div class="mt-5">
-          <p class="subtitle">Bilheteira: <img src="../../../assets/imgs/edit.png" alt="edit" width="40" height="40"
-              class="ml-4"></p>
-          <p class="value">Limite de pessoas por hora: <input type="number" class="form-control-plaintext"
-              id="staticAmount" min="0" max="50" value="10"></p>
-        </div> -->
-    <!-- </div> 
-      <div class="col-sm-12 col-md-6">
-        <div class="form-group">
-          <label for="staticLocation" class="col-sm-2 col-form-label descriptionTitleBlackColor">Localização</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control-plaintext description" id="location"
-              placeholder="Latitude, Longitude" name="location" [(ngModel)]="locationValue" (blur)="onLocationBlur()"
-              required>
-            <div id="map">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="mb-5 mt-5">
-        <button class="buttonLightBlue">Visualizar tipos de bilhetes</button>
-      </div>
-    </div> -->
   </form>
 </div>

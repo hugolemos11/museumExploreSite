@@ -67,7 +67,6 @@ export class DashboardComponent implements OnInit {
                 map((imageArrays: string[]) => {
                   artWorksData.forEach((artwork, index) => {
                     artwork.image = imageArrays[index];
-                    console.log(artwork.image)
                   });
                   return artWorksData;
                 })
@@ -118,11 +117,15 @@ export class DashboardComponent implements OnInit {
     const ticketsNumberData = Array.from({ length: 7 }, (_, i) => {
       const day = new Date(currentDate);
       day.setDate(currentDate.getDate() - i);
-      const ticketsCount = ticketsData.filter(ticket => {
-        return ticket.purchaseDate.toISOString().split('T')[0] === day.toISOString().split('T')[0];
-      }).length;
 
-      return ticketsCount;
+      const totalAmount = ticketsData
+        .filter((ticket) => {
+          const ticketDate = new Date(ticket.purchaseDate);
+          return ticketDate.toISOString().split('T')[0] === day.toISOString().split('T')[0];
+        })
+        .reduce((sum, ticket) => sum + (ticket.amount || 0), 0);
+
+      return totalAmount;
     }).reverse();
 
     this.barChart = new Chart('barCanvas', {
@@ -130,7 +133,7 @@ export class DashboardComponent implements OnInit {
       data: {
         labels: daysLabels,
         datasets: [{
-          label: 'Tickets Bought',
+          label: 'Bilhetes Comprados',
           data: ticketsNumberData,
           borderColor: 'rgba(75, 192, 192, 1)',
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -157,12 +160,12 @@ export class DashboardComponent implements OnInit {
     const ticketTypesLabels = Array.from({ length: ticketTypesData.length }, (_, i) => {
       return ticketTypesData[i].type;
     }).reverse();
+    const ticketsNumberData = ticketTypesData.map((ticketType) => {
+      const totalAmount = ticketsData
+        .filter((ticket) => ticket.typeId === ticketType.id)
+        .reduce((sum, ticket) => sum + (ticket.amount || 0), 0);
 
-    const ticketsNumberData = Array.from({ length: ticketTypesData.length }, (_, i) => {
-      const ticketsCount = ticketsData.filter(ticket => {
-        return ticket.ticketTypeId === ticketTypesData[i].id;
-      }).length;
-      return ticketsCount;
+      return totalAmount;
     }).reverse();
 
     this.doughnutChart = new Chart('doughnutCanvas', {
@@ -199,9 +202,6 @@ export class DashboardComponent implements OnInit {
           legend: {
             position: 'right',
           },
-          /*footer: {
-            text: 'Texto abaixo do gráfico'
-          }*/
         }
       }
     })

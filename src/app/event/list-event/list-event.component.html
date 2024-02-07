@@ -14,7 +14,7 @@
             <div class="card" data-bs-toggle="modal" data-bs-target="#updateEventModal"
                 (click)="setEvent($event, event)">
                 <div class="card-img  position-relative">
-                    <img [src]=" event.image" alt="" class="card-img gridImages">
+                    <img [src]="event.image || './assets/imgs/defaultImage.png'" alt="" class="card-img gridImages">
                     <div class="position-absolute bottom-0 start-0 end-0 text-white p-2">
                         <div class="card rounded-5 px-2 d-inline-block text-white bg-time">
                             <p class="m-0 labelTitle">{{event.startDate | date:'dd/MM/yyyy'}} | {{event.finishDate |
