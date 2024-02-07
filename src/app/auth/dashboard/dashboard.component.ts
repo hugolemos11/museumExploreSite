@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
-import { TicketService } from '../../tickets/ticket.service';
-import { Ticket, TicketType } from '../../tickets/ticket';
 import { Observable, forkJoin, map, switchMap } from 'rxjs';
 import { Artwork } from '../../collection/artwork';
 import { ArtworkService } from '../../collection/artwork.service';
+import { Ticket, TicketType } from '../../ticket-type/ticket-type';
+import { TicketTypeService } from '../../ticket-type/ticket-type.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
   ticketTypesData$: Observable<Array<TicketType>> = new Observable<Array<TicketType>>;
   artWorksData$: Observable<Array<Artwork>> = new Observable<Array<Artwork>>;
 
-  constructor(private ticketService: TicketService, private artWorkService: ArtworkService) {
+  constructor(private ticketTypeService: TicketTypeService, private artWorkService: ArtworkService) {
     this.responsiveOptions = [
       {
         breakpoint: '1420px',
@@ -78,8 +78,8 @@ export class DashboardComponent implements OnInit {
           })
         );
 
-        this.ticketsData$ = this.ticketService.getAllTicketsFromMuseum(userData.museumId);
-        this.ticketTypesData$ = this.ticketService.getAllTicketsTypes(userData.museumId);
+        this.ticketsData$ = this.ticketTypeService.getAllTicketsFromMuseumFiltered(userData.museumId);
+        this.ticketTypesData$ = this.ticketTypeService.getAllTicketsTypesFromMuseum(userData.museumId);
 
         this.ticketsData$.subscribe(ticketsData => {
           if (ticketsData != null) {

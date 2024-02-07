@@ -63,10 +63,9 @@ export class UpdateCategoryComponent {
     return isInvalid;
   }
 
-  loadCategory(category: Category) {
-    if (category !== undefined) {
-      this.category = category;
-      /*this.categoryService.getCategoryById(categoryId).subscribe((data) => {
+  loadCategory(categoryId: string) {
+    if (categoryId !== undefined) {
+      this.categoryService.getCategoryById(categoryId).subscribe((data) => {
         if (data?.id !== '') {
           this.category = {
             id: categoryId,
@@ -78,7 +77,7 @@ export class UpdateCategoryComponent {
         }
       }, (error) => {
         console.error('Error fetching coder data:', error); // Log any error from getCoderById
-      });*/
+      });
     } else {
       console.log('Art Work ID is undefined. Error.');
     }

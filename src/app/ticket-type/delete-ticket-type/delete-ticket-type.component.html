@@ -1,0 +1,16 @@
+<div class="modal" tabindex="-1" id="deleteTicketTypeModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="subTitle">Eliminar</span>
+      </div>
+      <div class="modal-body m-2">
+        <span class="description">Tem a certeza que deseja eliminar o tipo de bilhete com o id {{ticketTypeId}}</span>
+        <div class="modal-footer">
+          <button type="button" class="buttonClose" #closeDeleteModal data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="buttonDelete" (click)="deleteTicketType()">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

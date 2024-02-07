@@ -1,13 +1,15 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { MuseumService } from '../museum.service';
 import { Museum } from '../museum';
 import { AuthService } from '../../auth/auth.service';
 import { Observable, forkJoin, map, switchMap } from 'rxjs';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../../environments/environment.development';
-import { TicketType } from '../../tickets/ticket';
-import { TicketService } from '../../tickets/ticket.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TicketTypeService } from '../../ticket-type/ticket-type.service';
+import { TicketType } from '../../ticket-type/ticket-type';
+import { CreateTicketTypeComponent } from '../../ticket-type/create-ticket-type/create-ticket-type.component';
+import { UpdateTicketTypeComponent } from '../../ticket-type/update-ticket-type/update-ticket-type.component';
 
 @Component({
   selector: 'app-update-museum',
@@ -22,6 +24,10 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
   museumData?: Museum;
   museumImage: string = '';
 
+  museumId: string = '';
+
+  ticketType: TicketType;
+
   file: File = new File([], '', { type: 'text/plain' });
   museumForm: FormGroup;
 
@@ -35,12 +41,22 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
   currentPosition = { lngX: -118.274861, latY: 36.598999 }
   marker?: mapboxgl.Marker;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private museumService: MuseumService, private ticketService: TicketService) {
+  @ViewChild(CreateTicketTypeComponent) createComponent!: CreateTicketTypeComponent;
+  @ViewChild(UpdateTicketTypeComponent) updateComponent!: UpdateTicketTypeComponent
+
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private museumService: MuseumService, private ticketTypeService: TicketTypeService) {
     this.museumForm = this.formBuilder.group({
       description: ['', [Validators.required]],
-      //phoneNumber: ['', [Validators.required]],
       location: ['', [Validators.required]],
     })
+    this.ticketType = {
+      id: '',
+      museumId: '',
+      type: '',
+      price: 0,
+      description: '',
+      pathToImage: '',
+    };
     this.responsiveOptions = [
       {
         breakpoint: '1420px',
@@ -131,6 +147,7 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
     if (userDataJSON != null) {
       const userData = JSON.parse(userDataJSON);
       if (userData.museumId != null) {
+        this.museumId = userData.museumId
         this.museumData$ = this.museumService.getMuseumById(userData.museumId);
         this.museumData$.subscribe(museumData => {
           if (museumData != null) {
@@ -140,11 +157,11 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
             console.log('Museum data is empty!');
           }
         });
-        this.ticketTypesData$ = this.ticketService.getAllTicketsTypes(userData.museumId).pipe(
+        this.ticketTypesData$ = this.ticketTypeService.getAllTicketsTypesFromMuseum(userData.museumId).pipe(
           switchMap((ticketTypesData: TicketType[]) => {
             if (ticketTypesData != null) {
               const imageObservables = ticketTypesData.map((ticketType: TicketType) =>
-                this.ticketService.downloadFile(ticketType.pathToImage)
+                this.ticketTypeService.downloadFile(ticketType.pathToImage)
               );
 
               return forkJoin(imageObservables).pipe(
@@ -285,6 +302,22 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
       } else {
         console.error('Invalid coordinates format');
       }
+    }
+  }
+
+  setMuseumId(event: any) {
+    if (this.museumData?.id !== undefined) {
+      //this.createComponent.loadMuseumId(this.museumId);
+    } else {
+      console.log("erro");
+    }
+  }
+
+  setTicketType(event: any, ticketType: TicketType) {
+    if (ticketType && ticketType.id !== undefined) {
+      this.updateComponent.loadTicketType(ticketType.id);
+    } else {
+      console.log("erro");
     }
   }
 }

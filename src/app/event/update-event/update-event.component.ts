@@ -48,7 +48,6 @@ export class UpdateEventComponent {
           //call service
           this.event.startDate = new Date(this.formattedStartDate)
           this.event.finishDate = new Date(this.formattedFinishDate)
-          console.log(this.event)
           this.eventService.updateEvent(this.event).then(() => {
             if (this.file.name !== '') {
               this.eventService.uploadFile(this.event.pathToImage, this.file);

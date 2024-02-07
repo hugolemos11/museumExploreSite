@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeleteTicketComponent } from './delete-ticket.component';
+import { TicketTypeComponent } from './ticket-type.component';
 
-describe('DeleteTicketComponent', () => {
-  let component: DeleteTicketComponent;
-  let fixture: ComponentFixture<DeleteTicketComponent>;
+describe('TicketTypeComponent', () => {
+  let component: TicketTypeComponent;
+  let fixture: ComponentFixture<TicketTypeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DeleteTicketComponent]
+      declarations: [TicketTypeComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(DeleteTicketComponent);
+    fixture = TestBed.createComponent(TicketTypeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

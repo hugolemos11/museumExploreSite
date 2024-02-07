@@ -454,3 +454,12 @@ textarea {
 .modal-content {
     background-color: var(--backgound);
 }
+
+.colDashboard {
+    max-width: 300px;
+}
+
+.cardDashboard {
+    background-color: var(--backgound);
+    border-color: transparent;
+}

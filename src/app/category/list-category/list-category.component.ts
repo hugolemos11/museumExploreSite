@@ -59,7 +59,7 @@ export class ListCategoryComponent {
 
   setCategory(event: any, category: Category) {
     if (category && category.id !== undefined) {
-      this.updateCategoryComponent.loadCategory(category);
+      this.updateCategoryComponent.loadCategory(category.id);
     } else {
       console.log("erro");
     }
