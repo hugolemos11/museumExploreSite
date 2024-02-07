@@ -1,14 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { EMPTY, Observable, catchError, concatMap, forkJoin, map, mergeMap, of, switchMap } from 'rxjs';
+import { Observable, forkJoin, map, switchMap } from 'rxjs';
 import { ArtworkService } from '../artwork.service';
 import { Artwork } from '../artwork';
 import { Category } from '../../category/category';
 import { CategoryService } from '../../category/category.service';
-import { AuthService } from '../../auth/auth.service';
 import { UpdateArtworkComponent } from '../update-artwork/update-artwork.component';
 import { CreateArtworkComponent } from '../create-artwork/create-artwork.component';
-import { CreateCategoryComponent } from '../../category/create-category/create-category.component';
-import { DeleteCategoryComponent } from '../../category/delete-category/delete-category.component';
 import { ListCategoryComponent } from '../../category/list-category/list-category.component';
 import { AddimagesArtworkComponent } from '../addimages-artwork/addimages-artwork.component';
 
@@ -22,11 +19,10 @@ export class ListArtworkComponent implements OnInit {
   artWorksData$: Observable<Array<Artwork>> = new Observable<Array<Artwork>>;
   categoriesData$: Observable<Array<Category>> = new Observable<Array<Category>>;
   categoriesData: Array<Category> = [];
+  selectedCategory: string = ''
 
   artWork: Artwork;
   museumId: string = '';
-
-  additionalImages$: Observable<string[]> = new Observable<string[]>;
 
   @ViewChild(AddimagesArtworkComponent) addImagesArtWorkComponent!: AddimagesArtworkComponent;
 
@@ -35,7 +31,7 @@ export class ListArtworkComponent implements OnInit {
   @ViewChild(CreateArtworkComponent) createComponent!: CreateArtworkComponent;
   @ViewChild(UpdateArtworkComponent) updateComponent!: UpdateArtworkComponent;
 
-  constructor(private artWorkService: ArtworkService, private categoryService: CategoryService, private authService: AuthService) {
+  constructor(private artWorkService: ArtworkService, private categoryService: CategoryService) {
     this.artWork = {
       id: '',
       artist: '',
@@ -51,6 +47,10 @@ export class ListArtworkComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fetchData();
+  }
+
+  reloadData() {
     this.fetchData();
   }
 
@@ -72,6 +72,12 @@ export class ListArtworkComponent implements OnInit {
                   artWorksData.forEach((artwork, index) => {
                     artwork.image = imageArrays[index];
                   });
+
+                  // Filter art works based on the selected category
+                  if (this.selectedCategory != '') {
+                    artWorksData = artWorksData.filter(artwork => artwork.categoryId === this.selectedCategory);
+                  }
+
                   return artWorksData;
                 })
               );
@@ -90,6 +96,11 @@ export class ListArtworkComponent implements OnInit {
         console.log('UserData museumId is null!');
       }
     }
+  }
+
+  uncheckRadio() {
+    this.selectedCategory = '';
+    this.fetchData()
   }
 
   getCategoryDescription(categoryId: string): string {

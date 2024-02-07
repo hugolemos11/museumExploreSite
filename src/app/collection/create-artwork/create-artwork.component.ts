@@ -1,8 +1,7 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Artwork } from '../artwork';
 import { Observable } from 'rxjs';
 import { ArtworkService } from '../artwork.service';
-import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Category } from '../../category/category';
 import { CategoryService } from '../../category/category.service';
@@ -13,7 +12,6 @@ import { CategoryService } from '../../category/category.service';
   styleUrl: './create-artwork.component.css'
 })
 export class CreateArtworkComponent {
-
   @Input() museumId: string;
   categoriesData$: Observable<Array<Category>> = new Observable<Array<Category>>;
   artWork: Artwork;
@@ -31,6 +29,7 @@ export class CreateArtworkComponent {
       year: ['', [Validators.required]],
       categoryId: ['', [Validators.required]],
       description: ['', [Validators.required]],
+      image: ['', [Validators.required]],
     });
     this.artWork = {
       id: '',
@@ -49,13 +48,15 @@ export class CreateArtworkComponent {
     if (this.createArtWorkForm.valid) {
       try {
         //call service
-        this.artWorkService.createArtWork(this.artWork).then((result) => {
+        this.artWorkService.createArtWork(this.artWork).then(async (result) => {
           const fileNameSplit = this.file.name.split('.');
           this.artWork.id = result.id;
           this.artWork.museumId = this.museumId;
           this.artWork.pathToImage = 'artWorksImages/' + this.artWork.id + '.' + fileNameSplit[fileNameSplit.length - 1];
-          this.artWorkService.uploadFile(this.artWork.pathToImage, this.file);
+          // Wait for the file upload to complete
+          await this.artWorkService.uploadFile(this.artWork.pathToImage, this.file);
           this.artWorkService.updateArtWork(this.artWork);
+          // Update successful, close the modal
           this.closeCreateModal.nativeElement.click();
         });
       } catch (error) {
@@ -118,22 +119,6 @@ export class CreateArtworkComponent {
       };
 
       reader.readAsDataURL(this.file);
-    } else {
-      // present the current image
-      this.loadImage();
     }
-  }
-
-  loadImage() {
-    const imageObservable = this.artWorkService.downloadFile(this.artWork.pathToImage);
-    imageObservable.subscribe(
-      image => {
-        this.artWorkImage = image;
-      },
-      error => {
-        console.error(error);
-        this.artWorkImage = './assets/imgs/defaultImage.png';
-      }
-    );
   }
 }

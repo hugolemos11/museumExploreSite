@@ -1,6 +1,6 @@
 <div class="modal" tabindex="-1" id="updateCategoryModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content" style="background-color: #f2e6d0;">
+    <div class="modal-content">
       <div class="modal-header ">
         <span class="subTitle">Categoria</span>
       </div>
@@ -8,8 +8,8 @@
         <form [formGroup]="updateCategoryForm" (ngSubmit)="updateCategory()" action="closePopup.emit()">
           <div class="form-outline">
             <label class="form-label" for="descriptionCreateInput">Categoria</label>
-            <input type="text" id="descriptionCreateInput" class="form-control form-control-lg"
-              formControlName="description" [(ngModel)]="category.description" style="background-color: #f2e6d0;  border: 2px solid var(--dark-blue);"/>
+            <input type="text" id="descriptionCreateInput" class="form-control form-control-lg dialogInputs"
+              formControlName="description" [(ngModel)]="category.description" />
             <div class="text-danger mt-3" *ngIf="isFieldInvalid('description') && isFieldTouched('description')">
               Categoria inválida.
             </div>

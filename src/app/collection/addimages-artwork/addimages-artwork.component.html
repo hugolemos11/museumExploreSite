@@ -8,7 +8,7 @@
             <div class="carousel-item" *ngFor="let image of artWorkImagesData; let i = index"
               [class.active]="i === currentImageIndex">
               <img [src]="image.image" class="d-block w-100" alt="Image {{i}}">
-              <a (click)="deleteArtWorkImage(image.id)" class="delete-icon">{{i}}
+              <a (click)="deleteArtWorkImage(image.id, image.pathToImage)" class="delete-icon">
                 <i class="material-icons">&#xe872;</i>
               </a>
             </div>
@@ -31,7 +31,8 @@
         </div>
         <div class="mb-3">
           <label for="formFileMultiple" class="form-label">Multiple files input example</label>
-          <input class="form-control" type="file" id="formFileMultiple" (change)="onFileChange($event)" multiple>
+          <input class="form-control dialogInputs" type="file" id="formFileMultiple" (change)="onFileChange($event)"
+            multiple>
         </div>
         <div class="modal-footer">
           <button type="button" class="buttonClose" #closeImagesModal data-bs-dismiss="modal">Cancelar</button>

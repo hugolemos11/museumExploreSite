@@ -13,4 +13,5 @@ img {
   right: 70px;
   /* Adjust the right position as needed */
   cursor: pointer;
+  color: var(--backgound);
 }

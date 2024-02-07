@@ -1,44 +1,43 @@
 <div class="modal" tabindex="-1" id="updateArtWorkModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content" style="background-color: #f2e6d0;">
+    <div class="modal-content">
       <div class="modal-body m-2">
         <form [formGroup]="updateArtWorkForm" (ngSubmit)="updateArtWork()" action="closePopup.emit()">
           <div class="row">
             <div class="col-12 col-lg-6 col-xl-7 mb-3">
-              <img [src]="artWorkImage || './assets/imgs/defaultImage.png'" alt=""
-                class="img-fluid artWorkPopUpImage mb-2">
-              <input type="file" class="form-control description" id="image" (change)="onFileSelected($event)"  style="background-color: #f2e6d0;  border: 2px solid var(--dark-blue);"
-                accept=".jpg, .jpeg, .png">
+              <img [src]="artWorkImage || './assets/imgs/defaultImage.png'" alt="" class="img-fluid popUpImage mb-2">
+              <input type="file" class="form-control description dialogInputs" id="image"
+                (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png">
             </div>
             <div class="col-12 col-lg-6 col-xl-5">
               <div class="form-outline mb-3">
                 <label class="form-label" for="nameUpdateInput">Nome da Obra</label>
-                <input type="text" id="nameUpdateInput" class="form-control form-control-lg" formControlName="name"
-                  [(ngModel)]="artWork === undefined? '': artWork.name"  style="background-color: #f2e6d0;  border: 2px solid var(--dark-blue);" />
+                <input type="text" id="nameUpdateInput" class="form-control form-control-lg dialogInputs"
+                  formControlName="name" [(ngModel)]="artWork === undefined? '': artWork.name" />
                 <div class="text-danger mt-3" *ngIf="isFieldInvalid('name') && isFieldTouched('name')">
                   Nome da Obra inválido.
                 </div>
               </div>
               <div class="form-outline mb-3">
                 <label class="form-label" for="artistUpdateInput">Artista</label>
-                <input type="text" id="artistUpdateInput" class="form-control form-control-lg" formControlName="artist"
-                  [(ngModel)]="artWork === undefined? '': artWork.artist"  style="background-color: #f2e6d0;  border: 2px solid var(--dark-blue);"/>
+                <input type="text" id="artistUpdateInput" class="form-control form-control-lg dialogInputs"
+                  formControlName="artist" [(ngModel)]="artWork === undefined? '': artWork.artist" />
                 <div class="text-danger mt-3" *ngIf="isFieldInvalid('artist') && isFieldTouched('artist')">
                   Artista inválido.
                 </div>
               </div>
               <div class="form-outline mb-3">
                 <label class="form-label" for="yearUpdateInput">Ano</label>
-                <input type="text" id="yearUpdateInput" class="form-control form-control-lg" formControlName="year"
-                  [(ngModel)]="artWork === undefined? '': artWork.year"  style="background-color: #f2e6d0;  border: 2px solid var(--dark-blue);"/>
+                <input type="number" id="yearUpdateInput" class="form-control form-control-lg dialogInputs"
+                  formControlName="year" [(ngModel)]="artWork === undefined? '': artWork.year" />
                 <div class="text-danger mt-3" *ngIf="isFieldInvalid('year') && isFieldTouched('year')">
                   Ano inválido.
                 </div>
               </div>
               <div class="form-outline">
                 <label class="form-label" for="categoryUpdateInput">Categoria</label>
-                <select class="form-select" id="categoryUpdateInput" aria-label="Default select example"
-                  formControlName="categoryId" [(ngModel)]="artWork.categoryId"  style="background-color: #f2e6d0;  border: 2px solid var(--dark-blue);">
+                <select class="form-select dialogInputs" id="categoryUpdateInput" aria-label="Default select example"
+                  formControlName="categoryId" [(ngModel)]="artWork.categoryId">
                   <option *ngFor="let category of (categoriesData$ | async) as categories;" [value]="category.id">
                     {{category.description}}
                   </option>
@@ -50,9 +49,9 @@
             </div>
             <div class="form-outline">
               <label class="form-label" for="descriptionUpdateInput">Descrição</label>
-              <textarea id="descriptionUpdateInput" class="form-control form-control-lg" formControlName="description"
-                [(ngModel)]=" artWork===undefined? '' : artWork.description" id="floatingTextarea2"
-                style="height: 100px; background-color: #f2e6d0;  border: 2px solid var(--dark-blue);"></textarea>
+              <textarea id="descriptionUpdateInput" class="form-control form-control-lg dialogInputs"
+                formControlName="description" [(ngModel)]=" artWork===undefined? '' : artWork.description"
+                id="floatingTextarea2"></textarea>
               <div class="text-danger mt-3" *ngIf="isFieldInvalid('description') && isFieldTouched('descritpion')">
                 Descrição inválida.
               </div>

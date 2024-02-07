@@ -1,1 +1,60 @@
-<p>update-event works!</p>
+<div class="modal" tabindex="-1" id="updateEventModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-body m-2">
+        <form [formGroup]="updateEventForm" (ngSubmit)="updateEvent()" action="closePopup.emit()">
+          <div class="row">
+            <div class="col-12 col-lg-6 col-xl-7 mb-3">
+              <img [src]="eventImage || './assets/imgs/defaultImage.png'" alt="Escolha uma imagem"
+                class="img-fluid popUpImage mb-2">
+              <input type="file" class="form-control description dialogInputs" id="image"
+                (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png">
+            </div>
+            <div class="col-12 col-lg-6 col-xl-5">
+              <div class="form-outline mb-3">
+                <label class="form-label" for="titleUpdateInput">Nome do Evento</label>
+                <input type="text" id="titleUpdateInput" class="form-control form-control-lg dialogInputs"
+                  formControlName="title" [(ngModel)]="event == undefined? '': event.title" />
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('title') && isFieldTouched('title')">
+                  Nome do Evento inválido.
+                </div>
+              </div>
+              <div class="form-outline mb-3">
+                <label class="form-label" for="startDateUpdateInput">Data Inicial</label>
+                <input type="date" id="startDateUpdateInput" class="form-control form-control-lg dialogInputs"
+                  formControlName="startDate" [(ngModel)]="formattedStartDate" />
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('startDate') && isFieldTouched('startDate')">
+                  Data Inicial inválida.
+                </div>
+              </div>
+              <div class="form-outline mb-3">
+                <label class="form-label" for="finishDateUpdateInput">Data Final</label>
+                <input type="date" id="finishDateUpdateInput" class="form-control form-control-lg dialogInputs"
+                  formControlName="finishDate" [(ngModel)]="formattedFinishDate" />
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('finishDate') && isFieldTouched('finishDate')">
+                  Data Final inválida.
+                </div>
+              </div>
+            </div>
+            <div class="form-outline">
+              <label class="form-label" for="descriptionUpdateInput">Descrição</label>
+              <textarea id="descriptionUpdateInput" class="form-control form-control-lg dialogInputs"
+                formControlName="description" [(ngModel)]="event == undefined? '':event.description"></textarea>
+              <div class="text-danger mt-3" *ngIf="isFieldInvalid('description') && isFieldTouched('descritpion')">
+                Descrição inválida.
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <!-- Using this <a> just to close the modal after the submit-->
+            <a #closeUpdateModal data-bs-dismiss="modal"></a>
+            <button type="button" class="buttonDelete" data-bs-toggle="modal" data-bs-target="#deleteEventModal"
+              (click)="setEventId($event, event.id)">Excluir</button>
+            <button type="submit" class="buttonPrimary" [disabled]="updateEventForm.invalid">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-delete-event [eventId]="event.id"></app-delete-event>

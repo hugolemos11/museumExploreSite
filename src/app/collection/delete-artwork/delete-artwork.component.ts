@@ -18,7 +18,7 @@ export class DeleteArtworkComponent {
 
   loadArtWorkId(artWorkId: string) {
     if (artWorkId !== undefined) {
-      this.artWorkId = this.artWorkId;
+      this.artWorkId = artWorkId;
     } else {
       console.log('Art Work ID is undefined. Error.');
     }

@@ -7,18 +7,18 @@
                     <br>
                     <button class="my-3 buttonPrimary" data-bs-toggle="modal" data-bs-target="#createArtWorkModal"
                         (click)="setMuseumId($event)">Adicionar Obras</button>
-
-                    <p>------------------------------------</p>
-                    <div class="categoryDiv">
+                    <div class="categoryDiv mt-3">
                         <div class="d-flex align-items-center mb-2">
                             <span class="subTitle me-3">Categorias</span>
                             <a data-bs-toggle="modal" data-bs-target="#listCategoryModal"
                                 (click)="setMuseumIdCategory($event)"><i
                                     class="material-icons align-middle">&#xe146;</i></a>
                         </div>
+                        <button (click)="uncheckRadio()" class="buttonAll descriptionTitleSecundaryColor">All</button>
                         <div *ngFor="let category of (categoriesData$ | async) as categories;">
-                            <label class="check my-1">
-                                <input type="checkbox">
+                            <label class="radio my-1">
+                                <input type="radio" name="category" [(ngModel)]="selectedCategory" [value]="category.id"
+                                    (change)="reloadData()">
                                 <span class="descriptionTitleSecundaryColor">{{category.description}}</span>
                             </label>
                         </div>
@@ -46,10 +46,10 @@
                     </div>
                 </div>
             </div>
-            <app-addimages-artwork [artWorkId]="artWork.id"></app-addimages-artwork>
-            <app-list-category [museumId]="museumId"></app-list-category>
-            <app-create-artwork [museumId]="museumId"></app-create-artwork>
-            <app-update-artwork [artWork]="artWork"></app-update-artwork>
         </div>
     </div>
 </div>
+<app-addimages-artwork [artWorkId]="artWork.id"></app-addimages-artwork>
+<app-list-category [museumId]="museumId"></app-list-category>
+<app-create-artwork [museumId]="museumId"></app-create-artwork>
+<app-update-artwork [artWork]="artWork"></app-update-artwork>

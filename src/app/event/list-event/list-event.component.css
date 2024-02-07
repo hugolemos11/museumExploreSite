@@ -1,5 +1,3 @@
-
-
 .description {
     overflow: hidden;
     display: -webkit-box;
@@ -7,4 +5,8 @@
     /* number of lines to show */
     line-clamp: 2;
     -webkit-box-orient: vertical;
+}
+
+.bg-time {
+    background-color: #023859;
 }
