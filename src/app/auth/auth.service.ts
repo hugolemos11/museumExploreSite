@@ -83,6 +83,17 @@ export class AuthService {
 
   // Sign up with email/password
   SignUp(email: string, password: string) {
+    /*return this.functions
+      .httpsCallable('setUserData')({ email, password })
+      .toPromise()
+      .then((result) => {
+        console.log(result);
+        // Handle success
+      })
+      .catch((error) => {
+        console.error(error);
+        // Handle error
+      });*/
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
