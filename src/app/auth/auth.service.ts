@@ -9,8 +9,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat
 })
 export class AuthService {
 
-  userData: User // Save logged in user data
-    | undefined // Save logged in user data
+  userData: User = { uid: '', email: '' }
   constructor(
     public afs: AngularFirestore, // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
@@ -23,12 +22,16 @@ export class AuthService {
       if (user) {
         // Create a reference to the Firestore document for the current user.
         const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
-
         // Retrieve a snapshot of the user document from Firestore.
         userRef.get().subscribe((docSnapshot) => {
           if (docSnapshot.exists) {
+
             // Extract user data from the snapshot and assign it to userData.
-            this.userData = docSnapshot.data() as User;
+            //this.userData = docSnapshot.data() as User;
+            this.userData.uid = user.uid;
+            this.userData.email = user.email!!;
+            this.userData.museumId = docSnapshot.data()?.museumId;
+            this.userData.username = docSnapshot.data()?.username;
             // Update the user data in localStorage.
             localStorage.setItem('user', JSON.stringify(this.userData));
             JSON.parse(localStorage.getItem('user')!);
@@ -45,29 +48,32 @@ export class AuthService {
   }
 
   // Sign in with email/password
-  SignIn(email: string, password: string) {
-    return this.afAuth
-      .signInWithEmailAndPassword(email, password)
-      .then((_) => {
-        this.afAuth.authState.subscribe(async (user) => {
-          if (user) {
-            // Use a while loop to wait until this.userData is not null
-            while (!this.userData) {
-              // Wait for a short duration before checking again
-              await new Promise(resolve => setTimeout(resolve, 100)); // Adjust the delay as needed
-            }
+  SignIn(email: string, password: string): Promise<String> {
+    return new Promise<string>((_, reject) => {
+      this.afAuth
+        .signInWithEmailAndPassword(email, password)
+        .then((_) => {
+          this.afAuth.authState.subscribe(async (user) => {
+            if (user) {
 
-            if (this.userData?.museumId != null) {
-              this.router.navigate(['dashboard']);
-            } else {
-              window.alert("Não é um administrador!");
+              // Use a while loop to wait until this.userData.uid is empty
+              while (this.userData.uid == '') {
+                // Wait for a short duration before checking again
+                await new Promise(resolve => setTimeout(resolve, 100)); // Adjust the delay as needed
+              }
+
+              if (this.userData?.museumId != null) {
+                this.router.navigate(['dashboard']);
+              } else {
+                reject("Não é um administrador!");
+              }
             }
-          }
+          });
+        })
+        .catch((_) => {
+          reject("Autenticação inválida!");
         });
-      })
-      .catch((error) => {
-        window.alert(error.message);
-      });
+    });
   }
 
   // Sign up with email/password
@@ -93,7 +99,7 @@ export class AuthService {
       });
   }*/
 
-  // Reset Forggot password
+  // Reset Forgot password
   ForgotPassword(passwordResetEmail: string) {
     return this.afAuth
       .sendPasswordResetEmail(passwordResetEmail)
@@ -117,5 +123,41 @@ export class AuthService {
       localStorage.removeItem('user');
       this.router.navigate(['home']);
     });
+  }
+
+  updateUser(user: User): Promise<void> {
+    var firestoreUser: any = {
+      'username': user.username,
+    };
+    return this.afs.collection<User>('users').doc(user.uid).update(firestoreUser);
+  }
+
+  updateMuseumName(museumId: string, museumName: string): Promise<void> {
+    var firestoreMuseum: any = {
+      'name': museumName,
+    };
+    return this.afs.collection('museums').doc(museumId).update(firestoreMuseum);
+  }
+
+  async updatePassword(email: string, newPassword: string, oldPassword: string): Promise<void> {
+    try {
+      // Reauthenticate the user before updating the password (required by Firebase)
+      await this.afAuth.signInWithEmailAndPassword(email, oldPassword);
+
+      // Get the currently authenticated user
+      const user = await this.afAuth.currentUser;
+
+      if (user) {
+        // Update the password
+        await user.updatePassword(newPassword);
+
+        console.log('Password updated successfully.');
+      } else {
+        console.error('User not authenticated.');
+      }
+    } catch (error) {
+      console.error('Error updating password:', error);
+      throw error;
+    }
   }
 }

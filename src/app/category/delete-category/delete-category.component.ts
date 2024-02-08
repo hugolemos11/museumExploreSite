@@ -43,7 +43,6 @@ export class DeleteCategoryComponent {
       //call service
       this.categoryService.deleteCategory(this.categoryId)
         .then(() => {
-          console.log('teste')
           this.closeDeleteModal.nativeElement.click();
         })
         .catch(error => {

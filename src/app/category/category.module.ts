@@ -32,7 +32,8 @@ import { UpdateCategoryComponent } from './update-category/update-category.compo
   exports: [
     CreateCategoryComponent,
     DeleteCategoryComponent,
-    ListCategoryComponent
+    ListCategoryComponent,
+    UpdateCategoryComponent
   ]
 })
 export class CategoryModule { }

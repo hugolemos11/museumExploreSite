@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'collection', loadChildren: () => import('./collection/collection.module').then(m => m.CollectionModule) },
   { path: 'event', loadChildren: () => import('./event/event.module').then(m => m.EventModule) },
   { path: 'category', loadChildren: () => import('./category/category.module').then(m => m.CategoryModule) },
+  { path: 'ticketType', loadChildren: () => import('./ticket-type/ticket-type.module').then(m => m.TicketTypeModule) },
 ];
 
 @NgModule({

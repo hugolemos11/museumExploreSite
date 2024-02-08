@@ -15,13 +15,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],
   imports: [
     AngularFireAuthModule,
-    AngularFireModule,
     AngularFireStorageModule,
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),

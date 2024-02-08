@@ -7,18 +7,18 @@
                     <br>
                     <button class="my-3 buttonPrimary" data-bs-toggle="modal" data-bs-target="#createArtWorkModal"
                         (click)="setMuseumId($event)">Adicionar Obras</button>
-
-                    <p>------------------------------------</p>
-                    <div class="categoryDiv">
+                    <div class="categoryDiv mt-3">
                         <div class="d-flex align-items-center mb-2">
                             <span class="subTitle me-3">Categorias</span>
-                            <img src="./assets/imgs/expand-plus-icon.svg" height="25px" width="25px" alt=""
-                                data-bs-toggle="modal" data-bs-target="#listCategoryModal"
-                                (click)="setMuseumIdCategory($event)">
+                            <a data-bs-toggle="modal" data-bs-target="#listCategoryModal"
+                                (click)="setMuseumIdCategory($event)"><i
+                                    class="material-icons align-middle">&#xe146;</i></a>
                         </div>
+                        <button (click)="uncheckRadio()" class="buttonAll descriptionTitleSecundaryColor">All</button>
                         <div *ngFor="let category of (categoriesData$ | async) as categories;">
-                            <label class="check my-1">
-                                <input type="checkbox">
+                            <label class="radio my-1">
+                                <input type="radio" name="category" [(ngModel)]="selectedCategory" [value]="category.id"
+                                    (change)="reloadData()">
                                 <span class="descriptionTitleSecundaryColor">{{category.description}}</span>
                             </label>
                         </div>
@@ -32,11 +32,11 @@
                     *ngFor="let artwork of (artWorksData$ | async) as artworks; let i = index">
                     <div class="card position-relative" data-bs-toggle="modal" data-bs-target="#updateArtWorkModal"
                         (click)="setArtWork($event, artwork)">
-                        <img [src]="artwork.image" alt="" class="card-img gridImages">
+                        <img [src]="artwork.image || './assets/imgs/defaultImage.png'" alt=""
+                            class="card-img gridImages">
                         <div class="position-absolute top-0 start-0 end-0 text-white p-2">
-                            <img src="./assets/imgs/expand-plus-icon.svg" height="25px" width="25px" alt=""
-                                data-bs-toggle="modal" data-bs-target="#addImagesArtWorkModal"
-                                (click)="setArtWorkId($event, artwork.id)">
+                            <a data-bs-toggle="modal" data-bs-target="#addImagesArtWorkModal"
+                                (click)="setArtWorkId($event, artwork.id)"><i class="material-icons">&#xe413;</i></a>
                         </div>
                         <div class="position-absolute bottom-0 start-0 end-0 text-white p-2">
                             <p class="m-0 labelTitle">{{artwork.name}}</p>
@@ -47,10 +47,10 @@
                     </div>
                 </div>
             </div>
-            <app-addimages-artwork [artWorkId]="artWork.id"></app-addimages-artwork>
-            <app-list-category [museumId]="museumId"></app-list-category>
-            <app-create-artwork [museumId]="museumId"></app-create-artwork>
-            <app-update-artwork [artWork]="artWork"></app-update-artwork>
         </div>
     </div>
 </div>
+<app-addimages-artwork [artWorkId]="artWork.id"></app-addimages-artwork>
+<app-list-category [museumId]="museumId"></app-list-category>
+<app-create-artwork [museumId]="museumId"></app-create-artwork>
+<app-update-artwork [artWork]="artWork"></app-update-artwork>

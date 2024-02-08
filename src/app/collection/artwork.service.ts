@@ -3,6 +3,7 @@ import { Observable, map } from 'rxjs';
 import { Artwork } from './artwork';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { ArtWorkImage } from './artworkimage';
 
 @Injectable({
   providedIn: 'root'
@@ -55,7 +56,6 @@ export class ArtworkService {
 
   createArtWork(artWork: Artwork): Promise<any> {
     var firestoreArtWork: any = {
-      'id': artWork.id,
       'name': artWork.name,
       'artist': artWork.artist,
       'year': artWork.year,
@@ -70,7 +70,6 @@ export class ArtworkService {
 
   updateArtWork(artWork: Artwork): Promise<void> {
     var firestoreArtWork: any = {
-      'id': artWork.id,
       'name': artWork.name,
       'artist': artWork.artist,
       'year': artWork.year,
@@ -86,26 +85,63 @@ export class ArtworkService {
     return this.firestore.collection<Artwork>('artWorks').doc(artWorkId).delete();
   }
 
-  getOtherImages(artWorkId: string): Observable<string[]> {
-    console.log(artWorkId)
-    return this.firestore.collection<string[]>('imagesCollectionArtWork', ref => ref.where('artWorkId', '==', artWorkId))
-      .valueChanges()
+  getOtherImages(artWorkId: string): Observable<ArtWorkImage[]> {
+    return this.firestore.collection<ArtWorkImage[]>('imagesCollectionArtWork', ref => ref.where('artWorkId', '==', artWorkId))
+      .valueChanges({ idField: 'id' })
       .pipe(
         map((data: any[]) => {
-          console.log(data)
-          return data.map(element => element['pathToImage']);
+          return data.map(element => {
+            return {
+              id: element.id,
+              artWorkId: element['artWorkId'],
+              pathToImage: element['pathToImage'],
+            }
+          })
         })
       );
   }
 
+  createArtWorkImage(artWorkImage: ArtWorkImage): Promise<any> {
+    var firestoreArtWorkImage: any = {
+      'artWorkId': artWorkImage.artWorkId,
+      'pathToImage': artWorkImage.pathToImage,
+    };
+
+    return this.firestore.collection<ArtWorkImage>('imagesCollectionArtWork').add(firestoreArtWorkImage);
+  }
+
+  updateArtWorkImage(artWorkImage: ArtWorkImage): Promise<void> {
+    var firestoreArtWorkImage: any = {
+      'artWorkId': artWorkImage.artWorkId,
+      'pathToImage': artWorkImage.pathToImage,
+    };
+    return this.firestore.collection<ArtWorkImage>('imagesCollectionArtWork').doc(artWorkImage.id).update(firestoreArtWorkImage);
+  }
+
+  deleteArtWorkImage(artWorkImageId: string, pathToImage: string): Promise<void> {
+    this.storage.ref(pathToImage).delete();
+    return this.firestore.collection<ArtWorkImage>('imagesCollectionArtWork').doc(artWorkImageId).delete();
+  }
+
   downloadFile(fileName: string): Observable<string> {
-    console.log(fileName)
     const fileRef = this.storage.ref(`${fileName}`);
     return fileRef.getDownloadURL();
   }
 
-  uploadFile(fileName: string, file: File): void {
+  uploadFile(fileName: string, file: File): Promise<void> {
     const filePath = `${fileName}`;
-    this.storage.upload(filePath, file);
+    const uploadTask = this.storage.upload(filePath, file);
+
+    // Create a Promise to handle the completion of the upload task
+    return new Promise<void>((resolve, reject) => {
+      uploadTask.then(_ => {
+        // The upload is complete
+        resolve();
+      }).catch(error => {
+        // An error occurred during the upload
+        console.error(error);
+        reject(error);
+      });
+    });
   }
 }

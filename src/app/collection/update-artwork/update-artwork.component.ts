@@ -15,7 +15,7 @@ import { CategoryService } from '../../category/category.service';
 export class UpdateArtworkComponent {
   @Input() artWork: Artwork;
   categoriesData$: Observable<Array<Category>> = new Observable<Array<Category>>;
-  artWorkImage: string = '';
+  artWorkImage: string = './assets/imgs/defaultImage.png';
   file: File = new File([], '', { type: 'text/plain' });
   updateArtWorkForm: FormGroup;
 
@@ -48,7 +48,6 @@ export class UpdateArtworkComponent {
   updateArtWork() {
     if (this.updateArtWorkForm.valid) {
       try {
-
         //call service
         this.artWorkService.updateArtWork(this.artWork).then(() => {
           console.log('Update ArtWork completed');
@@ -108,7 +107,7 @@ export class UpdateArtworkComponent {
           console.log('Data ID is empty.');
         }
       }, (error) => {
-        console.error('Error fetching coder data:', error); // Log any error from getCoderById
+        console.error('Error fetching event data:', error);
       });
     } else {
       console.log('Art Work ID is undefined. Error.');
@@ -157,7 +156,7 @@ export class UpdateArtworkComponent {
       },
       error => {
         console.error(error);
-        this.artWorkImage = '../../assets/imgs/museu1.jpg';
+        this.artWorkImage = './assets/imgs/defaultImage.png';
       }
     );
   }

@@ -7,8 +7,8 @@ import { CreateMuseumComponent } from './create-museum/create-museum.component';
 import { ListMuseumComponent } from './list-museum/list-museum.component';
 import { UpdateMuseumComponent } from './update-museum/update-museum.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AutoAdjustHeightDirective } from './auto-adjust-height.directive';
 import { CarouselModule } from 'primeng/carousel';
+import { TicketTypeModule } from '../ticket-type/ticket-type.module';
 
 
 @NgModule({
@@ -16,15 +16,15 @@ import { CarouselModule } from 'primeng/carousel';
     MuseumsComponent,
     CreateMuseumComponent,
     ListMuseumComponent,
-    UpdateMuseumComponent,
-    AutoAdjustHeightDirective
+    UpdateMuseumComponent
   ],
   imports: [
     CommonModule,
     MuseumsRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    CarouselModule
+    CarouselModule,
+    TicketTypeModule
   ],
   exports: [
     MuseumsComponent

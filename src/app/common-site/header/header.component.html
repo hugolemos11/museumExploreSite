@@ -4,7 +4,7 @@
       <img src="./assets/imgs/Logo_clara.png" alt="logo" height="60px">
     </div>
     <ul class="nav nav-pills">
-      <li class="nav-item align-items-center d-flex"><a class="nav-link">{{authService.userData?.username}}</a></li>
+      <li class="nav-item align-items-center d-flex"><a class="nav-link">{{this.user.username}}</a></li>
       <li class="nav-item align-items-center d-flex"><a routerLink="dashboard" class="nav-link navLinkAuthenticated"
           routerLinkActive="active">Estatísticas</a>
       </li>
@@ -21,7 +21,8 @@
             <li><a class="dropdown-item descriptionTitleSecundaryColor" routerLink="museums/update-museum">Sobre o
                 Museu</a>
             </li>
-            <li><a class="dropdown-item descriptionTitleSecundaryColor" href="#">Configuração de conta</a></li>
+            <li><a class="dropdown-item descriptionTitleSecundaryColor" data-bs-toggle="modal"
+                data-bs-target="#updateUserModal" (click)="setUser($event)">Configuração de conta</a></li>
             <li><a class="dropdown-item descriptionTitleSecundaryColor" (click)="authService.SignOut()">Logout</a></li>
           </ul>
         </div>
@@ -77,3 +78,5 @@
     </ul>
   </header>
 </ng-template>
+
+<app-update-user [user]="user"></app-update-user>

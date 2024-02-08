@@ -1,0 +1,53 @@
+<div class="modal" tabindex="-1" id="updateTicketTypeModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-body m-2">
+        <form [formGroup]="updateTicketTypeForm" (ngSubmit)="updateTicketType()" action="closePopup.emit()">
+          <div class="row">
+            <div class="col-12 col-lg-6 col-xl-7 mb-3">
+              <img [src]="ticketTypeImage || './assets/imgs/defaultImage.png'" alt="Escolha uma imagem"
+                class="img-fluid popUpImage mb-2">
+              <input type="file" class="form-control description dialogInputs" id="image"
+                (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png">
+            </div>
+            <div class="col-12 col-lg-6 col-xl-5">
+              <div class="form-outline mb-3">
+                <label class="form-label" for="typeCreateInput">Tipo de Bilhete</label>
+                <input type="text" id="typeCreateInput" class="form-control form-control-lg dialogInputs"
+                  formControlName="type" [(ngModel)]="ticketType == undefined? '': ticketType.type" />
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('type') && isFieldTouched('type')">
+                  Tipo de Bilhete inválido.
+                </div>
+              </div>
+              <div class="form-outline mb-3">
+                <label class="form-label" for="priceCreateInput">Preço</label>
+                <input type="number" id="priceCreateInput" class="form-control form-control-lg dialogInputs"
+                  formControlName="price" [(ngModel)]="ticketType == undefined? '': ticketType.price" />
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('price') && isFieldTouched('price')">
+                  Preço inválido.
+                </div>
+              </div>
+            </div>
+            <div class="form-outline">
+              <label class="form-label" for="descriptionUpdateInput">Descrição</label>
+              <textarea id="descriptionUpdateInput" class="form-control form-control-lg dialogInputs"
+                formControlName="description"
+                [(ngModel)]="ticketType == undefined? '':ticketType.description"></textarea>
+              <div class="text-danger mt-3" *ngIf="isFieldInvalid('description') && isFieldTouched('descritpion')">
+                Descrição inválida.
+              </div>
+            </div>
+            <div class="modal-footer">
+              <!-- Using this <a> just to close the modal after the submit-->
+              <a #closeUpdateModal data-bs-dismiss="modal"></a>
+              <button type="button" class="buttonDelete" data-bs-toggle="modal" data-bs-target="#deleteEventModal"
+                (click)="setEventId($event, ticketType.id)">Excluir</button>
+              <button type="submit" class="buttonPrimary" [disabled]="updateTicketTypeForm.invalid">Salvar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-delete-ticket-type [ticketTypeId]="ticketType.id"></app-delete-ticket-type>

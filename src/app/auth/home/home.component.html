@@ -27,7 +27,7 @@
     [circular]="false" [autoplayInterval]="0" [responsiveOptions]="responsiveOptions">
     <ng-template let-museum pTemplate="item">
       <div class="item card">
-        <img [src]="museum.image" class="card-img-top" alt="...">
+        <img [src]="museum.image || './assets/imgs/defaultImage.png'" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">{{ museum.name }}</h5>
         </div>

@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ArtworkService } from '../artwork.service';
-import { Observable, catchError, forkJoin, of, switchMap } from 'rxjs';
+import { Observable, catchError, forkJoin, map, of, switchMap } from 'rxjs';
+import { ArtWorkImage } from '../artworkimage';
 
 @Component({
   selector: 'app-addimages-artwork',
@@ -9,12 +10,13 @@ import { Observable, catchError, forkJoin, of, switchMap } from 'rxjs';
 })
 export class AddimagesArtworkComponent {
   @Input() artWorkId: string;
-  artWorkImages: string[] = [];
-  tempArtWorkImages: string[] = [];
+  artWorkImagesData$: Observable<Array<ArtWorkImage>> = new Observable<Array<ArtWorkImage>>;
   tempArtWorkImagesFiles: File[] = [];
   tempArtWorkImagePreviews: string[] = [];
-  file: File = new File([], '', { type: 'text/plain' });
-  @ViewChild('closeUpdateModal') closeUpdateModal!: ElementRef;
+  currentImageIndex: number = 0;
+  numberOfImages: number = 0;
+
+  @ViewChild('closeImagesModal') closeImagesModal!: ElementRef;
 
   constructor(private artWorkService: ArtworkService) {
     this.artWorkId = '';
@@ -23,6 +25,10 @@ export class AddimagesArtworkComponent {
   loadArtWorkId(artWorkId: string) {
     if (artWorkId !== undefined) {
       this.artWorkId = artWorkId;
+      this.tempArtWorkImagesFiles = [];
+      this.tempArtWorkImagePreviews = [];
+      this.currentImageIndex = 0;
+      this.numberOfImages = 0;
       this.loadImages();
     } else {
       console.log('Art Work ID is undefined. Error.');
@@ -30,42 +36,39 @@ export class AddimagesArtworkComponent {
   }
 
   loadImages() {
-    this.artWorkImages = []; // Clear the existing images
-    console.log("ola")
-    this.artWorkService.getOtherImages(this.artWorkId).pipe(
-      switchMap(fileNames => {
-        const downloadObservables: Observable<string>[] = fileNames.map(fileName =>
-          this.artWorkService.downloadFile(fileName).pipe(
-            catchError(error => {
-              console.error(`Error downloading file ${fileName}: ${error}`);
-              return of('./assets/imgs/defaultImage.png'); // Provide a default image on error
+    this.artWorkImagesData$ = this.artWorkService.getOtherImages(this.artWorkId).pipe(
+      switchMap((artWorkImagesData: ArtWorkImage[]) => {
+        if (artWorkImagesData != null) {
+          const imageObservables = artWorkImagesData.map((artWorkImage: ArtWorkImage) =>
+            this.artWorkService.downloadFile(artWorkImage.pathToImage)
+          );
+
+          return forkJoin(imageObservables).pipe(
+            map((imageArrays: string[]) => {
+              artWorkImagesData.forEach((artWorkImage, index) => {
+                artWorkImage.image = imageArrays[index];
+              });
+              return artWorkImagesData;
             })
-          )
-        );
-        return forkJoin(downloadObservables);
+          );
+        } else {
+          console.log('Art Works Images data is empty!');
+          return [];
+        }
       })
-    ).subscribe(
-      downloadedImages => {
-        this.artWorkImages = downloadedImages;
-        this.tempArtWorkImages = this.artWorkImages;
-      },
-      error => {
-        console.error(error);
-        // Handle the error if needed
-      }
     );
+    this.artWorkImagesData$.subscribe((artWorkImagesData) => {
+      // Set the current image index to the last index
+      this.currentImageIndex = artWorkImagesData.length > 0 ? artWorkImagesData.length - 1 : 0;
+      this.numberOfImages = artWorkImagesData.length > 0 ? artWorkImagesData.length : 0
+    })
+
   }
 
   onFileChange(event: any) {
-    // reset the images
-    this.tempArtWorkImages = [];
-    if (this.tempArtWorkImages != this.artWorkImages) {
-      this.tempArtWorkImages = this.artWorkImages;
-      console.log(this.tempArtWorkImages)
-    }
-
-
     const files: FileList = event.target.files;
+    this.tempArtWorkImagePreviews = []
+    this.tempArtWorkImagesFiles = []
 
     // Iterate through selected files and add them to the temporary array
     for (let i = 0; i < files.length; i++) {
@@ -75,31 +78,61 @@ export class AddimagesArtworkComponent {
       // Generate a preview URL for the image
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.tempArtWorkImages.push(e.target.result);
+        this.tempArtWorkImagePreviews.push(e.target.result);
+        console.log(this.tempArtWorkImagePreviews);
       };
       reader.readAsDataURL(file);
     }
   }
 
-  /*saveArtWorkImages() {
+  saveArtWorkImages() {
     // Iterate through temporary array and upload files to Firebase
-    for (let i = 0; i < this.tempArtWorkImages.length; i++) {
+    for (let i = 0; i < this.tempArtWorkImagesFiles.length; i++) {
       const file: File = this.tempArtWorkImagesFiles[i];
 
-      const fileNameSplit = this.file.name.split('.');
-      const pathToImage = 'artWorksImages/' + this.artWorkId + '.' + fileNameSplit[fileNameSplit.length - 1];
-      this.artWorkService.uploadFile(pathToImage, file);
-      this.artWorkService.downloadFile(pathToImage).subscribe(
-        imageUrl => {
-          this.artWorkImages.push(imageUrl);
-        },
-        error => {
-          console.error(`Error uploading file ${file.name}: ${error}`);
-        }
-      );
-    }
+      // Create an object with the structure expected by your service
+      const artWorkImage: { id: string; artWorkId: string; pathToImage: string; image: string } = {
+        id: '',
+        artWorkId: this.artWorkId,
+        pathToImage: '',
+        image: '',
+      };
 
-    // Clear the temporary array
-    this.tempArtWorkImages = [];
-  }*/
+      try {
+        //call service
+        this.artWorkService.createArtWorkImage(artWorkImage).then((result) => {
+          const fileNameSplit = file.name.split('.');
+          artWorkImage.id = result.id;
+          artWorkImage.pathToImage = 'artWorksImages/' + artWorkImage.id + '.' + fileNameSplit[fileNameSplit.length - 1];
+          this.artWorkService.uploadFile(artWorkImage.pathToImage, file);
+          this.artWorkService.updateArtWorkImage(artWorkImage);
+          this.closeImagesModal.nativeElement.click();
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
+  deleteArtWorkImage(artWorkImageId: string, pathToImage: string) {
+    try {
+      //call service
+      this.artWorkService.deleteArtWorkImage(artWorkImageId, pathToImage).then(() => {
+        console.log('ArtWorkImage deleted successfully.');
+        // Update the current image index
+        this.currentImageIndex = Math.max(0, this.currentImageIndex - 1);
+
+        // Decrement the count of images to be deleted
+        this.numberOfImages--;
+
+        // Check if all images are deleted
+        if (this.numberOfImages === 0) {
+          // Dismiss the modal when all images are deleted
+          this.closeImagesModal.nativeElement.click();
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }

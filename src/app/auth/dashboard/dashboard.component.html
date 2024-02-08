@@ -1,42 +1,78 @@
 <div class="container-fluid responsivePaddingX">
-    <b class="titlePrimaryColor">Estatisticas Recentes</b>
-    <div class="row mt-5">
-        <div class="col responsivePaddingX">
-            <canvas id="barCanvas" class="mx-auto" height="300px" width="auto">{{barChart}}</canvas>
+  <b class="titlePrimaryColor">Estatisticas Recentes</b>
 
-            <div class="mt-2">
-                <b class="descriptionTitleBlackColor">Bilhetes comprados</b>
-                <p class="description">Representação visual por meio de um gráfico de barras que ilustra a quantidade de
-                    bilhetes adquiridos nos últimos sete dias no museu, oferecendo uma análise visualmente impactante da
-                    frequência de visitação ao longo desse período.</p>
-            </div>
-
+  <div class="row responsivePaddingX">
+    <div class="col-md-6 col-lg-4 mb-2 colDashboard">
+      <div class="card cardDashboard shadow">
+        <div class="card-body">
+          <h5 class="card-title">Total Acumulado</h5>
+          <p class="card-text">Aqui vai alguma informação sobre o total acumulado.</p>
         </div>
-        <div class="col responsivePaddingX">
-
-            <canvas id="doughnutCanvas" class="mx-auto" height="300px" width="auto">{{doughnutChart}}</canvas>
-
-            <div class="mt-2">
-                <b class="descriptionTitleBlackColor">Tipos de bilhetes comprados</b>
-                <p class="description">Representação visual por meio de um gráfico que ilustra a proporção de vendas nos
-                    últimos sete dias entre os diversos tipos de bilhetes disponíveis no museu.</p>
-            </div>
-
-        </div>
+      </div>
     </div>
+    <div class="col-md-6 col-lg-4 mb-2 colDashboard">
+      <div class="card cardDashboard shadow">
+        <div class="card-body">
+          <h5 class="card-title">Total Bilhetes Comprados</h5>
+          <p class="card-text">Aqui vai alguma informação sobre o total de bilhetes comprados.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4 mb-2 colDashboard">
+      <div class="card cardDashboard shadow">
+        <div class="card-body">
+          <h5 class="card-title">Outro Título</h5>
+          <p class="card-text">Aqui você pode adicionar outras informações.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4 mb-2 colDashboard">
+      <div class="card cardDashboard shadow">
+        <div class="card-body">
+          <h5 class="card-title">Outro Título</h5>
+          <p class="card-text">Aqui você pode adicionar outras informações.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col responsivePaddingX">
+      <canvas id="barCanvas" class="mx-auto" height="300px" width="auto">{{barChart}}</canvas>
+
+      <div class="mt-2">
+        <b class="descriptionTitleBlackColor">Bilhetes comprados</b>
+        <p class="description">Representação visual por meio de um gráfico de barras que ilustra a quantidade de
+          bilhetes adquiridos nos últimos sete dias no museu, oferecendo uma análise visualmente impactante da
+          frequência de visitação ao longo desse período.</p>
+      </div>
+
+    </div>
+    <div class="col responsivePaddingX">
+
+      <canvas id="doughnutCanvas" class="mx-auto" height="300px" width="auto">{{doughnutChart}}</canvas>
+
+      <div class="mt-2">
+        <b class="descriptionTitleBlackColor">Tipos de bilhetes comprados</b>
+        <p class="description">Representação visual por meio de um gráfico que ilustra a proporção de vendas nos
+          últimos sete dias entre os diversos tipos de bilhetes disponíveis no museu.</p>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <div id="obrasRegistadas" class="container-fluid images-container py-3">
-    <b class="titleBackgroundColor mb-2">Obras Registadas</b>
-    <p-carousel [value]="(artWorksData$ | async) ?? []" styleClass="custom-carousel" [numVisible]="5" [numScroll]="1"
-        [circular]="false" [autoplayInterval]="0" [responsiveOptions]="responsiveOptions">
-        <ng-template let-artwork pTemplate="item">
-            <div class="item card">
-                <img [src]="artwork.image" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">{{ artwork.name }}</h5>
-                </div>
-            </div>
-        </ng-template>
-    </p-carousel>
+  <b class="titleBackgroundColor mb-2">Obras Registadas</b>
+  <p-carousel [value]="(artWorksData$ | async) ?? []" styleClass="custom-carousel" [numVisible]="5" [numScroll]="1"
+    [circular]="false" [autoplayInterval]="0" [responsiveOptions]="responsiveOptions">
+    <ng-template let-artwork pTemplate="item">
+      <div class="item card">
+        <img [src]="artwork.image || './assets/imgs/defaultImage.png'" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{ artwork.name }}</h5>
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
 </div>
