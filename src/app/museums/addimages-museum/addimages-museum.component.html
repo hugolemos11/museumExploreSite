@@ -1,0 +1,44 @@
+<div class="modal" tabindex="-1" id="addImagesMuseumModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body m-2">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel"
+          *ngIf="museumImagesData$ | async as museumImagesData">
+          <div class="carousel-inner">
+            <div class="carousel-item" *ngFor="let image of museumImagesData; let i = index"
+              [class.active]="i === currentImageIndex">
+              <img [src]="image.image || './assets/imgs/defaultImage.png'" class="d-block w-100" alt="Image {{i}}">
+              <a (click)="deleteMuseumImage(image.id, image.pathToImage)" class="delete-icon">
+                <i class="material-icons">&#xe872;</i>
+              </a>
+            </div>
+            <ng-container *ngIf="tempMuseumImagePreviews.length > 0">
+              <div class="carousel-item" *ngFor="let preview of tempMuseumImagePreviews">
+                <img [src]="preview || './assets/imgs/defaultImage.png'" class="d-block w-100" alt="Image Preview">
+              </div>
+            </ng-container>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+        <div class="mb-3">
+          <label for="formFileMultiple" class="form-label">Multiple files input example</label>
+          <input class="form-control dialogInputs" type="file" id="formFileMultiple" (change)="onFileChange($event)"
+            multiple>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="buttonClose" #closeImagesModal data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="buttonPrimary" (click)="saveMuseumImages()">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

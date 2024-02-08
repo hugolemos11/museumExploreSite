@@ -7,8 +7,9 @@
       </button>
     </div>
   </div>
-  <div class="d-flex align-items-center mb-2 mt-3">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchTerm"
+  <div class="search-box mb-3">
+    <button class="btn-search"><i class="material-icons">&#xe8b6;</i></button>
+    <input type="text" class="input-search" placeholder="Type to Search..." [(ngModel)]="searchTerm"
       (input)="reloadData()">
   </div>
   <div class="row">

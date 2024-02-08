@@ -11,7 +11,6 @@ export class TicketTypeService {
 
   constructor(private firestore: AngularFirestore, private storage: AngularFireStorage) { }
 
-
   getAllTicketsFromMuseumFiltered(museumId: string): Observable<Ticket[]> {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -47,6 +46,47 @@ export class TicketTypeService {
               type: element['type'],
               price: element['price'],
               description: element['description'],
+              maxToBuy: element['maxToBuy'],
+              pathToImage: element['pathToImage'],
+            }
+          })
+        }),
+      );
+  }
+
+  getAllTickets(): Observable<Ticket[]> {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    return this.firestore.collection<Ticket>('tickets', ref =>
+      ref.where('purchaseDate', '>=', sevenDaysAgo)
+    ).valueChanges({ idField: 'id' })
+      .pipe(
+        map((data: any[]) => {
+          return data.map(element => {
+            return {
+              id: element.id,
+              museumId: element['museumId'],
+              typeId: element['typeId'],
+              amount: element['amount'],
+              purchaseDate: element['purchaseDate'].toDate(),
+            }
+          })
+        }),
+      );
+  }
+
+  getAllTicketsTypes(): Observable<TicketType[]> {
+    return this.firestore.collection<TicketType>('ticketTypes').valueChanges({ idField: 'id' })
+      .pipe(
+        map((data: any[]) => {
+          return data.map(element => {
+            return {
+              id: element.id,
+              museumId: element['museumId'],
+              type: element['type'],
+              price: element['price'],
+              description: element['description'],
+              maxToBuy: element['maxToBuy'],
               pathToImage: element['pathToImage'],
             }
           })
@@ -66,6 +106,7 @@ export class TicketTypeService {
           type: data['type'],
           price: data['price'],
           description: data['description'],
+          maxToBuy: data['maxToBuy'],
           pathToImage: data['pathToImage'],
         }
       })
@@ -79,6 +120,7 @@ export class TicketTypeService {
       type: ticketType.type,
       price: ticketType.price,
       description: ticketType.description,
+      maxToBuy: ticketType.maxToBuy,
       pathToImage: ticketType.pathToImage,
     };
 
@@ -92,6 +134,7 @@ export class TicketTypeService {
       'type': ticketType.type,
       'price': ticketType.price,
       'description': ticketType.description,
+      'maxToBuy': ticketType.maxToBuy,
       'pathToImage': ticketType.pathToImage,
     };
     return this.firestore.collection<TicketType>('ticketTypes').doc(ticketType.id).update(firestoreTicketType);

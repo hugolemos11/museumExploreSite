@@ -4,6 +4,7 @@ export interface TicketType {
   type: string;
   price: number;
   description: string;
+  maxToBuy: number;
   pathToImage: string;
   image?: string;
 }

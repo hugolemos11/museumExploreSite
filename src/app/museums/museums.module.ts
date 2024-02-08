@@ -9,6 +9,7 @@ import { UpdateMuseumComponent } from './update-museum/update-museum.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CarouselModule } from 'primeng/carousel';
 import { TicketTypeModule } from '../ticket-type/ticket-type.module';
+import { AddimagesMuseumComponent } from './addimages-museum/addimages-museum.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { TicketTypeModule } from '../ticket-type/ticket-type.module';
     MuseumsComponent,
     CreateMuseumComponent,
     ListMuseumComponent,
-    UpdateMuseumComponent
+    UpdateMuseumComponent,
+    AddimagesMuseumComponent
   ],
   imports: [
     CommonModule,

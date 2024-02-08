@@ -24,6 +24,7 @@ export class UpdateTicketTypeComponent {
       type: ['', [Validators.required]],
       price: ['', [Validators.required]],
       description: ['', [Validators.required]],
+      maxToBuy: ['', [Validators.required]],
     });
     this.ticketType = {
       id: '',
@@ -31,6 +32,7 @@ export class UpdateTicketTypeComponent {
       type: '',
       price: 0,
       description: '',
+      maxToBuy: 0,
       pathToImage: '',
     };
   }
@@ -82,8 +84,10 @@ export class UpdateTicketTypeComponent {
             type: data.type,
             price: data.price,
             description: data.description,
+            maxToBuy: data.maxToBuy,
             pathToImage: data.pathToImage,
           };
+          this.loadImage()
         } else {
           console.log('Data ID is empty.');
         }

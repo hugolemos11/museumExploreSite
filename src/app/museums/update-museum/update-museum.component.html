@@ -10,8 +10,8 @@
             <img [src]="museumImage || './assets/imgs/defaultImage.png'" alt="museu"
               class="img-fluid mb-2 shadow-1-strong rounded mb-4" style="max-height: 200px; width: auto;">
             <div class="position-absolute top-0 start-0 end-0 text-white p-2">
-              <a data-bs-toggle="modal" data-bs-target="#addImagesArtWorkModal"><i
-                  class="material-icons">&#xe413;</i></a>
+              <a data-bs-toggle="modal" data-bs-target="#addImagesMuseumModal"
+                (click)="setMuseumId($event, museumId)"><i class="material-icons">&#xe413;</i></a>
             </div>
           </div>
           <br>
@@ -48,7 +48,7 @@
       <div class="mb-2 mt-5">
         <div class="d-flex align-items-center mb-2">
           <span class="descriptionTitleBlackColor me-2">Bilhetes</span>
-          <a data-bs-toggle="modal" data-bs-target="#createTicketTypeModal" (click)="setMuseumId($event)"><i
+          <a data-bs-toggle="modal" data-bs-target="#createTicketTypeModal"><i
               class="material-icons align-middle">&#xe146;</i></a>
         </div>
         <p-carousel [value]="(ticketTypesData$ | async) ?? []" styleClass="custom-carousel" [numVisible]="5"
@@ -61,7 +61,7 @@
               <div
                 class="position-absolute top-0 start-0 end-0 text-white p-2 text-center h-100 d-flex flex-column justify-content-between overlay-container">
                 <p class="m-0 ticketType">{{ticketType.type}}</p>
-                <p class="m-0 ticketPrice">{{ticketType.price}}</p>
+                <p class="m-0 ticketPrice">{{ticketType.price}}€</p>
                 <p class="m-0 ticketDescription">{{ticketType.description}}</p>
               </div>
             </div>
@@ -74,5 +74,6 @@
     </div>
   </form>
 </div>
+<app-addimages-museum [museumId]="museumId"></app-addimages-museum>
 <app-create-ticket-type [museumId]="museumId"></app-create-ticket-type>
 <app-update-ticket-type [ticketType]="ticketType"></app-update-ticket-type>

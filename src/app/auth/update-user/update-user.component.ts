@@ -12,6 +12,10 @@ export class UpdateUserComponent {
   @Input() user: User;
   updateUserForm: FormGroup;
 
+  showOldPassword: boolean = false;
+  showNewPassword: boolean = false;
+  showRepeatPassword: boolean = false;
+
   @ViewChild('closeUpdateModal') closeUpdateModal!: ElementRef;
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService) {
@@ -103,6 +107,18 @@ export class UpdateUserComponent {
     if (control != null)
       isInvalid = control.invalid && (control.touched || control.dirty);
     return isInvalid;
+  }
+
+  toggleOldPasswordVisibility() {
+    this.showOldPassword = !this.showOldPassword;
+  }
+
+  toggleNewPasswordVisibility() {
+    this.showNewPassword = !this.showNewPassword;
+  }
+
+  toggleRepeatPasswordVisibility() {
+    this.showRepeatPassword = !this.showRepeatPassword;
   }
 
   loadUser(user: User) {

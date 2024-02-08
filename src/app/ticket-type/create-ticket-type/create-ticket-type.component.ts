@@ -23,6 +23,7 @@ export class CreateTicketTypeComponent {
       type: ['', [Validators.required]],
       price: ['', [Validators.required]],
       description: ['', [Validators.required]],
+      maxToBuy: ['', [Validators.required]],
       image: ['', [Validators.required]],
     });
     this.ticketType = {
@@ -31,6 +32,7 @@ export class CreateTicketTypeComponent {
       type: '',
       price: 0,
       description: '',
+      maxToBuy: 0,
       pathToImage: '',
     };
   }

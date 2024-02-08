@@ -6,6 +6,7 @@ import { Museum } from './museum';
 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { Museumimage } from './museumimage';
 
 @Injectable({
   providedIn: 'root'
@@ -100,13 +101,63 @@ export class MuseumService {
     return this.firestore.collection<Museum>('museums').doc(museum.id).update(firestoreMuseum);
   }
 
+  getOtherImages(museumId: string): Observable<Museumimage[]> {
+    return this.firestore.collection<Museumimage[]>('imagesCollectionMuseum', ref => ref.where('museumId', '==', museumId))
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        map((data: any[]) => {
+          return data.map(element => {
+            return {
+              id: element.id,
+              museumId: element['museumId'],
+              pathToImage: element['pathToImage'],
+            }
+          })
+        })
+      );
+  }
+
+  createMuseumImage(museumImage: Museumimage): Promise<any> {
+    var firestoreMuseumImage: any = {
+      'museumId': museumImage.museumId,
+      'pathToImage': museumImage.pathToImage,
+    };
+
+    return this.firestore.collection<Museumimage>('imagesCollectionMuseum').add(firestoreMuseumImage);
+  }
+
+  updateMuseumImage(museumImage: Museumimage): Promise<void> {
+    var firestoreMuseumImage: any = {
+      'museumId': museumImage.museumId,
+      'pathToImage': museumImage.pathToImage,
+    };
+    return this.firestore.collection<Museumimage>('imagesCollectionMuseum').doc(museumImage.id).update(firestoreMuseumImage);
+  }
+
+  deleteMuseumImage(museumImageId: string, pathToImage: string): Promise<void> {
+    this.storage.ref(pathToImage).delete();
+    return this.firestore.collection<Museumimage>('imagesCollectionMuseum').doc(museumImageId).delete();
+  }
+
   downloadFile(fileName: string): Observable<string> {
     const fileRef = this.storage.ref(`${fileName}`);
     return fileRef.getDownloadURL();
   }
 
-  uploadFile(fileName: string, file: File): void {
+  uploadFile(fileName: string, file: File): Promise<void> {
     const filePath = `${fileName}`;
-    this.storage.upload(filePath, file);
+    const uploadTask = this.storage.upload(filePath, file);
+
+    // Create a Promise to handle the completion of the upload task
+    return new Promise<void>((resolve, reject) => {
+      uploadTask.then(_ => {
+        // The upload is complete
+        resolve();
+      }).catch(error => {
+        // An error occurred during the upload
+        console.error(error);
+        reject(error);
+      });
+    });
   }
 }

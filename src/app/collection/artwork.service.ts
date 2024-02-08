@@ -34,6 +34,26 @@ export class ArtworkService {
       );
   }
 
+  getAllArtWorks(): Observable<Artwork[]> {
+    return this.firestore.collection<Artwork>('artWorks').valueChanges({ idField: 'id' })
+      .pipe(
+        map((data: any[]) => {
+          return data.map(element => {
+            return {
+              id: element.id,
+              name: element['name'],
+              artist: element['artist'],
+              year: element['year'],
+              categoryId: element['categoryId'],
+              description: element['description'],
+              museumId: element['museumId'],
+              pathToImage: element['pathToImage'],
+            }
+          })
+        }),
+      );
+  }
+
   getArtWorkById(artWorkId: string): Observable<Artwork> {
     return this.firestore.collection<Artwork>('artWorks').doc<Artwork>(artWorkId).snapshotChanges().pipe(
       map(snapshot => {

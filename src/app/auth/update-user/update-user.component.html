@@ -13,24 +13,39 @@
           </div>
           <div class="form-outline mb-3">
             <label class="form-label" for="oldPasswordUpdateInput">Palavra-Passe Atual</label>
-            <input type="text" id="oldPasswordUpdateInput" class="form-control form-control-lg dialogInputs"
-              formControlName="oldPassword" />
+            <div class="input-group">
+              <input type="{{ showOldPassword ? 'text' : 'password' }}" id="oldPasswordUpdateInput"
+                class="form-control form-control-lg dialogInputs" formControlName="oldPassword" />
+              <button type="button" class="btn btn-outline-secondary" (click)="toggleOldPasswordVisibility()">
+                <i class="{{ showOldPassword ? 'bi bi-eye-slash' : 'bi bi-eye' }}"></i>
+              </button>
+            </div>
             <div class="text-danger mt-3" *ngIf="isPasswordHaveValue()">
               Insira a sua palavra-passe atual.
             </div>
           </div>
           <div class="form-outline mb-3">
             <label class="form-label" for="newPasswordUpdateInput">Palavra-Passe</label>
-            <input type="text" id="newPasswordUpdateInput" class="form-control form-control-lg dialogInputs"
-              formControlName="newPassword" />
+            <div class="input-group">
+              <input type="{{ showNewPassword ? 'text' : 'password' }}" id="newPasswordUpdateInput"
+                class="form-control form-control-lg dialogInputs" formControlName="newPassword" />
+              <button type="button" class="btn btn-outline-secondary" (click)="toggleNewPasswordVisibility()">
+                <i class="{{ showNewPassword ? 'bi bi-eye-slash' : 'bi bi-eye' }}"></i>
+              </button>
+            </div>
             <div class="text-danger mt-3" *ngIf="isNewPasswordHaveSameValueAsOld()">
               Nova palavra-passe igual a palavra-passe atual.
             </div>
           </div>
           <div class="form-outline mb-3">
             <label class="form-label" for="repeatPasswordUpdateInput">Repetir Palavra-Passe</label>
-            <input type="text" id="repeatPasswordUpdateInput" class="form-control form-control-lg dialogInputs"
-              formControlName="repeatPassword" />
+            <div class="input-group">
+              <input type="{{ showRepeatPassword ? 'text' : 'password' }}" id="repeatPasswordUpdateInput"
+                class="form-control form-control-lg dialogInputs" formControlName="repeatPassword" />
+              <button type="button" class="btn btn-outline-secondary" (click)="toggleRepeatPasswordVisibility()">
+                <i class="{{ showRepeatPassword ? 'bi bi-eye-slash' : 'bi bi-eye' }}"></i>
+              </button>
+            </div>
             <div class="text-danger mt-3" *ngIf="isNewPasswordHaveSameValueAsRePassword()">
               Palavras-passes diferentes.
             </div>

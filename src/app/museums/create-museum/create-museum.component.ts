@@ -73,9 +73,13 @@ export class CreateMuseumComponent {
           this.museumService.updateMuseum(this.museum);
 
           // Create User
-          const email = this.museum.name + '@museumexplore.com';
-          const password = '123' + this.museum.name[0].toUpperCase() + this.museum.name.slice(1).toLowerCase() + '*';
-          this.authService.SignUp(email, password)
+          console.log(this.museum.name)
+          const museumName = this.museum.name.replace(/\s/g, "").toLowerCase();
+          const email = museumName + '@museumexplore.com';
+          const password = '123' + museumName[0].toUpperCase() + museumName.slice(1) + '*';
+          console.log(email)
+          console.log(password)
+          this.authService.SignUp(email, password, this.museum.name)
           // Update successful, close the modal
           this.closeCreateModal.nativeElement.click();
         });

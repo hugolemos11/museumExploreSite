@@ -10,6 +10,8 @@ import { TicketTypeService } from '../../ticket-type/ticket-type.service';
 import { TicketType } from '../../ticket-type/ticket-type';
 import { CreateTicketTypeComponent } from '../../ticket-type/create-ticket-type/create-ticket-type.component';
 import { UpdateTicketTypeComponent } from '../../ticket-type/update-ticket-type/update-ticket-type.component';
+import { AddimagesMuseumComponent } from '../addimages-museum/addimages-museum.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-museum',
@@ -41,10 +43,10 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
   currentPosition = { lngX: -118.274861, latY: 36.598999 }
   marker?: mapboxgl.Marker;
 
-  @ViewChild(CreateTicketTypeComponent) createComponent!: CreateTicketTypeComponent;
+  @ViewChild(AddimagesMuseumComponent) addImagesMuseumComponent!: AddimagesMuseumComponent;
   @ViewChild(UpdateTicketTypeComponent) updateComponent!: UpdateTicketTypeComponent
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private museumService: MuseumService, private ticketTypeService: TicketTypeService) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private museumService: MuseumService, private ticketTypeService: TicketTypeService, private router: Router) {
     this.museumForm = this.formBuilder.group({
       description: ['', [Validators.required]],
       location: ['', [Validators.required]],
@@ -55,6 +57,7 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
       type: '',
       price: 0,
       description: '',
+      maxToBuy: 0,
       pathToImage: '',
     };
     this.responsiveOptions = [
@@ -105,10 +108,11 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
           };
         }
 
-        this.museumService.updateMuseum(this.museumData!).then(() => {
+        this.museumService.updateMuseum(this.museumData!).then(async () => {
           if (this.file.name !== '') {
-            this.museumService.uploadFile(this.museumData!.pathToImage, this.file);
+            await this.museumService.uploadFile(this.museumData!.pathToImage, this.file);
           }
+          window.location.reload();
         });
 
       } catch (error) {
@@ -304,9 +308,9 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setMuseumId(event: any) {
-    if (this.museumData?.id !== undefined) {
-      //this.createComponent.loadMuseumId(this.museumId);
+  setMuseumId(event: any, museumId: string) {
+    if (museumId !== undefined) {
+      this.addImagesMuseumComponent.loadMuseumId(this.museumId);
     } else {
       console.log("erro");
     }

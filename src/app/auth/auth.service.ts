@@ -82,30 +82,18 @@ export class AuthService {
   }
 
   // Sign up with email/password
-  SignUp(email: string, password: string) {
-    /*return this.functions
-      .httpsCallable('setUserData')({ email, password })
-      .toPromise()
-      .then((result) => {
-        console.log(result);
-        // Handle success
-      })
-      .catch((error) => {
-        console.error(error);
-        // Handle error
-      });*/
+  SignUp(email: string, password: string, username: string) {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        this.SetUserData(email, result.user!.uid);
+        this.SetUserData(email, result.user!.uid, username);
       })
       .catch((error) => {
         window.alert(error.message);
       });
   }
 
-  SetUserData(email: string, uid: string) {
-    const username = email.split('@')[0];
+  SetUserData(email: string, uid: string, username: string) {
     this.museumService.getMuseumIdByMuseumName(username).pipe(
       switchMap((recievedMuseumId) => {
         if (recievedMuseumId != null) {

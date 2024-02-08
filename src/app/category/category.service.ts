@@ -11,6 +11,21 @@ export class CategoryService {
 
   constructor(private firestore: AngularFirestore) { }
 
+  getAllCategories(): Observable<Category[]> {
+    return this.firestore.collection<Category>('categories').valueChanges({ idField: 'id' })
+      .pipe(
+        map((data: any[]) => {
+          return data.map(element => {
+            return {
+              id: element['id'],
+              museumId: element['museumId'],
+              description: element['description'],
+            }
+          })
+        }),
+      );
+  }
+
   getAllCategoriesFromMuseum(museumId: string): Observable<Category[]> {
     return this.firestore.collection<Category>('categories', ref =>
       ref.where('museumId', '==', museumId)
