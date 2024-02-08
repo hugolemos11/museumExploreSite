@@ -69,8 +69,8 @@
     <ng-template let-artwork pTemplate="item">
       <div class="item card">
         <img [src]="artwork.image || './assets/imgs/defaultImage.png'" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">{{ artwork.name }}</h5>
+        <div class="card-body position-absolute bottom-0 start-0 end-0 text-white p-2">
+          <p class="m-0 labelTitle">{{artwork.name}}</p>
         </div>
       </div>
     </ng-template>

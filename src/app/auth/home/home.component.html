@@ -28,8 +28,8 @@
     <ng-template let-museum pTemplate="item">
       <div class="item card">
         <img [src]="museum.image || './assets/imgs/defaultImage.png'" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">{{ museum.name }}</h5>
+        <div class="card-body position-absolute bottom-0 start-0 end-0 text-white p-2">
+          <p class="m-0 labelTitle">{{museum.name}}</p>
         </div>
       </div>
     </ng-template>
