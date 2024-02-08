@@ -28,9 +28,6 @@ export class MuseumService {
             name: element['name'],
             nameSearch: element['nameSearch'],
             description: element['description'],
-            rate: element['rate'],
-            ticketsNumber: element['ticketsNumber'],
-            visits: element['visits'],
             location: { latitude: latitude, longitude: longitude },
             pathToImage: element['pathToImage'],
           };
@@ -54,9 +51,6 @@ export class MuseumService {
           id: id,
           name: data['name'],
           description: data['description'],
-          rate: data['rate'],
-          ticketsNumber: data['ticketsNumber'],
-          visits: data['visits'],
           location: { latitude: latitude, longitude: longitude },
           pathToImage: data['pathToImage'],
         };
@@ -64,9 +58,31 @@ export class MuseumService {
     );
   }
 
-  downloadFile(fileName: string): Observable<string> {
-    const fileRef = this.storage.ref(`${fileName}`);
-    return fileRef.getDownloadURL();
+  getMuseumIdByMuseumName(museumName: string): Observable<string | null> {
+    return this.firestore.collection<Museum>('museums', ref =>
+      ref.where('name', '==', museumName)
+    ).snapshotChanges().pipe(
+      map(museums => {
+        const firstMuseum = museums[0];
+        return firstMuseum ? firstMuseum.payload.doc.id : null;
+      })
+    );
+  }
+
+  createMuseum(museum: Museum): Promise<any> {
+    console.log(museum)
+    var firestoreMuseum: any = {
+      id: museum,
+      name: museum.name,
+      description: museum.description,
+      location: {
+        latitude: museum.location.latitude,
+        longitude: museum.location.longitude,
+      },
+      pathToImage: museum.pathToImage,
+    };
+
+    return this.firestore.collection<Museum>('museums').add(firestoreMuseum);
   }
 
   updateMuseum(museum: Museum): Promise<void> {
@@ -75,9 +91,6 @@ export class MuseumService {
       'id': museum.id,
       'name': museum.name,
       'description': museum.description,
-      'rate': museum.rate,
-      'ticketsNumber': museum.ticketsNumber,
-      'visits': museum.visits,
       'location': {
         'latitude': museum.location.latitude,
         'longitude': museum.location.longitude,
@@ -85,6 +98,11 @@ export class MuseumService {
       'pathToImage': museum.pathToImage,
     };
     return this.firestore.collection<Museum>('museums').doc(museum.id).update(firestoreMuseum);
+  }
+
+  downloadFile(fileName: string): Observable<string> {
+    const fileRef = this.storage.ref(`${fileName}`);
+    return fileRef.getDownloadURL();
   }
 
   uploadFile(fileName: string, file: File): void {

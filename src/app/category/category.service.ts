@@ -43,41 +43,67 @@ export class CategoryService {
     );
   }
 
-  createCategory(category: Category): Promise<any> {
-    return new Promise((resolve, reject) => {
-      const categories$ = this.firestore.collection<Category>('categories', ref =>
-        ref.where('museumId', '==', category.museumId).where('description', '==', category.description.toLowerCase())
-      ).snapshotChanges();
+  async createCategory(category: Category): Promise<any> {
+    try {
+      const categoriesSnapshot = await this.firestore
+        .collection<Category>('categories', ref =>
+          ref
+            .where('museumId', '==', category.museumId)
+            .where('description', '==', category.description.toLowerCase())
+        )
+        .get()
+        .toPromise();
 
-      categories$.subscribe(
-        (categories) => {
-          console.log(categories);
-          if (categories.length > 0) {
-            reject(new Error('Não é possível excluir categorias com obras associadas!'));
-          } else {
-            const firestoreCategory: any = {
-              'museumId': category.museumId,
-              'description': category.description.toLowerCase()
-            };
+      const categories = categoriesSnapshot!.docs;
 
-            resolve(this.firestore.collection<Category>('categories').add(firestoreCategory));
-          }
-        },
-        error => {
-          console.error(`Error querying artworks: ${error.message}`);
-          reject(error);
-        }
-      );
-    });
+      if (categories && categories.length > 0) {
+        throw new Error('Essa categoria já existe!');
+      }
+
+      const firestoreCategory: any = {
+        'museumId': category.museumId,
+        'description': category.description.toLowerCase()
+      };
+
+      const result = await this.firestore.collection<Category>('categories').add(firestoreCategory);
+
+      return result; // You can return additional data if needed
+    } catch (error: any) {
+      console.error(`Error creating category: ${error.message}`);
+      throw error;
+    }
   }
 
-  updateCategory(category: Category): Promise<void> {
-    var firestoreCategory: any = {
-      'museumId': category.museumId,
-      'description': category.description.toLowerCase(),
-    };
-    console.log(category.id)
-    return this.firestore.collection<Category>('categories').doc(category.id).update(firestoreCategory);
+  async updateCategory(category: Category): Promise<void> {
+    try {
+      const categoriesSnapshot = await this.firestore
+        .collection<Category>('categories', ref =>
+          ref
+            .where('museumId', '==', category.museumId)
+            .where('description', '==', category.description.toLowerCase())
+        )
+        .get()
+        .toPromise();
+
+      const categories = categoriesSnapshot!.docs;
+
+      if (categories && categories.length > 0) {
+        throw new Error('Essa categoria já existe!');
+      }
+
+      var firestoreCategory: any = {
+        'museumId': category.museumId,
+        'description': category.description.toLowerCase(),
+      };
+
+      console.log(category.id);
+
+      // Update the category document
+      await this.firestore.collection<Category>('categories').doc(category.id).update(firestoreCategory);
+    } catch (error: any) {
+      console.error(`Error updating category: ${error.message}`);
+      throw error;
+    }
   }
 
   deleteCategory(categoryId: string): Promise<void> {
@@ -91,6 +117,7 @@ export class CategoryService {
           if (artworks.length > 0) {
             reject(new Error('Não é possibel excluir categorias com obras associadas!'));
           } else {
+            console.log(categoryId)
             resolve(this.firestore.collection<Category>('categories').doc(categoryId).delete());
           }
         },

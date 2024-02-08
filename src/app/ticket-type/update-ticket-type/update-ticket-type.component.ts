@@ -88,16 +88,16 @@ export class UpdateTicketTypeComponent {
           console.log('Data ID is empty.');
         }
       }, (error) => {
-        console.error('Error fetching coder data:', error); // Log any error from getCoderById
+        console.error('Error fetching ticket type data:', error); // Log any error from getCoderById
       });
     } else {
       console.log('Art Work ID is undefined. Error.');
     }
   }
 
-  setEventId(event: any, eventId: string) {
-    if (eventId !== undefined) {
-      //this.deleteComponent.loadEventId(eventId)
+  setTicketTypeId(event: any, ticketTypeId: string) {
+    if (ticketTypeId !== undefined) {
+      this.deleteComponent.loadTicketTypeId(ticketTypeId)
     } else {
       console.log("erro");
     }

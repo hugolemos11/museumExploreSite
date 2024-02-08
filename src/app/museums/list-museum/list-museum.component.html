@@ -1,1 +1,26 @@
-<p>list-museum works!</p>
+<div class="container-fluid mt-3">
+  <div class="mb-2">
+    <div class="d-flex align-items-center mb-2">
+      <span class="titlePrimaryColor me-3">Museus</span>
+      <button class="buttonLightBlue ms-auto" data-bs-toggle="modal" data-bs-target="#createMuseumModal">
+        Adicionar Museu
+      </button>
+    </div>
+  </div>
+  <div class="d-flex align-items-center mb-2 mt-3">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchTerm"
+      (input)="reloadData()">
+  </div>
+  <div class="row">
+    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-3"
+      *ngFor="let museum of (museumsData$ | async) as museums; let i = index">
+      <div class="card position-relative">
+        <img [src]="museum.image || './assets/imgs/defaultImage.png'" alt="" class="card-img gridImages">
+        <div class="position-absolute bottom-0 start-0 end-0 text-white p-2">
+          <p class="m-0 labelTitle">{{museum.name}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-create-museum></app-create-museum>

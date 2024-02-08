@@ -1,1 +1,55 @@
-<p>create-museum works!</p>
+<div class="modal" tabindex="-1" id="createMuseumModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-body m-2">
+        <form [formGroup]="createMuseumForm" (ngSubmit)="createMuseum()" action="closePopup.emit()">
+          <div class="row">
+            <div class="col-12 col-lg-6 col-xl-7 mb-3">
+              <img [src]="museumImage || './assets/imgs/defaultImage.png'" alt="Escolha uma imagem"
+                class="img-fluid popUpImage mb-2">
+              <input type="file" class="form-control description dialogInputs" id="image"
+                (change)="onFileSelected($event)" formControlName="image" accept=".jpg, .jpeg, .png">
+              <div class="text-danger mt-3" *ngIf="isFieldInvalid('image') && isFieldTouched('image')">
+                Imagem inválida.
+              </div>
+              <div class="form-outline mt-3">
+                <label class="form-label" for="descriptionCreateInput">Descrição</label>
+                <textarea id="descriptionCreateInput" class="form-control form-control-lg dialogInputs"
+                  formControlName="description" [(ngModel)]="museum.description" style="height: 100px;"></textarea>
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('description') && isFieldTouched('descritpion')">
+                  Descrição inválida.
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-5">
+              <div class="form-outline mb-3">
+                <label class="form-label" for="nameCreateInput">Nome do Museu</label>
+                <input type="text" id="nameCreateInput" class="form-control form-control-lg dialogInputs"
+                  formControlName="name" [(ngModel)]="museum.name" />
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('name') && isFieldTouched('name')">
+                  Nome do Museu inválido.
+                </div>
+              </div>
+              <div class="form-outline mt-2">
+                <label class="form-label" for="nameCreateInput">Localização</label>
+                <input type="text" class="form-control form-control-lg dialogInputs" id="location"
+                  placeholder="Longitude, Latitude" name="location" formControlName="location"
+                  [(ngModel)]="locationValue" (blur)="onLocationBlur()" required>
+                <div class="text-danger mt-3" *ngIf="isFieldInvalid('location') && isFieldTouched('location')">
+                  Invalid Location.
+                </div>
+                <div id="map" class="mt-3" style="height:38cap;">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <!-- Using this <a> just to close the modal after the submit-->
+            <a #closeCreateModal data-bs-dismiss="modal"></a>
+            <button type="submit" class="buttonPrimary" [disabled]="createMuseumForm.invalid">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

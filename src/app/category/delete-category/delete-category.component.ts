@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CategoryService } from '../category.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { CategoryService } from '../category.service';
   templateUrl: './delete-category.component.html',
   styleUrl: './delete-category.component.css'
 })
-export class DeleteCategoryComponent {
+export class DeleteCategoryComponent implements AfterViewInit {
 
   @Input() categoryId: string;
   errorMessage: string;

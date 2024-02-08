@@ -1,33 +1,40 @@
 <header *ngIf="authService.isLoggedIn; else isLoggedOut" class="py-3 mb-1 border-bottom header-background-auth">
-  <div *ngIf="isMobileLayout; else drawer;" class="d-flex justify-content-between">
-    <div class="align-items-center ms-5 text-dark text-decoration-none">
-      <img src="./assets/imgs/logo_clara.png" alt="logo" height="60px">
-    </div>
-    <ul class="nav nav-pills">
-      <li class="nav-item align-items-center d-flex"><a class="nav-link">{{this.user.username}}</a></li>
-      <li class="nav-item align-items-center d-flex"><a routerLink="dashboard" class="nav-link navLinkAuthenticated"
-          routerLinkActive="active">Estatísticas</a>
-      </li>
-      <li class="nav-item align-items-center d-flex"><a routerLink="collection/list-artwork"
-          class="nav-link navLinkAuthenticated" routerLinkActive="active">Acervo</a></li>
-      <li class="nav-item align-items-center d-flex"><a routerLink="event/list-event"
-          class="nav-link navLinkAuthenticated" routerLinkActive="active">Eventos</a></li>
-      <li class="nav-item align-items-center d-flex ms-2 me-5">
-        <div class=" dropdown">
-          <a id="dropdownMenuLink" data-bs-toggle="dropdown" data-bs-offset="45,38">
-            <img src="./assets/imgs/personIcon.png" alt="">
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <li><a class="dropdown-item descriptionTitleSecundaryColor" routerLink="museums/update-museum">Sobre o
-                Museu</a>
-            </li>
-            <li><a class="dropdown-item descriptionTitleSecundaryColor" data-bs-toggle="modal"
-                data-bs-target="#updateUserModal" (click)="setUser($event)">Configuração de conta</a></li>
-            <li><a class="dropdown-item descriptionTitleSecundaryColor" (click)="authService.SignOut()">Logout</a></li>
-          </ul>
+  <div *ngIf="(this.user.museumId != null); else globalAdmin;">
+    <div *ngIf="isMobileLayout; else drawer;" class="d-flex justify-content-between">
+      <div class="d-flex justify-content-start">
+        <div class="align-items-center ms-5 text-dark text-decoration-none">
+          <img src="./assets/imgs/logo_clara.png" alt="logo" height="60px">
         </div>
-      </li>
-    </ul>
+        <li class="nav-item align-items-center d-flex"><a
+            class="nav-link navLinkAuthenticated ms-3">{{this.user.username}}</a>
+        </li>
+      </div>
+      <ul class="nav nav-pills">
+        <li class="nav-item align-items-center d-flex"><a routerLink="dashboard" class="nav-link navLinkAuthenticated"
+            routerLinkActive="active">Estatísticas</a>
+        </li>
+        <li class="nav-item align-items-center d-flex"><a routerLink="collection/list-artwork"
+            class="nav-link navLinkAuthenticated" routerLinkActive="active">Acervo</a></li>
+        <li class="nav-item align-items-center d-flex"><a routerLink="event/list-event"
+            class="nav-link navLinkAuthenticated" routerLinkActive="active">Eventos</a></li>
+        <li class="nav-item align-items-center d-flex ms-2 me-5">
+          <div class=" dropdown">
+            <a id="dropdownMenuLink" data-bs-toggle="dropdown" data-bs-offset="45,38">
+              <img src="./assets/imgs/personIcon.png" alt="">
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item descriptionTitleSecundaryColor" routerLink="museums/update-museum">Sobre o
+                  Museu</a>
+              </li>
+              <li><a class="dropdown-item descriptionTitleSecundaryColor" data-bs-toggle="modal"
+                  data-bs-target="#updateUserModal" (click)="setUser($event)">Configuração de conta</a></li>
+              <li><a class="dropdown-item descriptionTitleSecundaryColor" (click)="authService.SignOut()">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <ng-template #drawer>
@@ -53,11 +60,62 @@
           <a class="dropdown-item headerDescription mb-3" routerLink="collection/list-artwork">Acervo</a>
           <a class="dropdown-item headerDescription mb-3" routerLink="event/list-event">Eventos</a>
           <a class="dropdown-item headerDescription mb-3" routerLink="museums/update-museum">Sobre o Museu</a>
-          <a class="dropdown-item headerDescription mb-3" href="#">Configuração de conta</a>
+          <a class="dropdown-item headerDescription mb-3" data-bs-toggle="modal" data-bs-target="#updateUserModal"
+            (click)="setUser($event)">Configuração de conta</a>
           <a class="dropdown-item headerDescription" (click)="authService.SignOut()">Logout</a>
         </div>
       </div>
     </div>
+  </ng-template>
+  <app-update-user [user]="user"></app-update-user>
+
+  <ng-template #globalAdmin>
+    <div *ngIf="isMobileLayout; else globalAdminDrawer;" class="d-flex justify-content-between">
+      <div class="d-flex justify-content-start">
+        <div class="align-items-center ms-5 text-dark text-decoration-none">
+          <img src="./assets/imgs/logo_clara.png" alt="logo" height="60px">
+        </div>
+        <li class="nav-item align-items-center d-flex"><a
+            class="nav-link navLinkAuthenticated ms-3">{{this.user.username}}</a>
+        </li>
+      </div>
+      <ul class="nav nav-pills">
+        <li class="nav-item align-items-center d-flex"><a routerLink="dashboard" class="nav-link navLinkAuthenticated"
+            routerLinkActive="active">Estatísticas</a>
+        </li>
+        <li class="nav-item align-items-center d-flex"><a routerLink="museums/list-museum"
+            class="nav-link navLinkAuthenticated" routerLinkActive="active">Museus</a></li>
+        <li class="nav-item align-items-center d-flex me-5"><a class="nav-link navLinkLogout"
+            (click)="authService.SignOut()">Logout</a></li>
+      </ul>
+    </div>
+
+    <ng-template #globalAdminDrawer>
+      <div class="d-flex justify-content-between">
+        <div class="align-items-center ms-3 text-dark text-decoration-none">
+          <img src="./assets/imgs/logo_clara.png" alt="logo" height="60px">
+        </div>
+        <li class="nav-item align-items-center d-flex ms-2 me-3">
+          <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
+            <img src="./assets/imgs/personIcon.png" alt="">
+          </a>
+        </li>
+
+        <div class="offcanvas offcanvas-end drawer" tabindex="-1" id="offcanvasRight"
+          aria-labelledby="offcanvasRightLabel">
+          <div class="offcanvas-header">
+            <b id="offcanvasRightLabel" class="headerTitle">Museum Explore</b>
+            <button type="button" class="btn-close text-reset simpleButtonPrimary" data-bs-dismiss="offcanvas"
+              aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <a class="dropdown-item headerDescription mb-3" routerLink="dashboard">Estatísticas</a>
+            <a class="dropdown-item headerDescription mb-3" routerLink="museums/list-museum">Museus</a>
+            <a class="dropdown-item headerDescription" (click)="authService.SignOut()">Logout</a>
+          </div>
+        </div>
+      </div>
+    </ng-template>
   </ng-template>
 </header>
 
@@ -78,5 +136,3 @@
     </ul>
   </header>
 </ng-template>
-
-<app-update-user [user]="user"></app-update-user>

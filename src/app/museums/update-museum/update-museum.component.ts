@@ -95,7 +95,6 @@ export class UpdateMuseumComponent implements OnInit, AfterViewInit {
     if (this.museumForm.valid) {
       try {
         // Update museumData.location based on locationValue
-        console.log(this.locationValue)
         const coordinates = this.locationValue.split(',').map(Number);
 
         console.log(coordinates)

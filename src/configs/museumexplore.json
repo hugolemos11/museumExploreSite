@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "museumexplore",
+  "private_key_id": "dddbd3b79dbad3689136cfe628205731f3295b87",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC9bw5A8AtbvEsw\n0E4oh0a3po0yOkHjA4xkF5bDktvzBbIZLIPs8APuLfaUec8HunK0hHTXR+gBxWge\n7+O4wSuxTzhFlvt8qNVjS6ujh9JDJcjRXcnepL+HhmpTMpsXilslIuNQMUxiA3/U\nSfP8Afc7ftREFRM/osmqrD/TwGXS1k4HF+/CtTRnOMPANZ7Jr3R5szO3nfCnG0gc\n8VPc3rANULlYz9+LcirTwKR75wzdNhZJn5i4CxlA7TyV0h6hIb7a2/uQIwqKDNEA\nHcwJWHK6u9TQTnUUlNV8TThw+Ml3pnss3Hxikv8c2kstIGg/aalw8MKRzgz0huWD\nKWImsM6DAgMBAAECggEADfq3E5BjVjFkCcXQLr96Ntf3TYCXwiKjO/OzBYW97jDl\nFA8r69Keh6IkCJBLTeeyyqLdDdIES1/VBODGblObCipYHb08RoEdwNvMXnS0eI4T\nmW0Ra6O+xUfkasquP/jO1xkRq1D9W7JPFEx3e95tRJphxxBtwOFzfmvYXfkHH/Ld\n85FQECw1t2bcPpaES+nwLofb8v3IORp9YU5jfASgPQp1mCgIqW6AHgKPOKmDh2k5\nTG7JJ1QF3II9itughMuy17rt3n2APNKMM199iStCEgROJgD9cV/rYigkpm3lD16s\n2bdOcZ2Sp+X1FF6+YhR7lsRqEaNo0hNxytWjD5WzuQKBgQD35RdbZIwEpErynM7P\nWqx8MqMLPY+0QMWaAywMkTM7Op56cNd8aPOjcv/zhh9viTrT8QEo+oUrpxmzaUOw\nYypavYlhNnyTcZVl/Z68Ud4KYSPL85Iqd9nl/GOD/mzqiQD1k/731rdEEU7T9v+a\nqVIhNfTQu4wYoOprVOsll9Nl3wKBgQDDoKN0jBeMV/TyQBqO3kgBsULytIHq8UNJ\nbvyfMflTCMqzyL31jqCJFH5syemfXHI217kwetGTllPOfjRxXD//oCqo9H52aHED\nDeAlDIjB4T2L2q5zz1CNvyO6stAlTQ6ibLqS4KfTGsHGl9VjGFlBun+vYtJLjTSh\nXw9BaofD3QKBgFHhUsC2SmVyGuteDhWBfr2bQC2DTQcd6ecAKzmPcFuc9iG9Sf/m\n7qrLXm2CnLmLm2nMDjUJ4pjTnfKbz2bgqmnEdy8r/yP4fX9tsVPEutG02k0Qi/QJ\nGGkV340GqdUiIbX8B1i3jFsoWGA9Epp0WRNtLgsQF6s+449GQlFtf78DAoGBAL4e\nxDxkWg5e/QLiIe1vQXPDnljZ7Nk0GDypzIG6w6BbDwSit1qKfqI6dJOtt4rVAXsj\nNCtVcZCJrHEmXjk9ekUol80TsEPLROm+9nOLNu2VxYbBxIFwnczkUgkD9x4JQYvB\nN6G/C9sySdiDfzKLW1NxuN3uoIokdV3PULg2nDNRAoGABMo+ZyXIsepa+VjhSxps\nyiYmD8VSDs9SGVSSOqPhQUKM+H/VUcqrNpv7YOhuZOz0HPQrNKCEBE121hRJZEVz\nutWYXdxZFF/AYagBNTxYB9ygxbgD5GbBp2Qlz0SMXB4Qs7NquLPqXMbNMAh0o91p\n21T2eO5IOzwT+km5Vxqa5QQ=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-b8dqr@museumexplore.iam.gserviceaccount.com",
+  "client_id": "115928837875489329052",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-b8dqr%40museumexplore.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

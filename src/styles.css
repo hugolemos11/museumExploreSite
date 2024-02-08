@@ -10,6 +10,7 @@ body,
     --dark-blue: #023859;
     --light-blue: #0D6EDF;
     --brown: #40311E;
+    --red: #D65757;
 
     --paddingX: 2vw;
     --colPaddingX: 2vw;
@@ -190,12 +191,6 @@ img {
 
 .navLink {
     color: var(--dark-blue);
-    font-size: var(--navLinkSize);
-    font-weight: bold;
-}
-
-.navLinkAuthenticated {
-    color: var(--black);
     font-size: var(--navLinkSize);
     font-weight: bold;
 }
@@ -462,4 +457,14 @@ textarea {
 .cardDashboard {
     background-color: var(--backgound);
     border-color: transparent;
+}
+
+.cardInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    background: rgba(166, 130, 99, 0.6);
+    text-align: center;
 }

@@ -6,8 +6,17 @@
     background-color: #023859;
 }
 
-.header-background-auth .nav-link {
-    color: #F2E6D0;
+.header-background-auth .navLinkAuthenticated {
+    color: var(--backgound);
+    font-size: var(--navLinkSize);
+    font-weight: bold;
+}
+
+.navLinkLogout {
+    color: var(--red);
+    font-size: var(--navLinkSize);
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .dropdown-menu {

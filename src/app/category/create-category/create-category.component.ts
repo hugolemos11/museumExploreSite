@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Category } from '../category';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryService } from '../category.service';
@@ -8,10 +8,11 @@ import { CategoryService } from '../category.service';
   templateUrl: './create-category.component.html',
   styleUrl: './create-category.component.css'
 })
-export class CreateCategoryComponent {
+export class CreateCategoryComponent implements AfterViewInit {
 
   @Input() museumId: string;
   category: Category;
+  errorMessage: string;
   createCategoryForm: FormGroup;
 
   @ViewChild('closeCreateModal') closeCreateModal!: ElementRef;
@@ -26,22 +27,32 @@ export class CreateCategoryComponent {
       museumId: '',
       description: '',
     };
+    this.errorMessage = '';
+  }
+
+  ngAfterViewInit() {
+    const modalElement = document.getElementById('createCategoryModal');
+    if (modalElement) {
+      modalElement.addEventListener('hidden.bs.modal', () => {
+        // Reset the errorMessage when the modal is hidden
+        this.errorMessage = '';
+      });
+    } else {
+      console.error('Modal element not found.');
+    }
   }
 
   createCategory() {
     if (this.createCategoryForm.valid) {
       try {
-        console.log('entrou')
         //call service
         this.category.museumId = this.museumId;
         this.categoryService.createCategory(this.category)
           .then(() => {
-            //this.categoryService.updateCategory(this.category);
             this.closeCreateModal.nativeElement.click();
           })
           .catch(error => {
-            console.log(error)
-            //this.errorMessage = error.message;
+            this.errorMessage = error.message;
           });
       } catch (error) {
         console.error(error);

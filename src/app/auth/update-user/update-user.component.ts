@@ -24,6 +24,9 @@ export class UpdateUserComponent {
     this.user = {
       uid: '',
       email: '',
+      admin: true,
+      username: '',
+      museumId: '',
     }
   }
 

@@ -40,8 +40,8 @@
             <div class="modal-footer">
               <!-- Using this <a> just to close the modal after the submit-->
               <a #closeUpdateModal data-bs-dismiss="modal"></a>
-              <button type="button" class="buttonDelete" data-bs-toggle="modal" data-bs-target="#deleteEventModal"
-                (click)="setEventId($event, ticketType.id)">Excluir</button>
+              <button type="button" class="buttonDelete" data-bs-toggle="modal" data-bs-target="#deleteTicketTypeModal"
+                (click)="setTicketTypeId($event, ticketType.id)">Excluir</button>
               <button type="submit" class="buttonPrimary" [disabled]="updateTicketTypeForm.invalid">Salvar</button>
             </div>
           </div>

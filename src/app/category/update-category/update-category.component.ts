@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Category } from '../category';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryService } from '../category.service';
@@ -8,10 +8,11 @@ import { CategoryService } from '../category.service';
   templateUrl: './update-category.component.html',
   styleUrl: './update-category.component.css'
 })
-export class UpdateCategoryComponent {
+export class UpdateCategoryComponent implements AfterViewInit {
 
   @Input() category: Category;
   updateCategoryForm: FormGroup;
+  errorMessage: string;
 
   @ViewChild('closeUpdateModal') closeUpdateModal!: ElementRef;
 
@@ -24,15 +25,32 @@ export class UpdateCategoryComponent {
       museumId: '',
       description: '',
     };
+    this.errorMessage = '';
+  }
+
+  ngAfterViewInit() {
+    const modalElement = document.getElementById('createCategoryModal');
+    if (modalElement) {
+      modalElement.addEventListener('hidden.bs.modal', () => {
+        // Reset the errorMessage when the modal is hidden
+        this.errorMessage = '';
+      });
+    } else {
+      console.error('Modal element not found.');
+    }
   }
 
   updateCategory() {
     if (this.updateCategoryForm.valid) {
       try {
         //call service
-        this.categoryService.updateCategory(this.category).then(() => {
-          this.closeUpdateModal.nativeElement.click();
-        });
+        this.categoryService.updateCategory(this.category)
+          .then(() => {
+            this.closeUpdateModal.nativeElement.click();
+          })
+          .catch(error => {
+            this.errorMessage = error.message;
+          });
       } catch (error) {
         console.error(error);
       }
@@ -76,7 +94,7 @@ export class UpdateCategoryComponent {
           console.log('Data ID is empty.');
         }
       }, (error) => {
-        console.error('Error fetching coder data:', error); // Log any error from getCoderById
+        console.error('Error fetching category data:', error);
       });
     } else {
       console.log('Art Work ID is undefined. Error.');

@@ -14,6 +14,9 @@
               Categoria inválida.
             </div>
           </div>
+          <div class="text-danger mt-3" *ngIf="errorMessage">
+            {{errorMessage}}
+          </div>
           <div class="modal-footer">
             <!-- Using this <a> just to close the modal after the submit-->
             <a #closeCreateModal data-bs-dismiss="modal"></a>

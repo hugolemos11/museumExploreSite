@@ -23,6 +23,7 @@ export class CreateTicketTypeComponent {
       type: ['', [Validators.required]],
       price: ['', [Validators.required]],
       description: ['', [Validators.required]],
+      image: ['', [Validators.required]],
     });
     this.ticketType = {
       id: '',
